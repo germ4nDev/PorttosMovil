@@ -1,0 +1,103 @@
+<div class="armazon" [class.armazon--tableta]="dispositivo.esTableta" [class.armazon--marco]="marco.visible()"
+     (touchstart)="tocarBorde($event)" (touchend)="soltarBorde($event)">
+
+  <!-- Con la web en el marco (tableta, OT-014) el encabezado y las pestañas son los de la web; queda el ☰ flotante -->
+  @if (!marco.visible()) {
+  <header class="barra">
+    <button type="button" class="hamburguesa" (click)="menu.set(true)" [attr.aria-expanded]="menu()" [attr.aria-label]="'MOVIL.MENU.ABRIR' | translate">
+      <pm-icono nombre="menu" [tam]="22"></pm-icono>
+    </button>
+
+    <a class="barra__logo" routerLink="/app/tablero" [attr.aria-label]="'MOVIL.ENCABEZADO.INICIO' | translate">
+      <img [src]="logo()" alt="Porttos">
+    </a>
+
+    @if (dispositivo.esTableta) {
+      <div class="puerto">
+        <small>{{ 'TORRE_CONTROL.HEADER.FT_PUERTO' | translate }}</small>
+        <pm-selector variante="barra" [opciones]="puertos.opcionesSelector('MOVIL.ENCABEZADO.TODOS' | translate)"
+                     [valor]="puertos.seleccionado()" [titulo]="'TORRE_CONTROL.HEADER.FT_PUERTO' | translate"
+                     [textoCerrar]="'MOVIL.MENU.CERRAR' | translate" (cambio)="cambiarPuerto($event)"></pm-selector>
+      </div>
+    } @else {
+      <!-- Solo indica el puerto activo; el filtro está en el menú lateral (tocarlo lo abre) -->
+      <button type="button" class="chip-puerto" (click)="menu.set(true)" [attr.aria-label]="'MOVIL.MENU.ABRIR' | translate">
+        <span>{{ puertos.seleccionado() === 'TODOS' ? ('MOVIL.ENCABEZADO.TODOS' | translate) : puertos.seleccionado() }}</span>
+      </button>
+    }
+
+    <div class="barra__acciones">
+      @if (dispositivo.esTableta) {
+        <a class="cuadro" routerLink="/app/tablero" [attr.aria-label]="'MOVIL.ENCABEZADO.INICIO' | translate">
+          <pm-icono nombre="inicio" [tam]="18"></pm-icono>
+        </a>
+        <a class="cuadro cuadro--ia" routerLink="/app/alertas" routerLinkActive="activo" [attr.aria-label]="'MOVIL.NAV.ALERTAS' | translate">
+          <pm-icono nombre="campana" [tam]="18"></pm-icono>
+          @if (analista.conteo()) { <span class="insignia" [class.insignia--roja]="analista.criticas()">{{ analista.conteo() }}</span> }
+        </a>
+        <a class="cuadro cuadro--ia" routerLink="/app/asistente" routerLinkActive="activo" [attr.aria-label]="'MOVIL.NAV.ASISTENTE' | translate">
+          <pm-icono nombre="chat" [tam]="18"></pm-icono>
+        </a>
+      }
+      <button type="button" class="bandera" (click)="idioma.usar(idioma.opuesto)" [attr.aria-label]="'MOVIL.ENCABEZADO.CAMBIAR_IDIOMA' | translate">
+        <img [src]="idioma.opuesto === 'en' ? 'assets/flags/united-states.png' : 'assets/flags/colombia.png'" alt="" width="28" height="28">
+      </button>
+      <a class="avatar" routerLink="/app/ajustes" [attr.aria-label]="'MOVIL.ENCABEZADO.PERFIL' | translate">
+        <span>{{ sesion.iniciales() }}</span>
+        @if (dispositivo.esTableta) {
+          <pm-icono nombre="flechaAbajo" [tam]="14"></pm-icono>
+        }
+      </a>
+    </div>
+
+    @if (dispositivo.esTableta) {
+      <div class="reloj" aria-live="off">
+        <strong>{{ hora() }}</strong>
+        <small>{{ fecha() }}</small>
+      </div>
+    }
+  </header>
+  } @else {
+    <button type="button" class="menu-flotante" (click)="menu.set(true)" [attr.aria-expanded]="menu()" [attr.aria-label]="'MOVIL.MENU.ABRIR' | translate">
+      <pm-icono nombre="menu" [tam]="22"></pm-icono>
+      @if (analista.conteo()) { <span class="insignia" [class.insignia--roja]="analista.criticas()">{{ analista.conteo() }}</span> }
+    </button>
+  }
+
+  <!-- En el teléfono las pestañas están en el menú lateral; en la tableta, como en la web (con el marco, las de la web) -->
+  @if (dispositivo.esTableta && !marco.visible()) {
+    <nav class="pestanas" [attr.aria-label]="'MOVIL.NAV.PESTANAS' | translate">
+      @for (p of pestanas(); track p.codigoPestana) {
+        <button type="button" class="pestana" [class.pestana--activa]="p.codigoPestana === pestanasSrv.activa()"
+                [attr.aria-current]="p.codigoPestana === pestanasSrv.activa() ? 'page' : null"
+                (click)="abrirPestana(p.codigoPestana)">
+          <span class="pestana__icono" [style.color]="p.estilo.color"><pm-icono [nombre]="p.estilo.icono" [tam]="16"></pm-icono></span>
+          {{ p.nombrePestana || p.codigoPestana }}
+        </button>
+      }
+    </nav>
+  }
+
+  @if (notificaciones.aviso(); as n) {
+    <button type="button" class="aviso-push" (click)="notificaciones.abrir(n.datos)" role="alert">
+      <pm-icono nombre="campana" [tam]="18"></pm-icono>
+      <span><strong>{{ n.titulo }}</strong><small>{{ n.cuerpo }}</small></span>
+    </button>
+  }
+
+  <main class="contenido">
+    <router-outlet></router-outlet>
+  </main>
+
+  @if (!dispositivo.esTableta) {
+    <nav class="inferior" [attr.aria-label]="'MOVIL.NAV.PRINCIPAL' | translate">
+      <a routerLink="/app/tablero" routerLinkActive="activo"><pm-icono nombre="tablero" [tam]="22"></pm-icono>{{ 'MOVIL.NAV.TABLERO' | translate }}</a>
+      <a routerLink="/app/alertas" routerLinkActive="activo" class="con-insignia"><pm-icono nombre="campana" [tam]="22"></pm-icono>{{ 'MOVIL.NAV.ALERTAS' | translate }}
+        @if (analista.conteo()) { <span class="insignia" [class.insignia--roja]="analista.criticas()">{{ analista.conteo() }}</span> }</a>
+      <a routerLink="/app/asistente" routerLinkActive="activo"><pm-icono nombre="chat" [tam]="22"></pm-icono>{{ 'MOVIL.NAV.ASISTENTE' | translate }}</a>
+      <a routerLink="/app/ajustes" routerLinkActive="activo"><pm-icono nombre="engranaje" [tam]="22"></pm-icono>{{ 'MOVIL.NAV.AJUSTES' | translate }}</a>
+    </nav>
+  }
+</div>
+
+<pm-menu-lateral [abierto]="menu()" [hora]="hora()" [soloSecciones]="marco.visible()" (cerrar)="menu.set(false)"></pm-menu-lateral>

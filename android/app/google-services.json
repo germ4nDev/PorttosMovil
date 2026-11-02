@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "408273937269",
+    "project_id": "porttos",
+    "storage_bucket": "porttos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408273937269:android:f978d24a8ba3f589afa93c",
+        "android_client_info": {
+          "package_name": "co.porttos.movil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8ip9NoaBX5MxoTl5guWw0OqKHrd5yia4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

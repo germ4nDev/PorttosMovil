@@ -1,0 +1,78 @@
+<div class="fondo">
+  <button type="button" class="bandera" (click)="idioma.usar(idioma.opuesto)" [attr.aria-label]="'MOVIL.ENCABEZADO.CAMBIAR_IDIOMA' | translate">
+    <img [src]="idioma.opuesto === 'en' ? 'assets/flags/united-states.png' : 'assets/flags/colombia.png'" alt="" width="36" height="36">
+  </button>
+
+  <main class="contenido">
+    <form class="tarjeta" [formGroup]="form" (ngSubmit)="ingresar()" novalidate>
+      <header class="tarjeta__cabeza">
+        <!-- El logo de Porttos reemplaza la palabra «Plataforma» (pedido del usuario, 2026-10-25) -->
+        <h1 class="tarjeta__logo"><img src="assets/images/porttos/porttos-principal-negativo.png" alt="Porttos"></h1>
+        <p>{{ 'AUTENTICACION.LOGIN.TITLE' | translate }}</p>
+      </header>
+
+      @if (error()) {
+        <p class="mensaje mensaje--error" role="alert">{{ error() }}</p>
+      }
+
+      <label class="campo" [class.campo--error]="invalido('usuario')">
+        <span class="campo__icono"><pm-icono nombre="usuario" [tam]="18"></pm-icono></span>
+        <span class="pt-solo-lector">{{ 'AUTENTICACION.LOGIN.USERNAME' | translate }}</span>
+        <input type="text" formControlName="usuario" autocomplete="username" autocapitalize="none" spellcheck="false"
+               [placeholder]="'AUTENTICACION.LOGIN.USERNAME' | translate">
+      </label>
+      @if (invalido('usuario')) {
+        <small class="campo__ayuda">{{ 'AUTENTICACION.LOGIN.USER_REQ' | translate }}</small>
+      }
+
+      <label class="campo" [class.campo--error]="invalido('clave')">
+        <span class="campo__icono"><pm-icono nombre="candado" [tam]="18"></pm-icono></span>
+        <span class="pt-solo-lector">{{ 'AUTENTICACION.LOGIN.PASSWORD' | translate }}</span>
+        <input [type]="verClave() ? 'text' : 'password'" formControlName="clave" autocomplete="current-password"
+               [placeholder]="'AUTENTICACION.LOGIN.PASSWORD' | translate">
+        <button type="button" class="campo__accion" (click)="verClave.set(!verClave())"
+                [attr.aria-label]="(verClave() ? 'MOVIL.LOGIN.OCULTAR_CLAVE' : 'MOVIL.LOGIN.MOSTRAR_CLAVE') | translate">
+          <pm-icono [nombre]="verClave() ? 'ojoTachado' : 'ojo'" [tam]="18"></pm-icono>
+        </button>
+      </label>
+      @if (invalido('clave')) {
+        <small class="campo__ayuda">{{ 'AUTENTICACION.LOGIN.PASS_REQ' | translate }}</small>
+      }
+
+      <label class="recordar">
+        <input type="checkbox" formControlName="recordar">
+        {{ 'AUTENTICACION.LOGIN.REMEMBER_ME' | translate }}
+      </label>
+
+      <button type="submit" class="pt-boton entrar" [disabled]="enviando()">
+        {{ (enviando() ? 'MOVIL.LOGIN.INGRESANDO' : 'AUTENTICACION.LOGIN.ACCESS') | translate }}
+      </button>
+
+      @if (biometria.activa()) {
+        <button type="button" class="pt-boton pt-boton--borde biometria" (click)="conBiometria()" [disabled]="enviando()">
+          <pm-icono [nombre]="biometria.tipo() === 'rostro' ? 'rostro' : 'huella'" [tam]="20"></pm-icono>
+          {{ llaveBiometria | translate }}
+        </button>
+      }
+      @if (aviso()) {
+        <p class="mensaje" role="status">{{ aviso() | translate }}</p>
+      }
+
+      <footer class="enlaces">
+        <span>{{ 'AUTENTICACION.LOGIN.CHANGE_PASS_Q' | translate }} <a href="#">{{ 'AUTENTICACION.LOGIN.CHANGE_PASS_T' | translate }}</a></span>
+        <span>{{ 'AUTENTICACION.LOGIN.RESET_PASS_Q' | translate }} <a href="#">{{ 'AUTENTICACION.LOGIN.RESET_PASS_T' | translate }}</a></span>
+      </footer>
+    </form>
+  </main>
+
+  @if (ofreciendo()) {
+    <div class="velo" aria-hidden="true"></div>
+    <section class="hoja" role="dialog" aria-modal="true" aria-labelledby="titulo-bio">
+      <span class="hoja__icono"><pm-icono [nombre]="biometria.tipo() === 'rostro' ? 'rostro' : 'huella'" [tam]="32"></pm-icono></span>
+      <h2 id="titulo-bio">{{ (biometria.tipo() === 'rostro' ? 'MOVIL.LOGIN.OFRECER_ROSTRO' : 'MOVIL.LOGIN.OFRECER_HUELLA') | translate }}</h2>
+      <p>{{ 'MOVIL.LOGIN.OFRECER_TEXTO' | translate }}</p>
+      <button type="button" class="pt-boton entrar" (click)="activarBiometria()">{{ 'MOVIL.LOGIN.ACTIVAR' | translate }}</button>
+      <button type="button" class="pt-boton pt-boton--borde biometria" (click)="ahoraNo()">{{ 'MOVIL.LOGIN.AHORA_NO' | translate }}</button>
+    </section>
+  }
+</div>

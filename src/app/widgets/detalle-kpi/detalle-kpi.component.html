@@ -1,0 +1,40 @@
+<div class="velo" (click)="cerrar.emit()"></div>
+<section class="hoja" role="dialog" aria-modal="true" [attr.aria-label]="k.titulo">
+  <span class="agarre" aria-hidden="true"></span>
+  <header>
+    <h2>{{ k.titulo }}</h2>
+    <button type="button" class="cerrar" (click)="cerrar.emit()"
+      [attr.aria-label]="'MOVIL.TABLERO.CERRAR' | translate">✕</button>
+  </header>
+  <p class="valor" [style.color]="color">{{ f(k.valor) }}<small>{{ k.unidad }}</small></p>
+  <p class="estado">
+    <span class="punto" [style.background]="color"></span>{{ ('MOVIL.ESTADO.' + k.estado.toUpperCase()) | translate }}
+    @if (k.simulado) { · {{ 'MOVIL.TABLERO.SIMULADO' | translate }} }
+  </p>
+  @if (k.subtitulo) { <p class="sub">{{ k.subtitulo }}</p> }
+  @if (linea) {
+  <svg viewBox="0 0 320 120" preserveAspectRatio="none" class="grafica" role="img"
+    [attr.aria-label]="'MOVIL.TABLERO.ULTIMAS_24H' | translate">
+    <path [attr.d]="area" [attr.fill]="color" fill-opacity=".14"></path>
+    <path [attr.d]="linea" fill="none" [attr.stroke]="color" stroke-width="2.5" vector-effect="non-scaling-stroke">
+    </path>
+  </svg>
+  <dl>
+    <div>
+      <dt>{{ 'MOVIL.TABLERO.MINIMO' | translate }}</dt>
+      <dd>{{ f(min) }}</dd>
+    </div>
+    <div>
+      <dt>{{ 'MOVIL.TABLERO.MAXIMO' | translate }}</dt>
+      <dd>{{ f(max) }}</dd>
+    </div>
+    <div>
+      <dt>{{ 'MOVIL.TABLERO.VARIACION' | translate }}</dt>
+      <dd>{{ variacion === null ? '—' : variacion + ' %' }}</dd>
+    </div>
+  </dl>
+  <p class="nota">{{ 'MOVIL.TABLERO.ULTIMAS_24H' | translate }}</p>
+  } @else {
+  <p class="nota">{{ 'MOVIL.TABLERO.SIN_SERIE' | translate }}</p>
+  }
+</section>

@@ -1,0 +1,53 @@
+<section class="pt-tarjeta grafica">
+  <h2 class="pt-tarjeta__titulo">{{ w.titulo }}</h2>
+  @if (w.subtitulo || (w.unidad && w.forma !== 'dona')) { <p class="pt-tarjeta__sub">{{ w.subtitulo || w.unidad }}</p> }
+
+  @switch (w.forma) {
+  @case ('dona') {
+  <div class="dona">
+    <svg viewBox="0 0 120 120" width="120" height="120" role="img" [attr.aria-label]="w.titulo">
+      @for (p of porciones; track p.indice) {
+      <path [attr.d]="p.d" [attr.fill]="paleta[p.indice % paleta.length]"></path>
+      }
+      <text x="60" y="58" text-anchor="middle" class="dona__total">{{ total }}</text>
+      <text x="60" y="74" text-anchor="middle" class="dona__unidad">{{ w.unidad || '' }}</text>
+    </svg>
+    <ul class="leyenda">
+      @for (p of porciones; track p.indice) {
+      <li><span [style.background]="paleta[p.indice % paleta.length]"></span>{{ w.labels[p.indice] }}<b>{{ pct(p.pct) }}
+          %</b></li>
+      }
+    </ul>
+  </div>
+  }
+  @case ('linea') {
+  <svg [attr.viewBox]="'0 0 ' + ancho + ' ' + alto" class="lienzo" preserveAspectRatio="none" role="img"
+    [attr.aria-label]="w.titulo">
+    @for (l of lineas; track $index) {
+    <path [attr.d]="l" fill="none" [attr.stroke]="paleta[$index % paleta.length]" stroke-width="2"
+      vector-effect="non-scaling-stroke"></path>
+    }
+  </svg>
+  <div class="ejes"><span>{{ w.labels[0] }}</span><span>{{ w.labels[w.labels.length - 1] }}</span></div>
+  }
+  @default {
+  <svg [attr.viewBox]="'0 0 ' + ancho + ' ' + alto" class="lienzo" preserveAspectRatio="none" role="img"
+    [attr.aria-label]="w.titulo">
+    @for (b of barrasCalc; track $index) {
+    <rect [attr.x]="b.x" [attr.y]="b.y" [attr.width]="b.ancho" [attr.height]="b.alto" rx="2"
+      [attr.fill]="paleta[b.serie % paleta.length]"></rect>
+    }
+  </svg>
+  <div class="etiquetas" [style.grid-template-columns]="'repeat(' + w.labels.length + ', minmax(0, 1fr))'">
+    @for (l of w.labels; track $index) { <span>{{ l }}</span> }
+  </div>
+  }
+  }
+
+  @if (w.forma !== 'dona' && w.series.length > 1) {
+  <ul class="leyenda leyenda--fila">
+    @for (s of w.series; track $index) { <li><span [style.background]="paleta[$index % paleta.length]"></span>{{
+      s.nombre }}</li> }
+  </ul>
+  }
+</section>

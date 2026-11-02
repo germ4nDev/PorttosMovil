@@ -1,0 +1,8 @@
+<button type="button" class="pt-tarjeta acceso" (click)="abrir()" [disabled]="!disponible()">
+  <span class="icono" aria-hidden="true"><pm-icono nombre="mapa" [tam]="22"></pm-icono></span>
+  <span class="texto">
+    <strong>{{ widget.titulo }}</strong>
+    <small>{{ (disponible() ? 'MOVIL.WIDGETS.MAPA_AYUDA' : 'MOVIL.WIDGETS.MAPA_SIN_PESTANA') | translate }}</small>
+  </span>
+  @if (disponible()) { <span class="ir">{{ 'MOVIL.WIDGETS.ABRIR_MAPA' | translate }}</span> }
+</button>

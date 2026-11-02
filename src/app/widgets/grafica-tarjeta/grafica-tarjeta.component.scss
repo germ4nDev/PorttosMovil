@@ -1,0 +1,135 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+/* La gráfica se ajusta al alto de su celda (2026-10-26): la tarjeta es una columna y el lienzo toma el espacio que queda,
+       sin desplazamiento. Fuera de la rejilla (lista de siempre) el lienzo conserva 140 px. */
+.grafica {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+:host-context(.celda) .grafica {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.grafica>* {
+  flex: none;
+}
+
+.lienzo {
+  width: 100%;
+  height: 140px;
+  display: block;
+  margin-top: 8px;
+}
+
+:host-context(.celda) .lienzo {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 40px;
+}
+
+:host-context(.celda) .dona {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+:host-context(.celda) .dona svg {
+  height: 100%;
+  max-height: 140px;
+  width: auto;
+  aspect-ratio: 1;
+}
+
+:host-context(.celda) .dona .leyenda {
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.ejes {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--pt-subtitulo);
+  margin-top: 2px;
+}
+
+.etiquetas {
+  display: grid;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.etiquetas span {
+  font-size: 9.5px;
+  color: var(--pt-subtitulo);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dona {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.dona svg {
+  flex: none;
+}
+
+.dona__total {
+  font-size: 15px;
+  font-weight: 600;
+  fill: var(--pt-texto-fuerte);
+}
+
+.dona__unidad {
+  font-size: 10px;
+  fill: var(--pt-subtitulo);
+}
+
+.leyenda {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  flex: 1;
+}
+
+.leyenda li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--pt-texto);
+  min-width: 0;
+}
+
+.leyenda li span {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex: none;
+}
+
+.leyenda li b {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.leyenda--fila {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 8px;
+}

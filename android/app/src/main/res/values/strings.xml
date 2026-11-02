@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Porttos</string>
+    <string name="title_activity_main">Porttos</string>
+    <string name="package_name">co.porttos.movil</string>
+    <string name="custom_url_scheme">co.porttos.movil</string>
+</resources>

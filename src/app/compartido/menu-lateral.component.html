@@ -1,0 +1,83 @@
+<div class="velo" [class.velo--visible]="abierto" (click)="cerrar.emit()" aria-hidden="true"></div>
+
+<aside class="cajon" [class.cajon--abierto]="abierto" [attr.aria-hidden]="!abierto" [attr.inert]="abierto ? null : ''"
+       role="dialog" aria-modal="true" [attr.aria-label]="'MOVIL.MENU.TITULO' | translate"
+       (touchstart)="tocar($event)" (touchend)="soltar($event)">
+
+  <header class="cabeza">
+    <img src="assets/images/porttos/porttos-isotipo-negativo.png" alt="" class="isotipo">
+    <div class="usuario">
+      <strong>{{ sesion.sesion()?.nombreUsuario }}</strong>
+      <small>{{ hora }}</small>
+    </div>
+    <button type="button" class="cerrar" (click)="cerrar.emit()" [attr.aria-label]="'MOVIL.MENU.CERRAR' | translate">
+      <pm-icono nombre="cerrarX" [tam]="20"></pm-icono>
+    </button>
+  </header>
+
+  <div class="cuerpo">
+    <!-- Con la web en el marco (tableta, OT-014) puerto y pestañas se eligen en la web: el menú deja solo las secciones -->
+    @if (!soloSecciones) {
+    <section>
+      <div class="puerto">
+        <h2>{{ 'TORRE_CONTROL.HEADER.FT_PUERTO' | translate }}</h2>
+        <!-- Selector de la app en lugar del <select> nativo (en Android abría el cuadro del sistema) -->
+        <pm-selector variante="campo" icono="puerto" [opciones]="puertos.opcionesSelector('MOVIL.ENCABEZADO.TODOS' | translate)"
+                     [valor]="puertos.seleccionado()" [titulo]="'TORRE_CONTROL.HEADER.FT_PUERTO' | translate"
+                     [textoCerrar]="'MOVIL.MENU.CERRAR' | translate" (cambio)="cambiarPuerto($event)"></pm-selector>
+      </div>
+    </section>
+
+    <section>
+      <h2>{{ 'MOVIL.MENU.PESTANAS' | translate }}</h2>
+      <nav class="pestanas" [attr.aria-label]="'MOVIL.NAV.PESTANAS' | translate">
+        @for (p of pestanas(); track p.codigoPestana) {
+          <button type="button" class="item" [class.item--activo]="p.codigoPestana === pestanasSrv.activa()"
+                  [attr.aria-current]="p.codigoPestana === pestanasSrv.activa() ? 'page' : null" (click)="abrirPestana(p.codigoPestana)">
+            <span class="item__icono" [style.color]="p.estilo.color"><pm-icono [nombre]="p.estilo.icono" [tam]="18"></pm-icono></span>
+            <span class="item__texto">{{ p.nombrePestana || p.codigoPestana }}</span>
+          </button>
+        } @empty {
+          <p class="vacio">{{ 'MOVIL.TABLERO.SIN_PESTANAS' | translate }}</p>
+        }
+      </nav>
+    </section>
+    } @else {
+    <section>
+      <a class="item" routerLink="/app/tablero" (click)="cerrar.emit()">
+        <span class="item__icono"><pm-icono nombre="tablero" [tam]="18"></pm-icono></span>
+        <span class="item__texto">{{ 'MOVIL.NAV.TABLERO' | translate }}</span>
+      </a>
+    </section>
+    }
+
+    <section>
+      <h2>{{ 'MOVIL.MENU.SECCIONES' | translate }}</h2>
+      <a class="item" routerLink="/app/alertas" routerLinkActive="item--activo" (click)="cerrar.emit()">
+        <span class="item__icono"><pm-icono nombre="campana" [tam]="18"></pm-icono></span>
+        <span class="item__texto">{{ 'MOVIL.NAV.ALERTAS' | translate }}</span>
+        @if (analista.conteo()) { <span class="insignia" [class.insignia--roja]="analista.criticas()">{{ analista.conteo() }}</span> }
+      </a>
+      <a class="item" routerLink="/app/asistente" routerLinkActive="item--activo" (click)="cerrar.emit()">
+        <span class="item__icono"><pm-icono nombre="chat" [tam]="18"></pm-icono></span>
+        <span class="item__texto">{{ 'MOVIL.NAV.ASISTENTE' | translate }}</span>
+      </a>
+      <a class="item" routerLink="/app/ajustes" routerLinkActive="item--activo" (click)="cerrar.emit()">
+        <span class="item__icono"><pm-icono nombre="engranaje" [tam]="18"></pm-icono></span>
+        <span class="item__texto">{{ 'MOVIL.NAV.AJUSTES' | translate }}</span>
+      </a>
+      <button type="button" class="item" (click)="alternarTema()">
+        <span class="item__icono"><pm-icono [nombre]="tema.efectivo() === 'oscuro' ? 'sol' : 'luna'" [tam]="18"></pm-icono></span>
+        <span class="item__texto">{{ (tema.efectivo() === 'oscuro' ? 'MOVIL.MENU.TEMA_CLARO' : 'MOVIL.MENU.TEMA_OSCURO') | translate }}</span>
+      </button>
+    </section>
+  </div>
+
+  <footer class="pie">
+    <button type="button" class="item item--salir" (click)="salir()">
+      <span class="item__icono"><pm-icono nombre="salir" [tam]="18"></pm-icono></span>
+      <span class="item__texto">{{ 'MOVIL.AJUSTES.CERRAR_SESION' | translate }}</span>
+    </button>
+    <small>Porttos móvil · {{ version }}</small>
+  </footer>
+</aside>

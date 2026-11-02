@@ -1,0 +1,21 @@
+<button type="button" class="kpi" [style.border-left-color]="color()" (click)="abrir.emit(k())"
+  [attr.aria-label]="k().titulo + ': ' + valor() + ' ' + k().unidad">
+  <span class="kpi__titulo">{{ k().titulo }}@if (k().enVivo) { <span class="kpi__vivo"
+      [attr.title]="'MOVIL.TABLERO.EN_VIVO' | translate"><i></i>{{ 'MOVIL.TABLERO.EN_VIVO' | translate }}</span>
+    }</span>
+  <span class="kpi__valor">{{ valor() }}<small>{{ k().unidad }}</small></span>
+  @if (linea()) {
+  <svg class="kpi__spark" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true">
+    <path [attr.d]="area()" [attr.fill]="color()" fill-opacity=".14"></path>
+    <path [attr.d]="linea()" fill="none" [attr.stroke]="color()" stroke-width="2" vector-effect="non-scaling-stroke">
+    </path>
+  </svg>
+  }
+  <span class="kpi__pie">
+    @if (variacion() !== null) {
+    <span class="kpi__var">{{ variacion()! > 0 ? '▲' : variacion()! < 0 ? '▼' : '=' }} {{ abs(variacion()!) }} %</span>
+        }
+        @if (k().subtitulo) { <span class="kpi__sub">{{ k().subtitulo }}</span> }
+        @if (k().simulado) { <span class="kpi__sim">{{ 'MOVIL.TABLERO.SIMULADO' | translate }}</span> }
+    </span>
+</button>

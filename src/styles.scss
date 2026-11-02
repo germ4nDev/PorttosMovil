@@ -1,0 +1,218 @@
+/*
+    Author: German Valencia
+    Estilos globales de Porttos móvil. Los colores son variables CSS que aplica TemaService
+    a partir de el núcleo (nucleo/) (mismos valores que la web: tema claro/oscuro y --app-navbar-color).
+*/
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/poppins/pxiEyp8kv8JHgFVrJJfecg.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/assets/fonts/poppins/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/assets/fonts/poppins/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/assets/fonts/poppins/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2') format('woff2');
+}
+
+:root {
+  /* Valores de arranque (tema oscuro); TemaService los reemplaza al iniciar. */
+  --app-navbar-color: #346BA6;
+  --pt-barra-texto: #FFFFFF;
+  --pt-fondo: #242424;
+  --pt-tarjeta: #2B2B2B;
+  --pt-tarjeta-2: #222222;
+  --pt-borde: #474747;
+  --pt-texto: #E0E0E0;
+  --pt-texto-fuerte: #FFFFFF;
+  --pt-subtitulo: #9C9C9C;
+  --pt-pestanas: #242424;
+  --pt-pestana-texto: #ABABAB;
+  --pt-nav-inferior: #1B1B1B;
+  --pt-ia: #7C5CFF;
+  --pt-enlace: #4099FF;
+  --pt-info: #00BCD4;
+  --pt-advertencia: #FFB64D;
+  --pt-primario: #4099FF;
+  --pt-exito: #2ED8B6;
+  --pt-peligro: #FF5370;
+  --pt-acento-pestana: #00BCD4;
+
+  --pt-seguro-arriba: env(safe-area-inset-top, 0px);
+  --pt-seguro-abajo: env(safe-area-inset-bottom, 0px);
+  --pt-seguro-izq: env(safe-area-inset-left, 0px);
+  --pt-seguro-der: env(safe-area-inset-right, 0px);
+
+  color-scheme: dark;
+}
+
+:root[data-tema='claro'] {
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--pt-fondo);
+  color: var(--pt-texto);
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+a {
+  color: var(--pt-enlace);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--pt-info);
+  outline-offset: 2px;
+}
+
+.pt-solo-lector {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Tarjeta tipo widget-shell de la web: título en MAYÚSCULAS + subtítulo + insignia. */
+.pt-tarjeta {
+  background: var(--pt-tarjeta);
+  border: 1px solid var(--pt-borde);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.pt-tarjeta__titulo {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--pt-texto-fuerte);
+}
+
+.pt-tarjeta__sub {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--pt-subtitulo);
+}
+
+.pt-boton {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 0;
+  background: var(--app-navbar-color);
+  color: var(--pt-barra-texto);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.pt-boton--borde {
+  background: transparent;
+  color: var(--pt-texto);
+  border: 1px solid var(--pt-borde);
+}
+
+.pt-boton:disabled {
+  opacity: .55;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+// Pulso de una alerta del mapa (OT-007): el marcador de MapLibre vive fuera del componente, por eso va aquí.
+// Mismo dibujo que .pulso-alerta de la web; el color lo pone el componente según el nivel.
+.pm-pulso-alerta {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  pointer-events: none;
+  position: relative;
+  background: color-mix(in srgb, currentColor 35%, transparent);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid currentColor;
+    animation: pm-pulso-alerta 1.6s ease-out infinite;
+  }
+
+  &::after {
+    animation-delay: .8s;
+  }
+}
+
+@keyframes pm-pulso-alerta {
+  from { transform: scale(1); opacity: .9; }
+  to { transform: scale(4.5); opacity: 0; }
+}
+
+/* Desplazamiento sin barra visible en toda la app, en teléfono y tableta (usuario, 2026-11-01, CC-108): se sigue desplazando
+   con el dedo; solo se oculta la barra, como en el teléfono. */
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; width: 0; height: 0; }

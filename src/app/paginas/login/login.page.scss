@@ -1,0 +1,107 @@
+:host { display: block; min-height: 100%; }
+
+.fondo {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* Foto aérea del puerto (entregada por el usuario, mejorada con herramientas/mejorar-foto-fondo.js: ampliada, sin bruma y
+     enfocada). En el teléfono vertical se ve toda la altura y una franja del ancho: el anclaje al 40 % deja los muelles con
+     los buques y los silos; en la tableta horizontal se ve casi completa. La ilustración de noche (fondo-puerto.svg,
+     generar-fondo-puerto.js) queda como alternativa. */
+  background: #0b1a24 url('/assets/fondos/fondo-puerto.webp') 40% center / cover no-repeat;
+  color: #E0E0E0;
+  &::before {
+    content: '';
+    position: absolute; inset: 0;
+    /* Foto de día: velo azul oscuro un poco más fuerte para que el panel y la bandera se lean */
+    background: linear-gradient(180deg, rgba(6, 16, 28, .30) 0%, rgba(6, 16, 28, .45) 50%, rgba(6, 16, 28, .35) 100%);
+  }
+}
+
+.bandera {
+  position: absolute; z-index: 1;
+  top: calc(var(--pt-seguro-arriba) + 12px); right: 16px;
+  width: 44px; height: 44px; padding: 4px; border: 0; border-radius: 22px; background: transparent;
+  img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, .7); }
+}
+
+.contenido {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* Panel centrado vertical y horizontalmente (pedido del usuario, 2026-10-25); el espacio de arriba deja libre la bandera */
+  padding: calc(var(--pt-seguro-arriba) + 72px) 20px calc(var(--pt-seguro-abajo) + 24px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+}
+
+
+.tarjeta {
+  width: 100%; max-width: 420px;
+  padding: 22px 18px; border-radius: 14px;
+  background: rgba(24, 28, 36, .82);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .45);
+  display: flex; flex-direction: column; gap: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.tarjeta__cabeza {
+  text-align: center; padding-bottom: 12px; border-bottom: 1px solid #474747; margin-bottom: 2px;
+  h1 { margin: 0; font-size: 22px; font-weight: 600; color: #FFFFFF; }
+  p { margin: 2px 0 0; font-size: 13px; color: #ABABAB; }
+}
+/* Logo de Porttos dentro del panel, en lugar de la palabra «Plataforma» */
+.tarjeta__logo { line-height: 0; margin-bottom: 8px !important;
+  img { width: 220px; max-width: 80%; height: auto; } }
+
+.campo {
+  display: flex; align-items: stretch; height: 46px;
+  border-radius: 8px; border: 1px solid #474747; background: #222222; overflow: hidden;
+  &--error { border-color: #FF5370; }
+  input {
+    flex: 1; min-width: 0; border: 0; padding: 0 12px; background: transparent; color: #E0E0E0; font-size: 15px;
+    &:focus { outline: none; }
+    &::placeholder { color: #8A8A8A; }
+  }
+  &:focus-within { border-color: #00BCD4; }
+}
+.campo__icono, .campo__accion {
+  width: 44px; display: flex; align-items: center; justify-content: center; color: #ABABAB; background: transparent; border: 0;
+}
+.campo__icono { border-right: 1px solid #474747; }
+.campo__accion { border-left: 1px solid #474747; }
+.campo__ayuda { margin-top: -6px; font-size: 12px; color: #FF8A9D; }
+
+.recordar {
+  display: flex; align-items: center; gap: 10px; min-height: 40px; font-size: 13px; color: #C9C9C9;
+  input { width: 20px; height: 20px; accent-color: #346BA6; }
+}
+
+.entrar { height: 48px; font-size: 15px; background: #346BA6; color: #FFFFFF; }
+.biometria {
+  display: flex; align-items: center; justify-content: center; gap: 8px; color: #E0E0E0; border-color: #474747; font-weight: 500; font-size: 13px;
+}
+
+.mensaje {
+  margin: 0; padding: 8px 10px; border-radius: 8px; font-size: 12px; line-height: 1.4;
+  background: rgba(64, 153, 255, .12); color: #CFE3FF;
+  &--error { background: rgba(255, 83, 112, .14); color: #FFC2CC; }
+}
+
+.enlaces {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; color: #ABABAB;
+  a { color: #7AB8FF; font-weight: 600; text-decoration: none; padding: 6px 2px; }
+}
+
+/* Fase 4: oferta de ingreso con biometría */
+.velo { position: fixed; inset: 0; z-index: 20; background: rgba(0, 0, 0, .55); }
+.hoja {
+  position: fixed; z-index: 21; left: 0; right: 0; bottom: 0; margin: 0 auto; max-width: 480px;
+  padding: 22px 20px calc(var(--pt-seguro-abajo) + 20px); border-radius: 18px 18px 0 0;
+  background: #222222; border-top: 1px solid #474747; display: flex; flex-direction: column; gap: 12px; text-align: center;
+  h2 { margin: 0; font-size: 18px; font-weight: 600; color: #FFFFFF; }
+  p { margin: 0; font-size: 13px; line-height: 1.5; color: #C9C9C9; }
+}
+.hoja__icono { align-self: center; width: 64px; height: 64px; border-radius: 20px; display: flex; align-items: center; justify-content: center;
+  background: rgba(52, 107, 166, .25); color: #7AB8FF; }

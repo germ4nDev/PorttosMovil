@@ -1,0 +1,34 @@
+<section class="pt-tarjeta lista">
+  <header class="lista__cabeza">
+    <div>
+      <h2 class="pt-tarjeta__titulo">{{ w.titulo }}</h2>
+      @if (w.subtitulo) { <p class="pt-tarjeta__sub">{{ w.subtitulo }}</p> }
+    </div>
+    <span class="insignia">{{ w.total }}</span>
+  </header>
+  <ul>
+    @for (it of w.items; track $index) {
+    <li>
+      <span class="punto" [style.background]="color(it)" aria-hidden="true"></span>
+      <div class="texto">
+        @if (it.url) {
+        <a [href]="it.url" target="_blank" rel="noopener noreferrer">{{ it.titulo }}</a>
+        } @else {
+        <strong>{{ it.titulo }}</strong>
+        }
+        @if (it.detalle) { <small>{{ it.detalle }}</small> }
+        @if (it.progreso !== null && it.progreso !== undefined) {
+        <span class="barra" aria-hidden="true"><span [style.width.%]="limitar(it.progreso)"
+            [style.background]="color(it)"></span></span>
+        }
+      </div>
+      @if (it.valor !== undefined && it.valor !== null && it.valor !== '') {
+      <span class="valor">{{ valor(it) }}@if (it.unidad) {<small>{{ it.unidad }}</small>}</span>
+      }
+    </li>
+    }
+  </ul>
+  @if (w.total > w.items.length) {
+  <p class="mas">{{ 'MOVIL.TABLERO.MAS' | translate: { n: w.total - w.items.length } }}</p>
+  }
+</section>

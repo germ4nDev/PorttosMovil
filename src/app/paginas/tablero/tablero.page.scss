@@ -1,0 +1,279 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cabeza {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 4px solid var(--pt-info);
+  padding: 10px 12px;
+}
+
+.cabeza__icono {
+  display: inline-flex;
+}
+
+.cabeza__texto {
+  flex: 1;
+  min-width: 0;
+}
+
+.sim {
+  color: var(--pt-advertencia);
+  font-weight: 600;
+}
+
+.origen {
+  font-weight: 600;
+}
+
+.estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  background: rgba(255, 83, 112, .14);
+  color: var(--pt-peligro);
+}
+
+.estado--ok {
+  background: rgba(46, 216, 182, .14);
+  color: var(--pt-exito);
+}
+
+/* Selector de brazo de GNL (OT-005): pm-selector, variante «pildora» */
+.brazo {
+  flex: none;
+}
+
+/* Widgets «componente» (gráficas de GNL): el componente se crea con NgComponentOutlet y su elemento no recibe los estilos
+   de .celda (encapsulamiento de Angular), así que este contenedor fija el alto de la celda y recorta lo que sobre;
+   sin él, cada gráfica crecía a su alto natural y se montaba sobre la de abajo (2026-10-25). */
+.componente {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.componente ::ng-deep>* {
+  flex: 1;
+  min-height: 0;
+}
+
+.recargar {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--pt-borde);
+  background: transparent;
+  color: var(--pt-texto);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.girando pm-icono {
+  animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.aviso {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  background: rgba(255, 83, 112, .12);
+  color: var(--pt-peligro);
+}
+
+.aviso--info {
+  background: rgba(64, 153, 255, .12);
+  color: var(--pt-primario);
+}
+
+/* Rejilla tipo gridster sin huecos (2026-10-25): teléfono 2 columnas de filas de 56 px, tableta 12 columnas de medias filas de 74 px (CC-108).
+   Las tarjetas llenan su celda; una lista larga se desplaza dentro de su tarjeta, una gráfica nunca (se ajusta a la celda).
+   Ojo (CC-107): este comentario estuvo sin cerrar y se tragaba .gridster y .celda: la rejilla no se aplicaba. */
+.gridster { display: grid; grid-auto-rows: 56px; gap: 10px; grid-auto-flow: row; }
+/* Tableta: medias filas de gridster en la web (74 px + 12 px = media fila de 160 px, CC-108); la página los pone, estos son el respaldo */
+.gridster--tableta { grid-auto-rows: 74px; gap: 12px; }
+.sin-layout { padding: 16px; text-align: center; }
+.sin-layout p { margin: 6px 0 0; color: var(--pt-subtitulo); font-size: 13px; }
+.celda { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+.celda > * { flex: 1; min-height: 0; height: 100%; }
+/* Una tarjeta que va directo en la celda (sin dato) no lleva el margen inferior de .pt-tarjeta: mide lo mismo que sus vecinas (CC-108) */
+.celda > .pt-tarjeta { margin-bottom: 0; }
+.celda > * ::ng-deep > :first-child { height: 100%; box-sizing: border-box; overflow: auto; }
+/* Las gráficas nunca se desplazan: se ajustan a su celda (grafica-tarjeta) y la celda tiene el alto mínimo que piden (2026-10-26) */
+.celda>pm-grafica-tarjeta ::ng-deep> :first-child {
+  overflow: hidden;
+}
+
+.celda__kpis {
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 10px;
+}
+
+/* Widget sin datos (tipo «vacio»): título arriba y el aviso centrado en lo que queda de la celda. */
+.sin-datos {
+  box-sizing: border-box;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sin-datos p {
+  flex: 1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--pt-subtitulo);
+}
+
+.bloque__titulo {
+  margin: 2px 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--pt-subtitulo);
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kpis--tableta {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.elegir {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.puertos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.puertos--tableta {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.puertos .pt-boton {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.hueco {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 118px;
+}
+
+.linea {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--pt-borde);
+  opacity: .6;
+}
+
+.linea--corta {
+  width: 50%;
+}
+
+.bloque-gris {
+  flex: 1;
+  border-radius: 6px;
+  background: var(--pt-tarjeta-2);
+}
+
+.vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 28px 16px;
+  color: var(--pt-subtitulo);
+
+  p {
+    margin: 0;
+    font-size: 13px;
+  }
+}
+
+/* Fase 4: el mapa ocupa todo el alto disponible */
+:host(.con-mapa) {
+  height: 100%;
+}
+
+.mapa {
+  flex: 1;
+  min-height: 0;
+}
+/* ===== Tableta = la web (OT-014, CC-110): la Torre de Control de la web en un marco a todo el contenido ===== */
+:host(.con-marco) {
+  height: 100%;
+  gap: 0;
+}
+
+.marco {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.marco__web {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: var(--pt-fondo);
+}
+
+.marco__carga {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--pt-fondo);
+  color: var(--pt-texto);
+  font-size: 15px;
+}
+
+.marco__aviso {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}

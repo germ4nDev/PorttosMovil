@@ -1,0 +1,158 @@
+:host { display: block; height: 100%; }
+
+.armazon {
+  height: 100vh;
+  height: 100dvh;
+  display: flex; flex-direction: column;
+  background: var(--pt-fondo);
+}
+
+/* ===== Encabezado (igual a la web) ===== */
+.barra {
+  flex: none;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  grid-template-areas: 'menu logo puerto acciones';
+  align-items: center; gap: 8px 10px;
+  padding: calc(var(--pt-seguro-arriba) + 8px) calc(var(--pt-seguro-der) + 12px) 10px calc(var(--pt-seguro-izq) + 12px);
+  background: var(--app-navbar-color);
+  color: var(--pt-barra-texto);
+}
+.armazon--tableta .barra {
+  grid-template-columns: auto auto auto 1fr auto auto;
+  grid-template-areas: 'menu logo puerto . acciones reloj';
+  padding-top: calc(var(--pt-seguro-arriba) + 10px);
+  gap: 16px;
+}
+
+.barra__logo { grid-area: logo; display: flex; align-items: center; min-height: 44px; }
+.barra__logo img { height: 34px; width: auto; }
+.armazon--tableta .barra__logo img { height: 52px; }
+
+.puerto {
+  grid-area: puerto; display: flex; flex-direction: column; gap: 2px; min-width: 0;
+  small { font-size: 10px; font-weight: 500; letter-spacing: .03em; opacity: .85; }
+}
+/* El selector de puerto es pm-selector (variante «barra»), con su estilo y el del tema claro */
+
+.barra__acciones { grid-area: acciones; justify-self: end; display: flex; align-items: center; gap: 8px; }
+
+.cuadro {
+  width: 40px; height: 40px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, .14); color: inherit;
+}
+.bandera {
+  width: 44px; height: 44px; padding: 0; border: 0; background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, .75); }
+}
+.avatar {
+  min-width: 44px; height: 44px; display: flex; align-items: center; gap: 2px; color: inherit; text-decoration: none;
+  span {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255, 255, 255, .18); border: 2px solid rgba(255, 255, 255, .6);
+    font-size: 13px; font-weight: 600;
+  }
+}
+
+.reloj {
+  grid-area: reloj; justify-self: end; text-align: right; display: flex; flex-direction: column; line-height: 1.15;
+  strong { font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; font-weight: 700; font-size: 18px; }
+  small { font-size: 10px; letter-spacing: .03em; opacity: .9; }
+}
+.armazon--tableta .reloj strong { font-size: 22px; }
+
+/* ===== Pestañas (igual a la web) ===== */
+.pestanas {
+  flex: none;
+  display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none;
+  padding: 6px calc(var(--pt-seguro-der) + 8px) 0 calc(var(--pt-seguro-izq) + 8px);
+  background: var(--pt-pestanas);
+  border-bottom: 2px solid var(--app-navbar-color);
+  &::-webkit-scrollbar { display: none; }
+}
+.pestana {
+  flex: none; display: flex; align-items: center; gap: 6px;
+  min-height: 40px; padding: 0 12px;
+  border: 0; border-radius: 6px 6px 0 0; background: transparent;
+  color: var(--pt-pestana-texto); font-size: 13px; font-weight: 500; white-space: nowrap;
+  &--activa {
+    background: var(--app-navbar-color); color: var(--pt-barra-texto);
+    box-shadow: inset 0 -3px 0 var(--pt-acento-pestana);
+  }
+}
+.pestana__icono { display: inline-flex; }
+.pestana--activa .pestana__icono { filter: brightness(1.15); }
+
+.contenido {
+  flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
+  padding: 12px calc(var(--pt-seguro-der) + 12px) 16px calc(var(--pt-seguro-izq) + 12px);
+}
+.armazon--tableta .contenido { padding: 16px calc(var(--pt-seguro-der) + 20px) calc(var(--pt-seguro-abajo) + 16px) calc(var(--pt-seguro-izq) + 20px); }
+
+/* ===== Barra inferior (solo teléfono) ===== */
+.inferior {
+  flex: none;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 6px 8px calc(var(--pt-seguro-abajo) + 6px);
+  background: var(--pt-nav-inferior);
+  border-top: 1px solid var(--pt-borde);
+  a {
+    min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    color: var(--pt-pestana-texto); font-size: 11px; font-weight: 500; text-decoration: none;
+    &.activo { color: var(--pt-primario); font-weight: 600; }
+  }
+}
+
+/* ===== Fase 3: insignia de alertas, accesos IA en tableta y aviso de notificación ===== */
+.insignia {
+  position: absolute; top: 2px; left: 54%;
+  min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px;
+  background: var(--pt-advertencia); color: #111111; font-size: 10px; font-weight: 700; line-height: 17px; text-align: center;
+}
+.insignia--roja { background: var(--pt-peligro); color: #FFFFFF; }
+.inferior a.con-insignia { position: relative; }
+.cuadro { position: relative; }
+.cuadro--ia.activo { background: rgba(255, 255, 255, .3); }
+.cuadro .insignia { top: -4px; left: auto; right: -4px; }
+.aviso-push {
+  flex: none; display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  padding: 10px calc(var(--pt-seguro-der) + 14px) 10px calc(var(--pt-seguro-izq) + 14px);
+  border: 0; border-bottom: 1px solid var(--pt-borde); background: color-mix(in srgb, var(--pt-ia) 18%, var(--pt-tarjeta)); color: var(--pt-texto);
+  span { display: flex; flex-direction: column; min-width: 0; }
+  strong { font-size: 13px; color: var(--pt-texto-fuerte); }
+  small { font-size: 12px; color: var(--pt-subtitulo); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* ===== Menú lateral: ☰ y puerto activo (teléfono) ===== */
+.hamburguesa {
+  grid-area: menu; width: 44px; height: 44px; margin-left: -6px; border: 0; border-radius: 10px;
+  background: transparent; color: inherit; display: flex; align-items: center; justify-content: center;
+}
+.armazon:not(.armazon--tableta) .barra { padding-bottom: 8px; gap: 6px; }
+.armazon:not(.armazon--tableta) .barra__logo img { height: 30px; }
+.armazon:not(.armazon--tableta) .barra__acciones { gap: 2px; }
+.chip-puerto {
+  grid-area: puerto; justify-self: start; max-width: 100%; min-width: 0; height: 32px; padding: 0 12px;
+  display: inline-flex; align-items: center; border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, .25); background: rgba(0, 0, 0, .22); color: inherit;
+  font-size: 12px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase;
+  span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* ===== Tableta con la web en el marco (OT-014, CC-110): sin encabezado propio; el contenido es todo de la web ===== */
+.armazon--marco .contenido {
+  padding: var(--pt-seguro-arriba) var(--pt-seguro-der) var(--pt-seguro-abajo) var(--pt-seguro-izq);
+  overflow: hidden;
+}
+.menu-flotante {
+  position: fixed; z-index: 30;
+  left: calc(var(--pt-seguro-izq) + 16px); bottom: calc(var(--pt-seguro-abajo) + 16px);
+  width: 52px; height: 52px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255, 255, 255, .25); background: var(--app-navbar-color); color: var(--pt-barra-texto);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+  .insignia { top: -4px; left: auto; right: -4px; }
+}

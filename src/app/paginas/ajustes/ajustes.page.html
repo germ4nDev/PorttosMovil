@@ -1,0 +1,122 @@
+<div class="ajustes" [class.ajustes--tableta]="dispositivo.esTableta">
+
+  <section class="pt-tarjeta grupo">
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.AJUSTES.APARIENCIA' | translate }}</h2>
+
+    <p class="etiqueta" id="et-tema">{{ 'MOVIL.AJUSTES.TEMA' | translate }}</p>
+    <div class="segmentos" role="radiogroup" aria-labelledby="et-tema">
+      @for (m of modos; track m.valor) {
+        <button type="button" role="radio" class="segmento" [class.segmento--activo]="tema.modo() === m.valor"
+                [attr.aria-checked]="tema.modo() === m.valor" (click)="tema.cambiarModo(m.valor)">
+          <pm-icono [nombre]="m.icono" [tam]="16"></pm-icono>{{ m.llave | translate }}
+        </button>
+      }
+    </div>
+
+    <p class="etiqueta" id="et-color">{{ 'MOVIL.AJUSTES.COLOR_BARRA' | translate }}</p>
+    <div class="colores" role="radiogroup" aria-labelledby="et-color">
+      @for (c of colores; track c) {
+        <button type="button" role="radio" class="color" [style.background]="c"
+                [class.color--activo]="tema.colorBarra() === c" [attr.aria-checked]="tema.colorBarra() === c"
+                [attr.aria-label]="c" (click)="tema.cambiarColorBarra(c)">
+          @if (tema.colorBarra() === c) { <pm-icono nombre="check" [tam]="16" [grosor]="3"></pm-icono> }
+        </button>
+      }
+      <label class="color color--libre" [style.background]="tema.colorBarra()">
+        <span class="pt-solo-lector">{{ 'MOVIL.AJUSTES.COLOR_BARRA' | translate }}</span>
+        <input type="color" [value]="tema.colorBarra()" (input)="colorPersonalizado($event)">
+        +
+      </label>
+    </div>
+    <div class="muestra" [style.background]="tema.colorBarra()" aria-hidden="true">
+      <span>PORTTOS</span><span class="muestra__reloj">14:35:48</span>
+    </div>
+  </section>
+
+  <section class="pt-tarjeta grupo">
+    <h2 class="pt-tarjeta__titulo" id="et-idioma">{{ 'MOVIL.AJUSTES.IDIOMA' | translate }}</h2>
+    <div class="segmentos" role="radiogroup" aria-labelledby="et-idioma">
+      @for (i of idiomas; track i.valor) {
+        <button type="button" role="radio" class="segmento" [class.segmento--activo]="idioma.actual() === i.valor"
+                [attr.aria-checked]="idioma.actual() === i.valor" (click)="idioma.usar(i.valor)">
+          <img [src]="i.bandera" alt="" width="18" height="18">{{ i.llave | translate }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="pt-tarjeta grupo">
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.NOTIFICACIONES.TITULO' | translate }}</h2>
+    @if (!notificaciones.disponible) {
+      <p class="pt-tarjeta__sub">{{ 'MOVIL.NOTIFICACIONES.SOLO_APP' | translate }}</p>
+    } @else {
+      <label class="interruptor">
+        <span>{{ 'MOVIL.NOTIFICACIONES.ACTIVAR' | translate }}<small>{{ 'MOVIL.NOTIFICACIONES.ACTIVAR_AYUDA' | translate }}</small></span>
+        <input type="checkbox" role="switch" [checked]="notificaciones.preferencias().activas" (change)="activar($event)"
+               [disabled]="notificaciones.estado() === 'trabajando'">
+      </label>
+      @if (notificaciones.preferencias().activas) {
+        <p class="etiqueta" id="et-sev">{{ 'MOVIL.NOTIFICACIONES.SEVERIDAD' | translate }}</p>
+        <div class="segmentos" role="radiogroup" aria-labelledby="et-sev">
+          <button type="button" role="radio" class="segmento" [class.segmento--activo]="notificaciones.preferencias().severidadMinima === 'critica'"
+                  [attr.aria-checked]="notificaciones.preferencias().severidadMinima === 'critica'" (click)="notificaciones.cambiar({ severidadMinima: 'critica' })">
+            {{ 'MOVIL.NOTIFICACIONES.SOLO_CRITICAS' | translate }}</button>
+          <button type="button" role="radio" class="segmento" [class.segmento--activo]="notificaciones.preferencias().severidadMinima === 'atencion'"
+                  [attr.aria-checked]="notificaciones.preferencias().severidadMinima === 'atencion'" (click)="notificaciones.cambiar({ severidadMinima: 'atencion' })">
+            {{ 'MOVIL.NOTIFICACIONES.ATENCION_Y_CRITICAS' | translate }}</button>
+        </div>
+        <p class="etiqueta" id="et-alc">{{ 'MOVIL.NOTIFICACIONES.PUERTOS' | translate }}</p>
+        <div class="segmentos" role="radiogroup" aria-labelledby="et-alc">
+          <button type="button" role="radio" class="segmento" [class.segmento--activo]="notificaciones.preferencias().alcance === 'TODOS'"
+                  [attr.aria-checked]="notificaciones.preferencias().alcance === 'TODOS'" (click)="notificaciones.cambiar({ alcance: 'TODOS' })">
+            {{ 'MOVIL.NOTIFICACIONES.TODOS_PUERTOS' | translate }}</button>
+          <button type="button" role="radio" class="segmento" [class.segmento--activo]="notificaciones.preferencias().alcance === 'puerto'"
+                  [attr.aria-checked]="notificaciones.preferencias().alcance === 'puerto'" [disabled]="puertos.seleccionado() === 'TODOS'"
+                  (click)="notificaciones.cambiar({ alcance: 'puerto' })">
+            {{ 'MOVIL.NOTIFICACIONES.SOLO_PUERTO' | translate: { puerto: puertos.seleccionado() } }}</button>
+        </div>
+        <button type="button" class="pt-boton pt-boton--borde" (click)="probar()">{{ 'MOVIL.NOTIFICACIONES.PROBAR' | translate }}</button>
+        @if (resultadoPrueba()) { <p class="nota">{{ resultadoPrueba() | translate }}</p> }
+      }
+      @if (notificaciones.problema()) { <p class="nota nota--error">{{ notificaciones.problema() | translate }}</p> }
+      <p class="nota">{{ 'MOVIL.NOTIFICACIONES.UNA_SESION' | translate }}</p>
+    }
+  </section>
+
+  <section class="pt-tarjeta grupo">
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.AJUSTES.SEGURIDAD' | translate }}</h2>
+    @if (biometria.disponible()) {
+      <label class="interruptor">
+        <span>{{ 'MOVIL.AJUSTES.BIOMETRIA' | translate }}<small>{{ 'MOVIL.AJUSTES.BIOMETRIA_AYUDA' | translate }}</small></span>
+        <input type="checkbox" role="switch" [checked]="biometria.activa()" (change)="cambiarBiometria($event)">
+      </label>
+      @if (infoBiometria()) { <p class="nota">{{ 'MOVIL.AJUSTES.BIOMETRIA_ACTIVAR_INFO' | translate }}</p> }
+    }
+    <p class="nota">{{ 'MOVIL.AJUSTES.SESION_SEGURA' | translate }}</p>
+  </section>
+
+  <section class="pt-tarjeta grupo">
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.AJUSTES.CUENTA' | translate }}</h2>
+    <div class="cuenta">
+      <span class="avatar">{{ sesion.iniciales() }}</span>
+      <div class="cuenta__datos">
+        <strong>{{ sesion.sesion()?.nombreUsuario }}</strong>
+        <small>{{ sesion.sesion()?.correo }}</small>
+        <small>{{ 'MOVIL.AJUSTES.SESION' | translate }} · {{ (sesion.sesion()?.codigoSesion || '').slice(0, 8) }}</small>
+      </div>
+    </div>
+    <button type="button" class="pt-boton pt-boton--borde salir" (click)="sesion.cerrar('usuario')">
+      <pm-icono nombre="salir" [tam]="18"></pm-icono>{{ 'MOVIL.AJUSTES.CERRAR_SESION' | translate }}
+    </button>
+  </section>
+
+  <section class="pt-tarjeta grupo">
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.AJUSTES.ACERCA' | translate }}</h2>
+    <dl class="datos">
+      <dt>{{ 'MOVIL.AJUSTES.VERSION' | translate }}</dt><dd>{{ version }} · {{ nativo.plataforma }}</dd>
+      <dt>{{ 'MOVIL.AJUSTES.DISPOSITIVO' | translate }}</dt>
+      <dd>{{ (dispositivo.esTableta ? 'MOVIL.AJUSTES.TABLETA' : 'MOVIL.AJUSTES.TELEFONO') | translate }}</dd>
+      <dt>{{ 'MOVIL.AJUSTES.SERVIDOR' | translate }}</dt><dd>{{ servidor }}</dd>
+    </dl>
+  </section>
+</div>

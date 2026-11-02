@@ -1,0 +1,110 @@
+<div class="marco" [class.marco--tableta]="dispositivo.esTableta">
+  <div #lienzo class="lienzo" role="application" [attr.aria-label]="'MOVIL.MAPA.TITULO' | translate"></div>
+
+  <!-- Capas y estilo base (arriba a la izquierda) -->
+  <div class="herramientas">
+    <button type="button" class="redondo" (click)="menuCapas.set(!menuCapas())" [attr.aria-expanded]="menuCapas()"
+      [attr.aria-label]="'MOVIL.MAPA.CAPAS' | translate">
+      <pm-icono nombre="capas" [tam]="20"></pm-icono>
+    </button>
+    <button type="button" class="redondo" (click)="centrar()" [attr.aria-label]="'MOVIL.MAPA.CENTRAR' | translate">
+      <pm-icono nombre="centrar" [tam]="20"></pm-icono>
+    </button>
+    <!-- Alertas del mapa (las de la web): campana con las sin leer; abre la lista (OT-007) -->
+    <button type="button" class="redondo campana" (click)="alternarListaAlertas()" [attr.aria-expanded]="listaAlertas()"
+      [attr.aria-label]="'MOVIL.MAPA.ALERTAS_MAPA' | translate">
+      <pm-icono nombre="campana" [tam]="20"></pm-icono>
+      @if (alertasMapa.sinLeer()) { <span class="insignia">{{ alertasMapa.sinLeer() }}</span> }
+    </button>
+    @if (listaAlertas()) {
+    <section class="lista-alertas" [attr.aria-label]="'MOVIL.MAPA.ALERTAS_MAPA' | translate">
+      <h2>{{ 'MOVIL.MAPA.ALERTAS_MAPA' | translate }}</h2>
+      @for (a of alertasMapa.bitacora(); track a.id) {
+      <button type="button" class="alerta" [style.border-left-color]="colorAlerta[a.nivel]" [disabled]="!conPunto(a)"
+        (click)="enfocarAlerta(a)">
+        <strong>{{ a.titulo }}</strong>
+        @if (a.mensaje) { <span>{{ a.mensaje }}</span> }
+        <small>{{ a.fecha | date: 'dd/MM HH:mm' }}@if (a.simulado) { · {{ 'MOVIL.MAPA.SIMULADO' | translate }} }</small>
+      </button>
+      } @empty {
+      <p class="vacio">{{ 'MOVIL.MAPA.SIN_ALERTAS_MAPA' | translate }}</p>
+      }
+    </section>
+    }
+    @if (menuCapas()) {
+    <div class="menu" role="group" [attr.aria-label]="'MOVIL.MAPA.CAPAS' | translate">
+      <label><input type="checkbox" [checked]="capas().geocercas" (change)="alternarCapa('geocercas')"><span class="punto"
+          style="background:#00E5FF"></span>{{ 'MOVIL.MAPA.GEOCERCAS' | translate }}<b>{{
+          datos.mapa()?.geocercas?.features?.length ?? 0 }}</b></label>
+      <label><input type="checkbox" [checked]="capas().naves" (change)="alternarCapa('naves')"><span class="punto"
+          [style.background]="colorNave.movimiento"></span>{{ 'MOVIL.MAPA.NAVES' | translate }}<b>{{
+          datos.mapa()?.conteos?.naves ?? 0 }}</b></label>
+      <label><input type="checkbox" [checked]="capas().camiones" (change)="alternarCapa('camiones')"><span class="punto"
+          [style.background]="colorCamion"></span>{{ 'MOVIL.MAPA.CAMIONES' | translate }}<b>{{
+          datos.mapa()?.conteos?.camiones ?? 0 }}</b></label>
+      <label><input type="checkbox" [checked]="capas().eventos" (change)="alternarCapa('eventos')"><span class="punto"
+          [style.background]="colorEvento.grave"></span>{{ 'MOVIL.MAPA.EVENTOS' | translate }}<b>{{
+          datos.mapa()?.conteos?.eventos ?? 0 }}</b></label>
+      <div class="bases">
+        <button type="button" [class.activo]="base() === 'calles'" (click)="base.set('calles')">{{ 'MOVIL.MAPA.CALLES' |
+          translate }}</button>
+        <button type="button" [class.activo]="base() === 'terreno'" (click)="base.set('terreno')">{{
+          'MOVIL.MAPA.TERRENO' | translate }}</button>
+        <button type="button" [class.activo]="base() === 'satelite'" (click)="base.set('satelite')">{{
+          'MOVIL.MAPA.SATELITE' | translate }}</button>
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- Botón IA flotante (arriba a la derecha), como en el mapa de la web -->
+  <button type="button" class="fab-ia" [class.fab-ia--abierto]="panelIA()" (click)="panelIA.set(!panelIA())"
+    [attr.aria-expanded]="panelIA()" [attr.aria-label]="'MOVIL.MAPA.ANALISTA' | translate">
+    @if (panelIA()) { ✕ } @else { IA }
+    @if (!panelIA() && analista.conteo()) { <span class="insignia" [class.insignia--roja]="analista.criticas()">{{
+      analista.conteo() }}</span> }
+  </button>
+
+  <!-- Zoom + / − (OT-007): a la derecha, debajo del botón IA, lejos de la barra de abajo y del área segura -->
+  <div class="zoom" role="group" [attr.aria-label]="'MOVIL.MAPA.ZOOM' | translate">
+    <button type="button" (click)="acercar()" [attr.aria-label]="'MOVIL.MAPA.ACERCAR' | translate">+</button>
+    <button type="button" (click)="alejar()" [attr.aria-label]="'MOVIL.MAPA.ALEJAR' | translate">−</button>
+  </div>
+
+  @if (panelIA()) {
+  <section class="panel-ia" [attr.aria-label]="'MOVIL.MAPA.ANALISTA' | translate">
+    <header>
+      <h2>{{ 'MOVIL.MAPA.ANALISTA' | translate }}</h2>
+      <a routerLink="/app/alertas">{{ 'MOVIL.MAPA.VER_TODO' | translate }}</a>
+    </header>
+    @for (a of alertas(); track a.id) {
+    <article [style.border-left-color]="color(a.severidad)">
+      <span class="nivel" [style.background]="color(a.severidad)">{{ ('MOVIL.SEVERIDAD.' + (a.severidad ||
+        'info').toUpperCase()) | translate }}</span>
+      @if (horizonte(a.horizonteMinH, a.horizonteMaxH)) { <small>{{ 'MOVIL.ALERTAS.EN' | translate }} {{
+        horizonte(a.horizonteMinH, a.horizonteMaxH) }}</small> }
+      <strong>{{ a.titulo }}</strong>
+      @if (a.accionSugerida) { <p>{{ a.accionSugerida }}</p> }
+    </article>
+    } @empty {
+    <p class="vacio">{{ 'MOVIL.ALERTAS.SIN_ALERTAS' | translate }}</p>
+    }
+  </section>
+  }
+
+  <!-- Resumen abajo -->
+  @if (datos.mapa(); as m) {
+  <div class="resumen" aria-live="polite">
+    @if (senalAis(); as s) { <span class="sin-senal" role="status"><i></i>{{ s.clave | translate: { hace: s.hace } }}</span> }
+    <span><i [style.background]="colorNave.fondeada"></i>{{ m.conteos.fondeadas }} {{ 'MOVIL.MAPA.FONDEADAS' | translate
+      }}</span>
+    <span><i [style.background]="colorNave.atracada"></i>{{ m.conteos.atracadas }} {{ 'MOVIL.MAPA.ATRACADAS' | translate
+      }}</span>
+    <span><i [style.background]="colorNave.movimiento"></i>{{ m.conteos.enMovimiento }} {{ 'MOVIL.MAPA.EN_MOVIMIENTO' |
+      translate }}</span>
+    @if (m.conteos.eventosGraves) { <span class="grave"><i [style.background]="colorEvento.grave"></i>{{
+      m.conteos.eventosGraves }} {{ 'MOVIL.MAPA.CIERRES' | translate }}</span> }
+  </div>
+  }
+  @if (datos.error()) { <p class="aviso">{{ 'MOVIL.TABLERO.ERROR_CONEXION' | translate }}</p> }
+</div>

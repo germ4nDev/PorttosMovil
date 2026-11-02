@@ -1,0 +1,11 @@
+node_modules/
+www/
+dist/
+out-tsc/
+.angular/
+android/app/build/
+android/.gradle/
+ios/App/Pods/
+ios/App/build/
+*.log
+.DS_Store
