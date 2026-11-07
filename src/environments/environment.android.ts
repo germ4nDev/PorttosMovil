@@ -12,8 +12,8 @@ const SOCKET_LOCAL = 'http://10.0.2.2:3000';
 // const SOCKET_LOCAL = 'https://api.dymsites.co';
 /** Web de la plataforma para el marco de la tableta (OT-014). Local: 'http://localhost:4200' con `adb reverse tcp:4200 tcp:4200`
  *  (y el API con `adb reverse tcp:3000 tcp:3000`) y `ng serve --host 127.0.0.1` (solo en IPv6, adb no lo alcanza). */
-// const WEB_LOCAL = 'http://localhost:4200';
-const WEB_LOCAL = 'https://plataforma.dymsites.co';
+const WEB_LOCAL = 'http://localhost:4200';
+// const WEB_LOCAL = 'https://plataforma.dymsites.co';
 
 export const environment = {
     production: false,

@@ -57,7 +57,8 @@
       </div>
     }
   </header>
-  } @else {
+  } @else if (dispositivo.esTableta) {
+    <!-- Teléfono con el marco (OT-017): sin ☰ flotante; la barra inferior lleva a Alertas, Asistente y Ajustes -->
     <button type="button" class="menu-flotante" (click)="menu.set(true)" [attr.aria-expanded]="menu()" [attr.aria-label]="'MOVIL.MENU.ABRIR' | translate">
       <pm-icono nombre="menu" [tam]="22"></pm-icono>
       @if (analista.conteo()) { <span class="insignia" [class.insignia--roja]="analista.criticas()">{{ analista.conteo() }}</span> }

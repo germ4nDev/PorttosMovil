@@ -1,16 +1,20 @@
 /*
     Author: German Valencia
-    Marco de la web en la tableta (OT-014 fase 2, CC-110; regla 17: la tableta = la web). Lógica pura, sin Angular ni DOM.
-    La página Tablero de la tableta carga `<web>/embebido` en un marco y conversa con él por postMessage. Es el mismo contrato
+    Marco de la web (OT-014 fase 2, CC-110; regla 17: la tableta = la web; OT-017: también el teléfono). Lógica pura, sin Angular ni DOM.
+    La página Tablero carga `<web>/embebido` en un marco y conversa con él por postMessage. Es el mismo contrato
     de la web (PlataformaIA/src/app/plataforma/embebido/nucleo/embebido.ts):
       web → app  { fuente: 'porttos-web', v: 1, tipo: 'listo' | 'estado' | 'cerrar-sesion' | 'error', ... }
-      app → web  { fuente: 'porttos-app', v: 1, tipo: 'sesion', token, codigoSesion, codigoAplicacion, codigoSuite, puerto?, pestana? }
+      app → web  { fuente: 'porttos-app', v: 2, tipo: 'sesion', token, codigoSesion, codigoAplicacion, codigoSuite, puerto?, pestana?,
+                   canal: 'tableta' | 'telefono' }   (v 2, OT-017: con 'telefono' la web arma su rejilla de 4 columnas)
     La sesión es la misma de la app (sesión única): nunca va en la URL. Solo se le habla al origen de la web configurada.
 */
 
 export const FUENTE_APP = 'porttos-app';
 export const FUENTE_WEB = 'porttos-web';
 export const VERSION_MARCO = 1;
+/** Versión del mensaje 'sesion' que manda la app (la 2 agrega el canal; la web acepta 1 y 2). */
+export const VERSION_SESION = 2;
+export type CanalMarco = 'tableta' | 'telefono';
 export const RUTA_MARCO = '/embebido';
 /** Sin ningún aviso de la web en este tiempo, la tableta vuelve a la vista nativa (respaldo). */
 export const ESPERA_MARCO_MS = 25000;
@@ -44,9 +48,14 @@ export function urlMarcoWeb(base: unknown): string | null {
     return o ? o + RUTA_MARCO : null;
 }
 
-/** Solo la tableta con una web configurada usa el marco; el teléfono conserva su vista propia (KPI de a 2). */
-export function usarMarcoWeb(esTableta: boolean, base: unknown): boolean {
-    return esTableta && !!urlMarcoWeb(base);
+/** Tableta y teléfono usan el marco si hay una web configurada (OT-017); sin web, la vista nativa. */
+export function usarMarcoWeb(base: unknown): boolean {
+    return !!urlMarcoWeb(base);
+}
+
+/** Canal que se le dice a la web: la tableta ve la web tal cual; el teléfono, su rejilla de 4 columnas. */
+export function canalDeDispositivo(esTableta: boolean): CanalMarco {
+    return esTableta ? 'tableta' : 'telefono';
 }
 
 const corto = (v: unknown, max: number): string | null => {
@@ -72,10 +81,11 @@ export function leerMensajeWeb(data: unknown, origen: unknown, origenWeb: string
 export function mensajeSesionParaWeb(
     sesion: { token: string; codigoSesion: string },
     destino: { codigoAplicacion: string; codigoSuite: string },
-    ultimo: EstadoMarco | null
+    ultimo: EstadoMarco | null,
+    canal: CanalMarco = 'tableta'
 ): Record<string, unknown> {
     return {
-        fuente: FUENTE_APP, v: VERSION_MARCO, tipo: 'sesion',
+        fuente: FUENTE_APP, v: VERSION_SESION, tipo: 'sesion', canal,
         token: sesion.token, codigoSesion: sesion.codigoSesion,
         codigoAplicacion: destino.codigoAplicacion, codigoSuite: destino.codigoSuite,
         ...(ultimo?.puerto ? { puerto: ultimo.puerto } : {}),

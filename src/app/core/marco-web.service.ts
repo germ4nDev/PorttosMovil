@@ -1,18 +1,20 @@
 /*
     Author: German Valencia
-    Marco de la web en la tableta (OT-014 fase 2, CC-110; regla 17: la tableta = la web).
+    Marco de la web (OT-014 fase 2, CC-110; regla 17: la tableta = la web; OT-017: también el teléfono, con canal 'telefono').
     La página Tablero de la tableta muestra la Torre de Control de la web (`<webUrl>/embebido`) en un marco y le entrega la sesión
     de la app (la misma: sesión única). Contrato y validaciones en `@nucleo` (marco-web.ts); la web tiene el suyo igual.
       - 'listo'          → se manda la sesión con la aplicación y la suite del tablero y el último puerto y pestaña.
       - 'estado'         → la web cargó: se guarda el puerto y la pestaña para la próxima apertura.
       - 'cerrar-sesion'  → el cierre de siempre de la app (usuario, expirada, reemplazada); 'sin-acceso' → vista nativa.
       - 'error', sin conexión o sin respuesta en ESPERA_MARCO_MS → vista nativa rotulada (respaldo), con «Reintentar».
-    El teléfono no usa el marco: conserva su vista propia (KPI de a 2).
+    El teléfono usa el marco desde OT-017: la web pinta su rejilla de 4 columnas con los widgets de teléfono. Su vista nativa
+    (KPI de a 2) queda de respaldo, igual que en la tableta.
 */
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
-    ESPERA_MARCO_MS, EstadoMarco, leerMensajeWeb, mensajeSesionParaWeb, motivoCierreDeWeb, origenDeUrl, urlMarcoWeb, usarMarcoWeb
+    ESPERA_MARCO_MS, EstadoMarco, canalDeDispositivo, leerMensajeWeb, mensajeSesionParaWeb, motivoCierreDeWeb, origenDeUrl, urlMarcoWeb,
+    usarMarcoWeb
 } from '@nucleo';
 import { environment } from '../../environments/environment';
 import { AlmacenService } from './almacen.service';
@@ -34,8 +36,8 @@ export class MarcoWebService {
     private readonly origenWeb = origenDeUrl(this.webUrl);
 
     readonly url: SafeResourceUrl | null;
-    /** La tableta usa el marco (con una web configurada). */
-    readonly usar = computed(() => usarMarcoWeb(this.dispositivo.clase() === 'tableta', this.webUrl));
+    /** Tableta y teléfono usan el marco (con una web configurada). */
+    readonly usar = computed(() => usarMarcoWeb(this.webUrl));
     readonly estado = signal<EstadoMarcoWeb>('cargando');
     readonly motivo = signal<MotivoRespaldo | null>(null);
     /** El marco está en pantalla: el armazón esconde su encabezado y sus pestañas (la web trae los suyos). */
@@ -78,7 +80,8 @@ export class MarcoWebService {
             const s = this.sesion.sesion();
             if (!s) return;
             const mensaje = mensajeSesionParaWeb(s,
-                { codigoAplicacion: environment.codigoAplicacion, codigoSuite: environment.codigoSuite }, this.ultimo());
+                { codigoAplicacion: environment.codigoAplicacion, codigoSuite: environment.codigoSuite }, this.ultimo(),
+                canalDeDispositivo(this.dispositivo.clase() === 'tableta'));
             this.marco.contentWindow?.postMessage(mensaje, this.origenWeb);
         } else if (m.tipo === 'estado') {
             this.limpiarEspera();

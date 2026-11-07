@@ -15,7 +15,9 @@
         teléfono con el alto que el widget tiene en la web; gráficas con mínimo 2 filas de la web. KPI por su código (esKpi):
         un KPI sin dato sigue siendo KPI (de a 2, arriba). En la tableta la franja de KPI mide la mitad (CC-108).
       - Tableta = la web (OT-014, CC-110; regla 17): la Torre de Control de la web en un marco (MarcoWebService). La vista nativa
-        queda de respaldo (sin conexión, sin respuesta o sin acceso), rotulada y con «Reintentar». El teléfono no cambia.
+        queda de respaldo (sin conexión, sin respuesta o sin acceso), rotulada y con «Reintentar».
+      - Teléfono con la web (OT-017): el mismo marco con canal 'telefono' (la web arma su rejilla de 4 columnas con los widgets
+        de teléfono). Su vista nativa (KPI de a 2) queda de respaldo, igual que en la tableta.
 */
 import { Component, DestroyRef, ElementRef, HostBinding, Type, ViewChild, computed, effect, inject, signal } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
