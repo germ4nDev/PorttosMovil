@@ -156,7 +156,8 @@
       "ESTADO_OMITIDA_PRESUPUESTO": "Presupuesto del día agotado",
       "ESTADO_CORTACIRCUITO": "Servicio en pausa",
       "ESTADO_ERROR": "Error del servicio",
-      "ESTADO_INVALIDA": "Sin respuesta confiable"
+      "ESTADO_INVALIDA": "Sin respuesta confiable",
+      "SELLO": "IA"
     },
     "NOTIFICACIONES": {
       "TITULO": "Notificaciones",
@@ -221,7 +222,8 @@
       "PESTANAS": "Torre de Control",
       "SECCIONES": "Porttos",
       "TEMA_CLARO": "Tema claro",
-      "TEMA_OSCURO": "Tema oscuro"
+      "TEMA_OSCURO": "Tema oscuro",
+      "VERSION": "Porttos móvil · {{version}}"
     },
     "WIDGETS": {
       "ANALISTA_SUB": "Alertas tempranas de esta pestaña",
@@ -237,6 +239,36 @@
       "ERROR": "No se pudo abrir la web: se muestra la vista de respaldo de la app.",
       "SIN_ACCESO": "Tu usuario no tiene la torre de control web: se muestra la vista de la app.",
       "REINTENTAR": "Reintentar"
+    },
+    "GNL": {
+      "AMPLIAR": "Ampliar",
+      "CERRAR": "Cerrar",
+      "CONECTANDO": "Conectando a SCADA...",
+      "HISTORIAL": "Historial consolidado por hora",
+      "SIMULADO": "SIMULADO",
+      "VOLUMEN": "Volumen",
+      "ENERGIA": "Energía",
+      "PRESION_PROM": "Presión prom.",
+      "ALARMAS": "Alarmas",
+      "VOLUMEN_BRAZO": "Volumen por brazo",
+      "BRAZO": "Brazo",
+      "PARTICIPACION": "Participación",
+      "HORAS_FLUJO": "Horas con flujo",
+      "FLUJO": "Flujo",
+      "TEMP_DUCTO": "Temp. Ducto",
+      "LIMITE_OPERATIVO": "Límite operativo",
+      "TEMPERATURA": "Temperatura",
+      "SUB": {
+        "TELEMETRIA_SCADA": "Telemetría SCADA",
+        "BOIL_OFF": "Gas evaporado / Boil-off",
+        "TELEMETRIA_ENTRADA": "Telemetría de entrada",
+        "SALIDA_RED": "Flujo de salida a red",
+        "LLENADO_TANQUES": "Porcentaje de llenado de tanques",
+        "ENERGIA_SEGUNDO": "Energía del último segundo",
+        "CALIDAD_MEZCLA": "Calidad de la mezcla GNL",
+        "DESDE_APERTURA": "Desde que se abrió el tablero",
+        "CONSOLIDADO": "Sistema consolidado"
+      }
     }
   }
 }

@@ -8,7 +8,7 @@ import { AfterViewChecked, Component, ElementRef, ViewChild, inject, signal } fr
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { etiquetaHerramienta, markdownSeguro } from '@nucleo';
-import { IconoComponent } from '../../compartido/icono.component';
+import { IconoComponent } from '../../compartido/icono/icono.component';
 import { AsistenteService, Turno } from '../../core/asistente.service';
 import { PuertoService } from '../../core/puerto.service';
 import { PestanasService } from '../../core/pestanas.service';

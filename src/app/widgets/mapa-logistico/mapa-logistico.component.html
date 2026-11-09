@@ -60,7 +60,7 @@
   <!-- Botón IA flotante (arriba a la derecha), como en el mapa de la web -->
   <button type="button" class="fab-ia" [class.fab-ia--abierto]="panelIA()" (click)="panelIA.set(!panelIA())"
     [attr.aria-expanded]="panelIA()" [attr.aria-label]="'MOVIL.MAPA.ANALISTA' | translate">
-    @if (panelIA()) { ✕ } @else { IA }
+    @if (panelIA()) { ✕ } @else { {{ 'MOVIL.ASISTENTE.SELLO' | translate }} }
     @if (!panelIA() && analista.conteo()) { <span class="insignia" [class.insignia--roja]="analista.criticas()">{{
       analista.conteo() }}</span> }
   </button>

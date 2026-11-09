@@ -1,0 +1,39 @@
+:host { display: block; min-width: 0; height: 100%; min-height: 0; }
+.gnl { height: 100%; box-sizing: border-box; display: flex; flex-direction: column; padding: 10px 12px; overflow: hidden; }
+.gnl__cabeza { display: flex; align-items: center; gap: 8px; color: var(--pt-texto); }
+.gnl__textos { flex: 1; min-width: 0; }
+/* Título y subtítulo en una línea: la celda del teléfono es baja y el medidor o la gráfica necesitan el alto */
+.gnl__textos h2, .gnl__textos p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gnl__sub { text-transform: uppercase; }
+.ampliar { width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; color: var(--pt-subtitulo);
+  display: flex; align-items: center; justify-content: center; flex: none; }
+.acciones { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 4px; }
+.energia-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border: 1px solid var(--app-navbar-color, #346BA6);
+  border-radius: 50px; color: var(--app-navbar-color, #346BA6); background: var(--pt-tarjeta); font-size: 11.5px; font-weight: 600; }
+.energia-pill.cargando { opacity: .5; }
+.insignia { background: #212529; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+.cuerpo { flex: 1; position: relative; min-height: 60px; }
+.lienzo { position: absolute; inset: 0; }
+.oculto { visibility: hidden; }
+.espera { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.girando { width: 2rem; height: 2rem; border: 3px solid var(--pt-info); border-right-color: transparent; border-radius: 50%; animation: giro .75s linear infinite; }
+@keyframes giro { to { transform: rotate(360deg); } }
+.modal { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, .6); display: flex; align-items: stretch; justify-content: center;
+  padding: calc(var(--pt-seguro-arriba) + 12px) 10px calc(var(--pt-seguro-abajo) + 12px); }
+.modal__caja { width: 100%; max-width: 900px; overflow: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.detalle-cabecera { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.detalle-titulo { margin: 0; font-size: 13px; font-weight: 600; color: var(--pt-texto-fuerte); }
+.rango { display: flex; align-items: center; gap: 6px; }
+.rango button { border: 1px solid var(--pt-borde); background: var(--pt-tarjeta-2); color: var(--pt-texto); border-radius: 6px; padding: 5px 9px; font-size: 12px; }
+.rango button.activo { background: var(--app-navbar-color, #346BA6); border-color: var(--app-navbar-color, #346BA6); color: #fff; }
+.detalle-simulado { font-size: 10px; font-weight: 700; color: #111; background: var(--pt-advertencia); border-radius: 4px; padding: 2px 6px; }
+.detalle-resumen { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--pt-texto); }
+.detalle-ayuda { margin: 0; font-size: 12px; color: var(--pt-subtitulo); }
+.detalle-grafica { position: relative; height: 240px; flex: none; }
+.tabla { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { padding: 6px 8px; text-align: right; border-bottom: 1px solid var(--pt-borde); white-space: nowrap; }
+th { color: var(--pt-subtitulo); font-weight: 600; }
+th:first-child, td.principal { text-align: left; font-weight: 600; color: var(--pt-texto-fuerte); }
+.avance { display: inline-block; width: 50px; height: 6px; border-radius: 3px; background: var(--pt-tarjeta-2); margin-right: 6px; overflow: hidden; vertical-align: middle; }
+.avance span { display: block; height: 100%; background: var(--pt-info); }

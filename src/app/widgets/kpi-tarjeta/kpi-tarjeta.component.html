@@ -15,7 +15,7 @@
     @if (variacion() !== null) {
     <span class="kpi__var">{{ variacion()! > 0 ? '▲' : variacion()! < 0 ? '▼' : '=' }} {{ abs(variacion()!) }} %</span>
         }
-        @if (k().subtitulo) { <span class="kpi__sub">{{ k().subtitulo }}</span> }
+        @if (k().subtitulo) { <span class="kpi__sub">{{ (k().subtitulo ?? '') | translate }}</span> }
         @if (k().simulado) { <span class="kpi__sim">{{ 'MOVIL.TABLERO.SIMULADO' | translate }}</span> }
     </span>
 </button>

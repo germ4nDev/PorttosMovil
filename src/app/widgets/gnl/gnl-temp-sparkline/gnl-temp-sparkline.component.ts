@@ -6,67 +6,28 @@
 */
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, ViewChild, effect, inject, untracked } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { LIMITE_OPERATIVO_TEMP_GNL, VentanaGnl, WidgetComponente, autoZoomGnl, empujarVentanaGnl, prellenarVentanaGnl } from '@nucleo';
-import { GnlVivoService } from '../../core/gnl-vivo.service';
-import { IconoComponent } from '../../compartido/icono.component';
+import { GnlVivoService } from '../../../core/gnl-vivo.service';
+import { IconoComponent } from '../../../compartido/icono/icono.component';
 
 Chart.register(...registerables);
 
 @Component({
     selector: 'pm-gnl-temp-sparkline',
     standalone: true,
-    imports: [DecimalPipe, IconoComponent],
+    imports: [DecimalPipe, IconoComponent, TranslateModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-    <section class="pt-tarjeta gnl">
-      <header class="gnl__cabeza">
-        <pm-icono nombre="termometro" [tam]="16"></pm-icono>
-        <div class="gnl__textos">
-          <h2 class="pt-tarjeta__titulo">{{ w.titulo }}</h2>
-          @if (w.subtitulo) { <p class="pt-tarjeta__sub gnl__sub">{{ w.subtitulo }}</p> }
-        </div>
-        @if (!cargando) { <span class="insignia">{{ brazo }}</span> }
-      </header>
-
-      <div class="cuerpo">
-        <div class="numero">
-          @if (cargando) {
-            <span class="girando" role="status" aria-label="…"></span>
-          } @else {
-            <strong>{{ tempActual | number: '1.2-2' }} °C</strong>
-            <small>Límite operativo: {{ limite | number: '1.1-1' }} °C</small>
-          }
-        </div>
-        <div class="lienzo"><canvas #tempCanvas></canvas></div>
-      </div>
-    </section>
-    `,
-    styles: [`
-    :host { display: block; min-width: 0; height: 100%; min-height: 0; }
-    .gnl { height: 100%; box-sizing: border-box; display: flex; flex-direction: column; padding: 10px 12px; overflow: hidden; }
-    .gnl__cabeza { display: flex; align-items: center; gap: 8px; color: var(--pt-texto); position: relative; z-index: 3; }
-    .gnl__textos { flex: 1; min-width: 0; }
-    /* Título y subtítulo en una línea: la celda del teléfono es baja y el medidor o la gráfica necesitan el alto */
-    .gnl__textos h2, .gnl__textos p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .gnl__sub { text-transform: uppercase; }
-    .insignia { background: #212529; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
-    .cuerpo { flex: 1; position: relative; min-height: 60px; container-type: size; }
-    .numero { position: absolute; inset: 0; z-index: 2; padding-bottom: 12cqh; pointer-events: none;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .numero strong { font-size: clamp(1.4rem, 30cqh, 4.5rem); font-weight: 800; letter-spacing: -1.5px; color: var(--pt-info);
-      text-shadow: 0 4px 10px rgba(0,0,0,0.4); line-height: 1.1; margin-bottom: 4px; }
-    .numero small { font-size: 12px; font-weight: 500; color: var(--pt-subtitulo); }
-    .lienzo { position: absolute; bottom: 0; left: 0; width: 100%; height: 45%; z-index: 1; }
-    .girando { width: 1rem; height: 1rem; border: 2px solid var(--pt-info); border-right-color: transparent; border-radius: 50%; animation: giro .75s linear infinite; }
-    @keyframes giro { to { transform: rotate(360deg); } }
-    `],
+    templateUrl: './gnl-temp-sparkline.component.html',
+    styleUrl: './gnl-temp-sparkline.component.scss',
 })
 export class GnlTempSparklineComponent implements AfterViewInit, OnDestroy {
     @Input({ required: true }) w!: WidgetComponente;
     @ViewChild('tempCanvas') tempCanvas!: ElementRef<HTMLCanvasElement>;
 
     private readonly gnl = inject(GnlVivoService);
+    private readonly translate = inject(TranslateService);
     private readonly cdr = inject(ChangeDetectorRef);
     readonly limite = LIMITE_OPERATIVO_TEMP_GNL;
     tempActual = 0;
@@ -138,7 +99,7 @@ export class GnlTempSparklineComponent implements AfterViewInit, OnDestroy {
             data: {
                 labels: [],
                 datasets: [{
-                    label: 'Temperatura °C', data: [], borderColor: '#00d4ff', borderWidth: 3, pointRadius: 0,
+                    label: this.translate.instant('MOVIL.GNL.TEMPERATURA') + ' °C', data: [], borderColor: '#00d4ff', borderWidth: 3, pointRadius: 0,
                     pointHoverRadius: 6, pointHitRadius: 15, pointHoverBackgroundColor: '#ffffff', pointHoverBorderColor: '#00d4ff', pointHoverBorderWidth: 2,
                     fill: 'end', tension: 0.2,
                     backgroundColor: (context: any) => {

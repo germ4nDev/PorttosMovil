@@ -1,0 +1,32 @@
+<section class="pt-tarjeta gnl">
+  <header class="gnl__cabeza">
+    <pm-icono nombre="medidor" [tam]="16"></pm-icono>
+    <div class="gnl__textos">
+      <h2 class="pt-tarjeta__titulo">{{ w.titulo }}</h2>
+      @if (w.subtitulo) { <p class="pt-tarjeta__sub gnl__sub">{{ w.subtitulo | translate }}</p> }
+    </div>
+    <span class="insignia">{{ brazo() }}</span>
+    <span class="status-dot" [style.background-color]="color()" [class.blinking]="color() === peligro"></span>
+  </header>
+
+  <div class="gauge-body">
+    <div class="gauge-container" [style.--color-estado]="color()" [class.estado-peligro]="color() === peligro">
+      <svg class="gauge-svg" viewBox="0 0 100 50" aria-hidden="true">
+        <path d="M 15 45 A 35 35 0 0 1 85 45" fill="none" stroke-width="7" stroke-linecap="round" stroke="#2b2b40"></path>
+        <path d="M 15 45 A 35 35 0 0 1 85 45" fill="none" stroke-width="7" stroke-linecap="round" [attr.stroke]="color()"
+              [attr.stroke-dasharray]="geometria().dashArray" style="transition: stroke-dasharray 0.4s ease-in-out, stroke 0.4s ease-in-out;"></path>
+      </svg>
+      <div class="gauge-needle" [style.transform]="'rotate(' + geometria().angulo + 'deg)'"></div>
+      <div class="gauge-value" [style.borderColor]="color() === normal ? 'rgba(255,255,255,0.08)' : color()"
+           [style.backgroundColor]="color() === normal ? 'rgba(20, 20, 30, 0.85)' : color() + '1A'">
+        <span class="numero" [style.color]="color()">{{ presion() | number: '1.2-2' }}</span>
+        <span class="unidad" [style.color]="color() === normal ? '#a1a5b7' : color()">PSI</span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="scada-footer">
+    <span class="temp-label">{{ 'MOVIL.GNL.TEMP_DUCTO' | translate }}:</span>
+    <span class="temp-value">{{ temperatura() | number: '1.2-2' }} °C</span>
+  </footer>
+</section>

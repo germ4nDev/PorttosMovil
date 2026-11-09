@@ -23,11 +23,11 @@ import { Component, DestroyRef, ElementRef, HostBinding, Type, ViewChild, comput
 import { NgComponentOutlet } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { KpiMovil, WidgetMovil, WidgetAnalista, WidgetGrafica, WidgetKpis, WidgetLista, WidgetMapa, estiloPestana, rejillaTelefono, rejillaTableta, estiloCelda, esKpi, ALTO_MEDIA_FILA, SEPARACION_WEB, FILAS_MINIMAS_GRAFICA, Rejilla } from '@nucleo';
-import { GnlGaugeComponent } from '../../widgets/gnl/gnl-gauge.component';
-import { GnlFlujoChartComponent } from '../../widgets/gnl/gnl-flujo-chart.component';
-import { GnlTempSparklineComponent } from '../../widgets/gnl/gnl-temp-sparkline.component';
-import { IconoComponent } from '../../compartido/icono.component';
-import { OpcionSelector, SelectorComponent } from '../../compartido/selector.component';
+import { GnlGaugeComponent } from '../../widgets/gnl/gnl-gauge/gnl-gauge.component';
+import { GnlFlujoChartComponent } from '../../widgets/gnl/gnl-flujo-chart/gnl-flujo-chart.component';
+import { GnlTempSparklineComponent } from '../../widgets/gnl/gnl-temp-sparkline/gnl-temp-sparkline.component';
+import { IconoComponent } from '../../compartido/icono/icono.component';
+import { OpcionSelector, SelectorComponent } from '../../compartido/selector/selector.component';
 import { PestanasService } from '../../core/pestanas.service';
 import { PuertoService } from '../../core/puerto.service';
 import { SocketService } from '../../core/socket.service';

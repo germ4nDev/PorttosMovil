@@ -55,10 +55,8 @@ const TRAZOS: Record<string, string> = {
     selector: 'pm-icono',
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `<svg [attr.width]="tam" [attr.height]="tam" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        [attr.stroke-width]="grosor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path [attr.d]="trazo"></path></svg>`,
-    styles: [':host{display:inline-flex;line-height:0;flex:none}']
+    templateUrl: './icono.component.html',
+    styleUrl: './icono.component.scss'
 })
 export class IconoComponent {
     @Input({ required: true }) nombre = '';

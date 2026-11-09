@@ -156,7 +156,8 @@
       "ESTADO_OMITIDA_PRESUPUESTO": "Daily budget used up",
       "ESTADO_CORTACIRCUITO": "Service paused",
       "ESTADO_ERROR": "Service error",
-      "ESTADO_INVALIDA": "No reliable answer"
+      "ESTADO_INVALIDA": "No reliable answer",
+      "SELLO": "AI"
     },
     "NOTIFICACIONES": {
       "TITULO": "Notifications",
@@ -221,7 +222,8 @@
       "PESTANAS": "Control Tower",
       "SECCIONES": "Porttos",
       "TEMA_CLARO": "Light theme",
-      "TEMA_OSCURO": "Dark theme"
+      "TEMA_OSCURO": "Dark theme",
+      "VERSION": "Porttos mobile · {{version}}"
     },
     "WIDGETS": {
       "ANALISTA_SUB": "Early alerts for this tab",
@@ -237,6 +239,36 @@
       "ERROR": "The web could not be opened: showing the app backup view.",
       "SIN_ACCESO": "Your user does not have the web control tower: showing the app view.",
       "REINTENTAR": "Retry"
+    },
+    "GNL": {
+      "AMPLIAR": "Expand",
+      "CERRAR": "Close",
+      "CONECTANDO": "Connecting to SCADA...",
+      "HISTORIAL": "Hourly consolidated history",
+      "SIMULADO": "SIMULATED",
+      "VOLUMEN": "Volume",
+      "ENERGIA": "Energy",
+      "PRESION_PROM": "Avg. pressure",
+      "ALARMAS": "Alarms",
+      "VOLUMEN_BRAZO": "Volume by arm",
+      "BRAZO": "Arm",
+      "PARTICIPACION": "Share",
+      "HORAS_FLUJO": "Hours with flow",
+      "FLUJO": "Flow",
+      "TEMP_DUCTO": "Pipeline temp.",
+      "LIMITE_OPERATIVO": "Operating limit",
+      "TEMPERATURA": "Temperature",
+      "SUB": {
+        "TELEMETRIA_SCADA": "SCADA telemetry",
+        "BOIL_OFF": "Boil-off gas",
+        "TELEMETRIA_ENTRADA": "Inbound telemetry",
+        "SALIDA_RED": "Outflow to grid",
+        "LLENADO_TANQUES": "Tank fill percentage",
+        "ENERGIA_SEGUNDO": "Energy in the last second",
+        "CALIDAD_MEZCLA": "LNG blend quality",
+        "DESDE_APERTURA": "Since the dashboard was opened",
+        "CONSOLIDADO": "Consolidated system"
+      }
     }
   }
 }

@@ -11,137 +11,25 @@ import {
     AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, ViewChild, effect, inject, signal, untracked,
 } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import {
     HistorialGnl, PALETA_SERIES, RANGOS_HISTORIAL_GNL, VENTANA_GNL, VentanaGnl, VistaHistorialGnl, WidgetComponente, armarHistorialGnl,
     autoZoomGnl, empujarVentanaGnl, prellenarVentanaGnl,
 } from '@nucleo';
-import { GnlVivoService } from '../../core/gnl-vivo.service';
-import { GnlHistorialService } from '../../core/gnl-historial.service';
-import { IconoComponent } from '../../compartido/icono.component';
+import { GnlVivoService } from '../../../core/gnl-vivo.service';
+import { GnlHistorialService } from '../../../core/gnl-historial.service';
+import { IconoComponent } from '../../../compartido/icono/icono.component';
 
 Chart.register(...registerables);
 
 @Component({
     selector: 'pm-gnl-flujo-chart',
     standalone: true,
-    imports: [DecimalPipe, IconoComponent],
+    imports: [DecimalPipe, IconoComponent, TranslateModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-    <section class="pt-tarjeta gnl">
-      <header class="gnl__cabeza">
-        <pm-icono nombre="actividad" [tam]="16"></pm-icono>
-        <div class="gnl__textos">
-          <h2 class="pt-tarjeta__titulo">{{ w.titulo }}</h2>
-          @if (w.subtitulo) { <p class="pt-tarjeta__sub gnl__sub">{{ w.subtitulo }}</p> }
-        </div>
-        <button type="button" class="ampliar" (click)="abrir()" aria-label="Ampliar"><pm-icono nombre="ampliar" [tam]="16"></pm-icono></button>
-      </header>
-      <div class="acciones">
-        <span class="energia-pill" [class.cargando]="cargando"><pm-icono nombre="rayo" [tam]="12"></pm-icono>{{ energiaTotal | number: '1.2-2' }} MMBTU</span>
-        @if (!cargando) { <span class="insignia">{{ brazo }}</span> }
-      </div>
-      <div class="cuerpo">
-        @if (cargando) { <div class="espera"><span class="girando" role="status" aria-label="Conectando a SCADA..."></span></div> }
-        <div class="lienzo" [class.oculto]="cargando"><canvas #flowCanvas></canvas></div>
-      </div>
-    </section>
-
-    @if (ampliada()) {
-      <div class="modal" role="dialog" aria-modal="true" [attr.aria-label]="w.titulo">
-        <section class="pt-tarjeta modal__caja">
-          <header class="gnl__cabeza">
-            <pm-icono nombre="actividad" [tam]="18"></pm-icono>
-            <div class="gnl__textos"><h2 class="pt-tarjeta__titulo">{{ w.titulo }}</h2></div>
-            <button type="button" class="ampliar" (click)="cerrar()" aria-label="Cerrar"><pm-icono nombre="cerrarX" [tam]="18"></pm-icono></button>
-          </header>
-
-          <div class="detalle-cabecera">
-            <h3 class="detalle-titulo">Historial consolidado por hora</h3>
-            <div class="rango">
-              @if (historial()?.simulado) { <span class="detalle-simulado">SIMULADO</span> }
-              @for (h of rangos; track h) {
-                <button type="button" [class.activo]="horas() === h" [disabled]="cargandoHistorial()" (click)="cambiarHoras(h)">{{ h }} h</button>
-              }
-            </div>
-          </div>
-
-          @if (vista(); as v) {
-            <div class="detalle-resumen">
-              <span>Volumen: <strong>{{ v.resumen.volumen | number: '1.0-1' }} m³</strong></span>
-              <span>Energía: <strong>{{ v.resumen.energia | number: '1.0-1' }} MMBTU</strong></span>
-              @if (v.resumen.presion !== null) { <span>Presión prom.: <strong>{{ v.resumen.presion | number: '1.0-1' }} psi</strong></span> }
-              <span>Alarmas: <strong>{{ v.resumen.alarmas | number: '1.0-0' }}</strong></span>
-            </div>
-          }
-          @if (nota()) { <p class="detalle-ayuda">{{ nota() }}</p> }
-          @if (cargandoHistorial()) { <div class="espera"><span class="girando" role="status" aria-label="…"></span></div> }
-          <div class="detalle-grafica" [class.oculto]="!(historial()?.filas && historial()?.labels?.length)"><canvas #histCanvas></canvas></div>
-
-          @if (vista()?.filasBrazos?.length) {
-            <h3 class="detalle-titulo">Volumen por brazo</h3>
-            <div class="tabla">
-              <table>
-                <thead><tr><th>Brazo</th><th>Volumen</th><th>Energía</th><th>Participación</th><th>Horas con flujo</th></tr></thead>
-                <tbody>
-                  @for (f of vista()!.filasBrazos; track f.brazo) {
-                    <tr>
-                      <td class="principal">{{ f.brazo }}</td>
-                      <td>{{ f.volumenM3 | number: '1.1-1' }} m³</td>
-                      <td>{{ f.energiaMmbtu | number: '1.1-1' }} MMBTU</td>
-                      <td><span class="avance"><span [style.width.%]="f.participacion"></span></span>{{ f.participacion }} %</td>
-                      <td>{{ f.horasConFlujo | number: '1.0-0' }}</td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          }
-        </section>
-      </div>
-    }
-    `,
-    styles: [`
-    :host { display: block; min-width: 0; height: 100%; min-height: 0; }
-    .gnl { height: 100%; box-sizing: border-box; display: flex; flex-direction: column; padding: 10px 12px; overflow: hidden; }
-    .gnl__cabeza { display: flex; align-items: center; gap: 8px; color: var(--pt-texto); }
-    .gnl__textos { flex: 1; min-width: 0; }
-    /* Título y subtítulo en una línea: la celda del teléfono es baja y el medidor o la gráfica necesitan el alto */
-    .gnl__textos h2, .gnl__textos p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .gnl__sub { text-transform: uppercase; }
-    .ampliar { width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; color: var(--pt-subtitulo);
-      display: flex; align-items: center; justify-content: center; flex: none; }
-    .acciones { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 4px; }
-    .energia-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border: 1px solid var(--app-navbar-color, #346BA6);
-      border-radius: 50px; color: var(--app-navbar-color, #346BA6); background: var(--pt-tarjeta); font-size: 11.5px; font-weight: 600; }
-    .energia-pill.cargando { opacity: .5; }
-    .insignia { background: #212529; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
-    .cuerpo { flex: 1; position: relative; min-height: 60px; }
-    .lienzo { position: absolute; inset: 0; }
-    .oculto { visibility: hidden; }
-    .espera { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-    .girando { width: 2rem; height: 2rem; border: 3px solid var(--pt-info); border-right-color: transparent; border-radius: 50%; animation: giro .75s linear infinite; }
-    @keyframes giro { to { transform: rotate(360deg); } }
-    .modal { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, .6); display: flex; align-items: stretch; justify-content: center;
-      padding: calc(var(--pt-seguro-arriba) + 12px) 10px calc(var(--pt-seguro-abajo) + 12px); }
-    .modal__caja { width: 100%; max-width: 900px; overflow: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .detalle-cabecera { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-    .detalle-titulo { margin: 0; font-size: 13px; font-weight: 600; color: var(--pt-texto-fuerte); }
-    .rango { display: flex; align-items: center; gap: 6px; }
-    .rango button { border: 1px solid var(--pt-borde); background: var(--pt-tarjeta-2); color: var(--pt-texto); border-radius: 6px; padding: 5px 9px; font-size: 12px; }
-    .rango button.activo { background: var(--app-navbar-color, #346BA6); border-color: var(--app-navbar-color, #346BA6); color: #fff; }
-    .detalle-simulado { font-size: 10px; font-weight: 700; color: #111; background: var(--pt-advertencia); border-radius: 4px; padding: 2px 6px; }
-    .detalle-resumen { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--pt-texto); }
-    .detalle-ayuda { margin: 0; font-size: 12px; color: var(--pt-subtitulo); }
-    .detalle-grafica { position: relative; height: 240px; flex: none; }
-    .tabla { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th, td { padding: 6px 8px; text-align: right; border-bottom: 1px solid var(--pt-borde); white-space: nowrap; }
-    th { color: var(--pt-subtitulo); font-weight: 600; }
-    th:first-child, td.principal { text-align: left; font-weight: 600; color: var(--pt-texto-fuerte); }
-    .avance { display: inline-block; width: 50px; height: 6px; border-radius: 3px; background: var(--pt-tarjeta-2); margin-right: 6px; overflow: hidden; vertical-align: middle; }
-    .avance span { display: block; height: 100%; background: var(--pt-info); }
-    `],
+    templateUrl: './gnl-flujo-chart.component.html',
+    styleUrl: './gnl-flujo-chart.component.scss',
 })
 export class GnlFlujoChartComponent implements AfterViewInit, OnDestroy {
     @Input({ required: true }) w!: WidgetComponente;
@@ -154,6 +42,7 @@ export class GnlFlujoChartComponent implements AfterViewInit, OnDestroy {
     private readonly gnl = inject(GnlVivoService);
     private readonly historiales = inject(GnlHistorialService);
     private readonly cdr = inject(ChangeDetectorRef);
+    private readonly translate = inject(TranslateService);
 
     energiaTotal = 0;
     brazo = 'TODOS';
@@ -246,7 +135,7 @@ export class GnlFlujoChartComponent implements AfterViewInit, OnDestroy {
             data: {
                 labels: [],
                 datasets: [{
-                    label: 'Flujo', data: [], borderColor: '#00d4ff', borderWidth: 2, pointRadius: 0,
+                    label: this.translate.instant('MOVIL.GNL.FLUJO'), data: [], borderColor: '#00d4ff', borderWidth: 2, pointRadius: 0,
                     pointHoverRadius: 5, pointHitRadius: 15, pointHoverBackgroundColor: '#ffffff', pointHoverBorderColor: '#00d4ff', pointHoverBorderWidth: 2,
                     fill: true, tension: 0.1,
                     backgroundColor: (context: any) => {
@@ -334,7 +223,7 @@ export class GnlFlujoChartComponent implements AfterViewInit, OnDestroy {
             type: 'bar',
             data: {
                 labels: h.labels,
-                datasets: v.series.map((s, i) => ({ label: s.label, data: s.data, backgroundColor: PALETA_SERIES[i % PALETA_SERIES.length], borderRadius: 2 })),
+                datasets: v.series.map((s, i) => ({ label: this.translate.instant(s.label), data: s.data, backgroundColor: PALETA_SERIES[i % PALETA_SERIES.length], borderRadius: 2 })),
             },
             options: {
                 responsive: true, maintainAspectRatio: false, animation: { duration: 0 },

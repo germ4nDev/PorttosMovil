@@ -9,14 +9,14 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, 
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { estiloPestana } from '@nucleo';
-import { IconoComponent } from './icono.component';
-import { SelectorComponent } from './selector.component';
-import { PestanasService } from '../core/pestanas.service';
-import { PuertoService } from '../core/puerto.service';
-import { SesionService } from '../core/sesion.service';
-import { AnalistaService } from '../core/analista.service';
-import { TemaService } from '../core/tema.service';
-import { environment } from '../../environments/environment';
+import { IconoComponent } from '../icono/icono.component';
+import { SelectorComponent } from '../selector/selector.component';
+import { PestanasService } from '../../core/pestanas.service';
+import { PuertoService } from '../../core/puerto.service';
+import { SesionService } from '../../core/sesion.service';
+import { AnalistaService } from '../../core/analista.service';
+import { TemaService } from '../../core/tema.service';
+import { environment } from '../../../environments/environment';
 
 const UMBRAL_DESLIZAR_PX = 60;
 

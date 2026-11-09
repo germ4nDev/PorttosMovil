@@ -12,7 +12,8 @@ import { SocketService } from './core/socket.service';
     selector: 'pm-raiz',
     standalone: true,
     imports: [RouterOutlet],
-    template: '<router-outlet></router-outlet>'
+    templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
 })
 export class RaizComponent implements AfterViewInit {
     constructor(private nativo: NativoService, private socket: SocketService) {

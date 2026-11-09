@@ -9,7 +9,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { IconoComponent } from '../../compartido/icono.component';
+import { IconoComponent } from '../../compartido/icono/icono.component';
 import { SesionService } from '../../core/sesion.service';
 import { IdiomaService } from '../../core/idioma.service';
 import { BiometriaService } from '../../core/biometria.service';

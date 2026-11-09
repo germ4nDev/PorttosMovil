@@ -1,0 +1,33 @@
+<button #disparador type="button" class="disparador" [class]="'disparador disparador--' + variante"
+        aria-haspopup="listbox" [attr.aria-expanded]="abierto()" [attr.aria-label]="titulo + ': ' + etiquetaActual()"
+        (click)="abrir()">
+  @if (icono) { <pm-icono class="disparador__icono" [nombre]="icono" [tam]="variante === 'pildora' ? 13 : 16"></pm-icono> }
+  <span class="disparador__texto">{{ etiquetaActual() }}</span>
+  <pm-icono class="disparador__flecha" nombre="flechaAbajo" [tam]="variante === 'pildora' ? 12 : 14"></pm-icono>
+</button>
+
+@if (abierto()) {
+  <div #capa class="capa" (keydown.escape)="cerrar()">
+    <div class="capa__velo" (click)="cerrar()" aria-hidden="true"></div>
+    <section class="hoja" role="dialog" aria-modal="true" [attr.aria-labelledby]="idTitulo">
+      <span class="hoja__agarre" aria-hidden="true"></span>
+      <header class="hoja__cabeza">
+        <h2 [id]="idTitulo">{{ titulo }}</h2>
+        <button type="button" class="hoja__cerrar" (click)="cerrar()" [attr.aria-label]="textoCerrar">
+          <pm-icono nombre="cerrarX" [tam]="18"></pm-icono>
+        </button>
+      </header>
+      <ul class="hoja__lista" role="listbox" [attr.aria-labelledby]="idTitulo">
+        @for (o of opciones; track o.valor) {
+          <li role="none">
+            <button type="button" role="option" class="opcion" [class.opcion--activa]="o.valor === valor"
+                    [attr.aria-selected]="o.valor === valor" [attr.data-valor]="o.valor" (click)="elegir(o.valor)">
+              <span>{{ o.etiqueta }}</span>
+              @if (o.valor === valor) { <pm-icono nombre="check" [tam]="18"></pm-icono> }
+            </button>
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
+}

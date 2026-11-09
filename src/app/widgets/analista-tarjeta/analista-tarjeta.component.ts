@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } f
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { WidgetAnalista, alertasDelFoco, colorSeveridad, horizonteTexto } from '@nucleo';
-import { IconoComponent } from '../../compartido/icono.component';
+import { IconoComponent } from '../../compartido/icono/icono.component';
 import { AnalistaService } from '../../core/analista.service';
 
 const MAX_ALERTAS = 3;
@@ -18,12 +18,8 @@ const MAX_ALERTAS = 3;
   standalone: true,
   imports: [TranslateModule, RouterLink, IconoComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-
-    `,
-  styles: [`
-    
-    `]
+  templateUrl: './analista-tarjeta.component.html',
+  styleUrl: './analista-tarjeta.component.scss'
 })
 export class AnalistaTarjetaComponent {
   private readonly analista = inject(AnalistaService);

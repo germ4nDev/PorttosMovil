@@ -11,7 +11,7 @@ import { Component, OnDestroy, OnInit, computed, effect, signal } from '@angular
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { estiloPestana, fechaEncabezado, horaEncabezado, textoSobre } from '@nucleo';
-import { IconoComponent } from '../../compartido/icono.component';
+import { IconoComponent } from '../../compartido/icono/icono.component';
 import { SesionService } from '../../core/sesion.service';
 import { PuertoService } from '../../core/puerto.service';
 import { PestanasService } from '../../core/pestanas.service';
@@ -22,8 +22,8 @@ import { AnalistaService } from '../../core/analista.service';
 import { NotificacionesService } from '../../core/notificaciones.service';
 import { MarcoWebService } from '../../core/marco-web.service';
 import { NativoService } from '../../core/nativo.service';
-import { MenuLateralComponent } from '../../compartido/menu-lateral.component';
-import { SelectorComponent } from '../../compartido/selector.component';
+import { MenuLateralComponent } from '../../compartido/menu-lateral/menu-lateral.component';
+import { SelectorComponent } from '../../compartido/selector/selector.component';
 
 @Component({
     selector: 'pm-armazon',

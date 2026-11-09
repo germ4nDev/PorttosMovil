@@ -7,7 +7,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Hallazgo, colorSeveridad, esSimulada, horizonteTexto, yaCalificada } from '@nucleo';
-import { IconoComponent } from '../../compartido/icono.component';
+import { IconoComponent } from '../../compartido/icono/icono.component';
 import { AnalistaService } from '../../core/analista.service';
 import { PuertoService } from '../../core/puerto.service';
 import { DispositivoService } from '../../core/dispositivo.service';

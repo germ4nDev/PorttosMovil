@@ -1,0 +1,3 @@
+.caja { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; padding: 32px 18px; border-left: 4px solid var(--pt-ia); }
+.sello { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--pt-ia) 16%, transparent); color: var(--pt-ia); }

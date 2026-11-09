@@ -7,8 +7,6 @@
 //import { environment as web } from '../../../PlataformaIA/src/environments/environment';
 
 /** p. ej. 'http://192.168.1.50:3000/api' y 'http://192.168.1.50:3000'. Vacío = las de la web. */
-// const API_LOCAL = 'http://localhost:3000/api';
-// const SOCKET_LOCAL = 'http://localhost:3000';
 const API_LOCAL = 'https://api.dymsites.co/api';
 const SOCKET_LOCAL = 'https://api.dymsites.co';
 /** Web de la plataforma: la tableta muestra su Torre de Control en un marco (`<web>/embebido`, OT-014). Vacío = vista nativa. */

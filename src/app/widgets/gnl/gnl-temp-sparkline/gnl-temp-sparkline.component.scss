@@ -1,0 +1,17 @@
+:host { display: block; min-width: 0; height: 100%; min-height: 0; }
+.gnl { height: 100%; box-sizing: border-box; display: flex; flex-direction: column; padding: 10px 12px; overflow: hidden; }
+.gnl__cabeza { display: flex; align-items: center; gap: 8px; color: var(--pt-texto); position: relative; z-index: 3; }
+.gnl__textos { flex: 1; min-width: 0; }
+/* Título y subtítulo en una línea: la celda del teléfono es baja y el medidor o la gráfica necesitan el alto */
+.gnl__textos h2, .gnl__textos p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gnl__sub { text-transform: uppercase; }
+.insignia { background: #212529; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+.cuerpo { flex: 1; position: relative; min-height: 60px; container-type: size; }
+.numero { position: absolute; inset: 0; z-index: 2; padding-bottom: 12cqh; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.numero strong { font-size: clamp(1.4rem, 30cqh, 4.5rem); font-weight: 800; letter-spacing: -1.5px; color: var(--pt-info);
+  text-shadow: 0 4px 10px rgba(0,0,0,0.4); line-height: 1.1; margin-bottom: 4px; }
+.numero small { font-size: 12px; font-weight: 500; color: var(--pt-subtitulo); }
+.lienzo { position: absolute; bottom: 0; left: 0; width: 100%; height: 45%; z-index: 1; }
+.girando { width: 1rem; height: 1rem; border: 2px solid var(--pt-info); border-right-color: transparent; border-radius: 50%; animation: giro .75s linear infinite; }
+@keyframes giro { to { transform: rotate(360deg); } }

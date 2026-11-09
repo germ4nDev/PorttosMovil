@@ -6,7 +6,7 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { WidgetMapa } from '@nucleo';
-import { IconoComponent } from '../../compartido/icono.component';
+import { IconoComponent } from '../../compartido/icono/icono.component';
 import { PestanasService } from '../../core/pestanas.service';
 
 const PESTANA_MAPA = 'TLC_MAPA_001';

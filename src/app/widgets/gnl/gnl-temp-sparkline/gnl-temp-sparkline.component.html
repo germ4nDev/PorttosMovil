@@ -1,0 +1,22 @@
+<section class="pt-tarjeta gnl">
+  <header class="gnl__cabeza">
+    <pm-icono nombre="termometro" [tam]="16"></pm-icono>
+    <div class="gnl__textos">
+      <h2 class="pt-tarjeta__titulo">{{ w.titulo }}</h2>
+      @if (w.subtitulo) { <p class="pt-tarjeta__sub gnl__sub">{{ w.subtitulo | translate }}</p> }
+    </div>
+    @if (!cargando) { <span class="insignia">{{ brazo }}</span> }
+  </header>
+
+  <div class="cuerpo">
+    <div class="numero">
+      @if (cargando) {
+        <span class="girando" role="status" aria-label="…"></span>
+      } @else {
+        <strong>{{ tempActual | number: '1.2-2' }} °C</strong>
+        <small>{{ 'MOVIL.GNL.LIMITE_OPERATIVO' | translate }}: {{ limite | number: '1.1-1' }} °C</small>
+      }
+    </div>
+    <div class="lienzo"><canvas #tempCanvas></canvas></div>
+  </div>
+</section>

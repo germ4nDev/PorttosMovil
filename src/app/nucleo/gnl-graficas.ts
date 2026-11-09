@@ -129,7 +129,7 @@ export function armarHistorialGnl(h: HistorialGnl): VistaHistorialGnl {
     const volumen = suma(h.volumenM3 || []);
     const presiones = (h.presionPsi || []).filter((v): v is number => v !== null && v !== undefined);
     return {
-        series: brazos.length > 1 ? brazos.map((b) => ({ label: b.brazo, data: b.volumenM3 })) : [{ label: 'Volumen', data: h.volumenM3 || [] }],
+        series: brazos.length > 1 ? brazos.map((b) => ({ label: b.brazo, data: b.volumenM3 })) : [{ label: 'MOVIL.GNL.VOLUMEN', data: h.volumenM3 || [] }],
         resumen: {
             volumen,
             energia: suma(h.energiaMmbtu || []),

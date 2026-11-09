@@ -16,7 +16,7 @@ import {
   colorSeveridad, estiloMapa, expresionColorNave, haceTexto, horizonteTexto, limitesValidos, tieneCoordenadas
 } from '@nucleo';
 import { environment } from '../../../environments/environment';
-import { IconoComponent } from '../../compartido/icono.component';
+import { IconoComponent } from '../../compartido/icono/icono.component';
 import { MapaService } from '../../core/mapa.service';
 import { PuertoService } from '../../core/puerto.service';
 import { TemaService } from '../../core/tema.service';

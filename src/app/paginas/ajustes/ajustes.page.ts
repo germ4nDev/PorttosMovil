@@ -5,7 +5,7 @@
 import { Component, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { COLORES_BARRA, ModoTema } from '@nucleo';
-import { IconoComponent } from '../../compartido/icono.component';
+import { IconoComponent } from '../../compartido/icono/icono.component';
 import { TemaService } from '../../core/tema.service';
 import { Idioma, IdiomaService } from '../../core/idioma.service';
 import { SesionService } from '../../core/sesion.service';
