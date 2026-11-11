@@ -1,14 +1,14 @@
 <section class="cabeza pt-tarjeta">
   <span class="sello" aria-hidden="true"><pm-icono nombre="ia" [tam]="20"></pm-icono></span>
   <div class="cabeza__texto">
-    <h1 class="pt-tarjeta__titulo">{{ 'MOVIL.ALERTAS.TITULO' | translate }}</h1>
+    <h1 class="pt-tarjeta__titulo">{{ 'MOVIL.PAGINAS.ALERTAS.AI_ANALYST_EARLY_WARNINGS' | translate }}</h1>
     <p class="pt-tarjeta__sub">
-      {{ puertos.seleccionado() === 'TODOS' ? ('MOVIL.ENCABEZADO.TODOS' | translate) : puertos.seleccionado() }}
-      @if (analista.panel()?.fecha) { · {{ 'MOVIL.TABLERO.ACTUALIZADO' | translate: { hora: hora(analista.panel()?.fecha) } }} }
+      {{ puertos.seleccionado() === 'TODOS' ? ('MOVIL.ALL' | translate) : puertos.seleccionado() }}
+      @if (analista.panel()?.fecha) { · {{ 'MOVIL.PAGINAS.UPD_HORA' | translate: { hora: hora(analista.panel()?.fecha) } }} }
     </p>
   </div>
   @if (puertos.seleccionado() !== 'TODOS') {
-    <button type="button" class="recargar" [class.girando]="analista.cargando()" (click)="recargar()" [attr.aria-label]="'MOVIL.TABLERO.ACTUALIZAR' | translate">
+    <button type="button" class="recargar" [class.girando]="analista.cargando()" (click)="recargar()" [attr.aria-label]="'MOVIL.PAGINAS.REFRESH' | translate">
       <pm-icono nombre="recargar" [tam]="18"></pm-icono>
     </button>
   }
@@ -16,7 +16,7 @@
 
 @if (puertos.seleccionado() === 'TODOS') {
   <section class="pt-tarjeta elegir">
-    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.TABLERO.ELIGE_PUERTO' | translate }}</h2>
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.PAGINAS.CHOOSE_PORT' | translate }}</h2>
     <div class="puertos" [class.puertos--tableta]="dispositivo.esTableta">
       @for (pt of puertos.lista(); track pt.clave) {
         <button type="button" class="pt-boton pt-boton--borde" (click)="elegirPuerto(pt.clave)">{{ pt.clave }}</button>
@@ -34,10 +34,10 @@
   </div>
 
   @if (analista.panel()?.estado?.modoSombra) {
-    <p class="aviso aviso--info">{{ 'MOVIL.ALERTAS.MODO_SOMBRA' | translate }}</p>
+    <p class="aviso aviso--info">{{ 'MOVIL.PAGINAS.ALERTAS.ANALYST_IN_SHADOW_MODE_IT_PROPOSES' | translate }}</p>
   }
   @if (analista.error()) {
-    <p class="aviso">{{ 'MOVIL.TABLERO.ERROR' | translate }}</p>
+    <p class="aviso">{{ 'MOVIL.PAGINAS.DASHBOARD_COULD_NOT_BE_LOADED' | translate }}</p>
   }
 
   @switch (vista()) {
@@ -47,25 +47,25 @@
           @for (a of analista.alertas(); track a.id) {
             <article class="alerta pt-tarjeta" [style.border-left-color]="color(a.severidad)">
               <button type="button" class="alerta__cabeza" (click)="alternar(a.id)" [attr.aria-expanded]="abierta() === a.id">
-                <span class="nivel" [style.background]="color(a.severidad)">{{ ('MOVIL.SEVERIDAD.' + (a.severidad || 'info').toUpperCase()) | translate }}</span>
-                @if (horizonte(a.horizonteMinH, a.horizonteMaxH)) { <span class="chip">{{ 'MOVIL.ALERTAS.EN' | translate }} {{ horizonte(a.horizonteMinH, a.horizonteMaxH) }}</span> }
-                @if (a.confianza !== undefined && a.confianza !== null) { <span class="chip">{{ 'MOVIL.ALERTAS.CONFIANZA' | translate }} {{ pct(a.confianza) }}%</span> }
-                @if (simulada(a)) { <span class="chip chip--sim">{{ 'MOVIL.TABLERO.SIMULADO' | translate }}</span> }
+                <span class="nivel" [style.background]="color(a.severidad)">{{ ('MOVIL.ENUM.SEVERITY.' + (a.severidad || 'info').toUpperCase()) | translate }}</span>
+                @if (horizonte(a.horizonteMinH, a.horizonteMaxH)) { <span class="chip">{{ 'MOVIL.IN' | translate }} {{ horizonte(a.horizonteMinH, a.horizonteMaxH) }}</span> }
+                @if (a.confianza !== undefined && a.confianza !== null) { <span class="chip">{{ 'MOVIL.PAGINAS.ALERTAS.CONFIDENCE' | translate }} {{ pct(a.confianza) }}%</span> }
+                @if (simulada(a)) { <span class="chip chip--sim">{{ 'COMMON.SIMULATED_2' | translate }}</span> }
                 <strong class="alerta__titulo">{{ a.titulo }}</strong>
               </button>
               @if (abierta() === a.id || dispositivo.esTableta) {
                 @if (a.explicacion) { <p class="alerta__texto">{{ a.explicacion }}</p> }
                 @if (a.accionSugerida) {
-                  <p class="alerta__accion"><b>{{ 'MOVIL.ALERTAS.ACCION' | translate }}</b> {{ a.accionSugerida }}</p>
+                  <p class="alerta__accion"><b>{{ 'MOVIL.PAGINAS.ALERTAS.WHAT_DO' | translate }}</b> {{ a.accionSugerida }}</p>
                 }
               }
               <footer class="alerta__pie">
                 @if (calificada(a)) {
-                  <span class="estado">{{ ('MOVIL.ALERTAS.ESTADO_' + a.estado) | translate }}</span>
+                  <span class="estado">{{ ('MOVIL.ENUM.ALERT_STATUS.' + a.estado) | translate }}</span>
                 } @else {
-                  <span class="pregunta">{{ 'MOVIL.ALERTAS.TE_SIRVIO' | translate }}</span>
-                  <button type="button" class="voto" [disabled]="votando() === a.id" (click)="votar(a, true)">{{ 'MOVIL.ALERTAS.UTIL' | translate }}</button>
-                  <button type="button" class="voto" [disabled]="votando() === a.id" (click)="votar(a, false)">{{ 'MOVIL.ALERTAS.NO_ERA' | translate }}</button>
+                  <span class="pregunta">{{ 'COMMON.WAS_IT_USEFUL' | translate }}</span>
+                  <button type="button" class="voto" [disabled]="votando() === a.id" (click)="votar(a, true)">{{ 'COMMON.USEFUL' | translate }}</button>
+                  <button type="button" class="voto" [disabled]="votando() === a.id" (click)="votar(a, false)">{{ 'MOVIL.PAGINAS.NOT_IT' | translate }}</button>
                 }
                 <span class="hora">{{ hora(a.fecha) }}</span>
               </footer>
@@ -73,7 +73,7 @@
           }
         </div>
       } @else if (analista.panel()) {
-        <section class="pt-tarjeta vacio"><pm-icono nombre="check" [tam]="28"></pm-icono><p>{{ 'MOVIL.ALERTAS.SIN_ALERTAS' | translate }}</p></section>
+        <section class="pt-tarjeta vacio"><pm-icono nombre="check" [tam]="28"></pm-icono><p>{{ 'MOVIL.NO_ACTIVE_EARLY_WARNINGS_PORT' | translate }}</p></section>
       } @else {
         <div class="pt-tarjeta hueco" aria-busy="true"><span class="linea linea--corta"></span><span class="linea"></span></div>
       }
@@ -92,12 +92,12 @@
                   }
                 </div>
                 @if (t.lectura) { <p class="alerta__texto">{{ t.lectura }}</p> }
-                @if (t.efecto && t.efecto !== 'neutral') { <span class="chip" [style.color]="efectoColor(t.efecto)">{{ ('MOVIL.ALERTAS.EFECTO_' + t.efecto.toUpperCase()) | translate }}</span> }
+                @if (t.efecto && t.efecto !== 'neutral') { <span class="chip" [style.color]="efectoColor(t.efecto)">{{ ('MOVIL.ENUM.ALERT_EFFECT.' + t.efecto.toUpperCase()) | translate }}</span> }
               </article>
             }
           </div>
         } @else {
-          <section class="pt-tarjeta vacio"><pm-icono nombre="ia" [tam]="28"></pm-icono><p>{{ 'MOVIL.ALERTAS.SIN_TENDENCIAS' | translate }}</p></section>
+          <section class="pt-tarjeta vacio"><pm-icono nombre="ia" [tam]="28"></pm-icono><p>{{ 'MOVIL.PAGINAS.ALERTAS.NO_NOTABLE_TRENDS_RIGHT_NOW' | translate }}</p></section>
         }
       } @else {
         <div class="pt-tarjeta hueco" aria-busy="true"><span class="linea linea--corta"></span><span class="linea"></span></div>
@@ -112,15 +112,15 @@
               <p class="pt-tarjeta__sub">{{ r.contenido?.periodo?.etiqueta || r.tipo }}</p>
               <h2 class="resumen__titular">{{ r.contenido?.titular || r.titulo }}</h2>
               @if (r.contenido?.loQuePaso?.length) {
-                <h3>{{ 'MOVIL.ALERTAS.PASO' | translate }}</h3>
+                <h3>{{ 'COMMON.WHAT_HAPPENED' | translate }}</h3>
                 <ul>@for (x of r.contenido!.loQuePaso!; track $index) { <li>{{ x }}</li> }</ul>
               }
               @if (r.contenido?.loQueViene?.length) {
-                <h3>{{ 'MOVIL.ALERTAS.VIENE' | translate }}</h3>
+                <h3>{{ 'COMMON.WHATS_NEXT' | translate }}</h3>
                 <ul>@for (x of r.contenido!.loQueViene!; track $index) { <li>{{ x }}</li> }</ul>
               }
               @if (r.contenido?.vigilar?.length) {
-                <h3>{{ 'MOVIL.ALERTAS.VIGILAR' | translate }}</h3>
+                <h3>{{ 'COMMON.WATCH' | translate }}</h3>
                 <ul>@for (x of r.contenido!.vigilar!; track $index) { <li>{{ x }}</li> }</ul>
               }
             </article>
@@ -128,7 +128,7 @@
         } @else if (analista.panel()?.resumen) {
           <article class="pt-tarjeta resumen"><p class="alerta__texto">{{ analista.panel()!.resumen!.explicacion || analista.panel()!.resumen!.titulo }}</p></article>
         } @else {
-          <section class="pt-tarjeta vacio"><pm-icono nombre="ia" [tam]="28"></pm-icono><p>{{ 'MOVIL.ALERTAS.SIN_RESUMEN' | translate }}</p></section>
+          <section class="pt-tarjeta vacio"><pm-icono nombre="ia" [tam]="28"></pm-icono><p>{{ 'MOVIL.PAGINAS.ALERTAS.THERE_NO_SHIFT_SUMMARY_PORT_YET' | translate }}</p></section>
         }
       } @else {
         <div class="pt-tarjeta hueco" aria-busy="true"><span class="linea linea--corta"></span><span class="linea"></span></div>

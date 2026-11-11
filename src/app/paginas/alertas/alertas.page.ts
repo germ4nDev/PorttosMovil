@@ -30,9 +30,9 @@ export class AlertasPage {
     readonly abierta = signal<number | null>(null);
     readonly votando = signal<number | null>(null);
     readonly vistas: { id: Vista; llave: string }[] = [
-        { id: 'alertas', llave: 'MOVIL.ALERTAS.VISTA_ALERTAS' },
-        { id: 'tendencias', llave: 'MOVIL.ALERTAS.VISTA_TENDENCIAS' },
-        { id: 'turno', llave: 'MOVIL.ALERTAS.VISTA_TURNO' }
+        { id: 'alertas', llave: 'COMMON.ALERTS' },
+        { id: 'tendencias', llave: 'COMMON.TRENDS' },
+        { id: 'turno', llave: 'COMMON.SHIFT' }
     ];
 
     readonly color = colorSeveridad;

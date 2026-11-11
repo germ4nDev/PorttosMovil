@@ -26,13 +26,13 @@ import { environment } from '../../../environments/environment';
 export class AjustesPage {
     readonly colores = COLORES_BARRA;
     readonly modos: { valor: ModoTema; llave: string; icono: string }[] = [
-        { valor: 'claro', llave: 'MOVIL.AJUSTES.CLARO', icono: 'sol' },
-        { valor: 'oscuro', llave: 'MOVIL.AJUSTES.OSCURO', icono: 'luna' },
-        { valor: 'sistema', llave: 'MOVIL.AJUSTES.SISTEMA', icono: 'movil' }
+        { valor: 'claro', llave: 'MOVIL.PAGINAS.AJUSTES.LIGHT', icono: 'sol' },
+        { valor: 'oscuro', llave: 'MOVIL.PAGINAS.AJUSTES.DARK', icono: 'luna' },
+        { valor: 'sistema', llave: 'COMMON.SYSTEM', icono: 'movil' }
     ];
     readonly idiomas: { valor: Idioma; llave: string; bandera: string }[] = [
-        { valor: 'es', llave: 'MOVIL.AJUSTES.ESPANOL', bandera: 'assets/flags/colombia.png' },
-        { valor: 'en', llave: 'MOVIL.AJUSTES.INGLES', bandera: 'assets/flags/united-states.png' }
+        { valor: 'es', llave: 'MOVIL.PAGINAS.AJUSTES.ESPANOL', bandera: 'assets/flags/colombia.png' },
+        { valor: 'en', llave: 'MOVIL.PAGINAS.AJUSTES.ENGLISH', bandera: 'assets/flags/united-states.png' }
     ];
     readonly version = environment.appVersion;
     readonly servidor = (() => {
@@ -69,9 +69,9 @@ export class AjustesPage {
     readonly resultadoPrueba = signal('');
 
     async probar(): Promise<void> {
-        this.resultadoPrueba.set('MOVIL.NOTIFICACIONES.ENVIANDO');
+        this.resultadoPrueba.set('COMMON.SENDING');
         const r = await this.notificaciones.probar();
-        this.resultadoPrueba.set(r === 'ok' ? 'MOVIL.NOTIFICACIONES.PRUEBA_OK' : r);
+        this.resultadoPrueba.set(r === 'ok' ? 'MOVIL.PAGINAS.AJUSTES.DONE_IT_SHOULD_ARRIVE_IN_FEW' : r);
     }
 
     activar(ev: Event): void {

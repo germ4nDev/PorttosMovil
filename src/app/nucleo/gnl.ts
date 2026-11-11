@@ -48,21 +48,21 @@ export interface KpiGnlVivo {
 export const KPIS_GNL_VIVO: Readonly<Record<string, { titulo: string; unidad: string; subtitulo?: string }>> = Object.freeze({
     PTT_GNL_KPI_FLUJO: { titulo: 'Caudal de flujo', unidad: 'm³/h' }, // i18n-contrato
     PTT_GNL_KPI_PRESION: { titulo: 'Presión', unidad: 'psi' }, // i18n-contrato
-    PTT_GNL_GAUGE_PRESION: { titulo: 'Presión de línea', unidad: 'psi', subtitulo: 'MOVIL.GNL.SUB.TELEMETRIA_SCADA' }, // i18n-contrato
+    PTT_GNL_GAUGE_PRESION: { titulo: 'Presión de línea', unidad: 'psi', subtitulo: 'MOVIL.NUCLEO.SCADA_TELEMETRY' }, // i18n-contrato
     PTT_GNL_KPI_TEMP: { titulo: 'Temperatura', unidad: '°C' }, // i18n-contrato
-    PTT_GNL_KPI_BOG: { titulo: 'BOG', unidad: 'kg/h', subtitulo: 'MOVIL.GNL.SUB.BOIL_OFF' }, // i18n-contrato
-    PTT_GNL_KPI_DESCARGA: { titulo: 'Descarga de buque', unidad: 'm³/h', subtitulo: 'MOVIL.GNL.SUB.TELEMETRIA_ENTRADA' }, // i18n-contrato
-    PTT_GNL_KPI_INYECCION: { titulo: 'Inyección a red', unidad: 'm³/h', subtitulo: 'MOVIL.GNL.SUB.SALIDA_RED' }, // i18n-contrato
-    PTT_GNL_KPI_TNQ_OCUP: { titulo: 'Ocupación de planta', unidad: '%', subtitulo: 'MOVIL.GNL.SUB.LLENADO_TANQUES' }, // i18n-contrato
-    PTT_GNL_KPI_VOLUMEN: { titulo: 'Energía transferida', unidad: 'MMBTU', subtitulo: 'MOVIL.GNL.SUB.ENERGIA_SEGUNDO' }, // i18n-contrato
-    PTT_GNL_KPI_CALIDAD: { titulo: 'Poder calorífico', unidad: 'BTU/ft³', subtitulo: 'MOVIL.GNL.SUB.CALIDAD_MEZCLA' }, // i18n-contrato
+    PTT_GNL_KPI_BOG: { titulo: 'BOG', unidad: 'kg/h', subtitulo: 'COMMON.BOIL_OFF_GAS' }, // i18n-contrato
+    PTT_GNL_KPI_DESCARGA: { titulo: 'Descarga de buque', unidad: 'm³/h', subtitulo: 'COMMON.INBOUND_TELEMETRY' }, // i18n-contrato
+    PTT_GNL_KPI_INYECCION: { titulo: 'Inyección a red', unidad: 'm³/h', subtitulo: 'COMMON.OUTFLOW_GRID' }, // i18n-contrato
+    PTT_GNL_KPI_TNQ_OCUP: { titulo: 'Ocupación de planta', unidad: '%', subtitulo: 'COMMON.TANK_FILL_PERCENTAGE' }, // i18n-contrato
+    PTT_GNL_KPI_VOLUMEN: { titulo: 'Energía transferida', unidad: 'MMBTU', subtitulo: 'COMMON.ENERGY_IN_LAST_SECOND' }, // i18n-contrato
+    PTT_GNL_KPI_CALIDAD: { titulo: 'Poder calorífico', unidad: 'BTU/ft³', subtitulo: 'COMMON.LNG_BLEND_QUALITY' }, // i18n-contrato
     PTT_GNL_KPI_CALORIFICO: { titulo: 'Poder calorífico', unidad: 'BTU/ft³' }, // i18n-contrato
     PTT_GNL_KPI_ALERTAS: { titulo: 'Alarmas activas', unidad: '' }, // i18n-contrato
-    PTT_GNL_KPI_ODO_MMBTU: { titulo: 'Energía acumulada', unidad: 'MMBTU', subtitulo: 'MOVIL.GNL.SUB.DESDE_APERTURA' }, // i18n-contrato
+    PTT_GNL_KPI_ODO_MMBTU: { titulo: 'Energía acumulada', unidad: 'MMBTU', subtitulo: 'COMMON.SINCE_DASHBOARD_WAS_OPENED' }, // i18n-contrato
 });
 
 /** Subtítulo por defecto de la web cuando la tarjeta no trae uno propio (modo «TODOS» = todos los brazos). */
-const SUBTITULO_CONSOLIDADO = 'MOVIL.GNL.SUB.CONSOLIDADO';
+const SUBTITULO_CONSOLIDADO = 'MOVIL.NUCLEO.CONSOLIDATED_SYSTEM';
 
 /** Energía del último pulso (MMBTU), misma fórmula que la web: caudal × 22,4 / 3600. */
 export function energiaPulsoGnl(c: ConsolidadoGnl | null): number | null {

@@ -99,7 +99,7 @@ export class GnlTempSparklineComponent implements AfterViewInit, OnDestroy {
             data: {
                 labels: [],
                 datasets: [{
-                    label: this.translate.instant('MOVIL.GNL.TEMPERATURA') + ' °C', data: [], borderColor: '#00d4ff', borderWidth: 3, pointRadius: 0,
+                    label: this.translate.instant('COMMON.TEMPERATURE') + ' °C', data: [], borderColor: '#00d4ff', borderWidth: 3, pointRadius: 0,
                     pointHoverRadius: 6, pointHitRadius: 15, pointHoverBackgroundColor: '#ffffff', pointHoverBorderColor: '#00d4ff', pointHoverBorderWidth: 2,
                     fill: 'end', tension: 0.2,
                     backgroundColor: (context: any) => {

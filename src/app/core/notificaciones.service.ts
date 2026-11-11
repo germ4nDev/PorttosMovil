@@ -89,7 +89,7 @@ export class NotificacionesService {
         const r = await this.nativo.registrarPush();
         if (!r.token) {
             this.estado.set('error');
-            this.problema.set(r.motivo === 'denegado' ? 'MOVIL.NOTIFICACIONES.PERMISO_NEGADO' : 'MOVIL.NOTIFICACIONES.SIN_TOKEN');
+            this.problema.set(r.motivo === 'denegado' ? 'MOVIL.CORE.NOTIFICATION_PERMISSION_DENIED_TURN_IT_ON' : 'MOVIL.CORE.PHONE_DID_NOT_PROVIDE_NOTIFICATION_IDENTIFIER');
             if (r.motivo === 'denegado') {
                 this.preferencias.set({ ...this.preferencias(), activas: false });
                 await this.almacen.guardarJSON('push', this.preferencias());
@@ -109,10 +109,10 @@ export class NotificacionesService {
                 idioma: this.idioma.actual()
             }));
             this.estado.set('listo');
-            if (!resp.data?.notificacionesActivas) this.problema.set('MOVIL.NOTIFICACIONES.SERVIDOR_APAGADO');
+            if (!resp.data?.notificacionesActivas) this.problema.set('MOVIL.CORE.DEVICE_WAS_REGISTERED_BUT_SERVER_NOT');
         } catch {
             this.estado.set('error');
-            this.problema.set('MOVIL.NOTIFICACIONES.ERROR_REGISTRO');
+            this.problema.set('MOVIL.CORE.DEVICE_COULD_NOT_BE_REGISTERED_ON');
         }
     }
 

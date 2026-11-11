@@ -1,7 +1,7 @@
 <button type="button" class="kpi" [style.border-left-color]="color()" (click)="abrir.emit(k())"
   [attr.aria-label]="k().titulo + ': ' + valor() + ' ' + k().unidad">
   <span class="kpi__titulo">{{ k().titulo }}@if (k().enVivo) { <span class="kpi__vivo"
-      [attr.title]="'MOVIL.TABLERO.EN_VIVO' | translate"><i></i>{{ 'MOVIL.TABLERO.EN_VIVO' | translate }}</span>
+      [attr.title]="'COMMON.LIVE' | translate"><i></i>{{ 'COMMON.LIVE' | translate }}</span>
     }</span>
   <span class="kpi__valor">{{ valor() }}<small>{{ k().unidad }}</small></span>
   @if (linea()) {
@@ -16,6 +16,6 @@
     <span class="kpi__var">{{ variacion()! > 0 ? '▲' : variacion()! < 0 ? '▼' : '=' }} {{ abs(variacion()!) }} %</span>
         }
         @if (k().subtitulo) { <span class="kpi__sub">{{ (k().subtitulo ?? '') | translate }}</span> }
-        @if (k().simulado) { <span class="kpi__sim">{{ 'MOVIL.TABLERO.SIMULADO' | translate }}</span> }
+        @if (k().simulado) { <span class="kpi__sim">{{ 'COMMON.SIMULATED_2' | translate }}</span> }
     </span>
 </button>

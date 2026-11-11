@@ -1,9 +1,9 @@
 <div class="ajustes" [class.ajustes--tableta]="dispositivo.esTableta">
 
   <section class="pt-tarjeta grupo">
-    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.AJUSTES.APARIENCIA' | translate }}</h2>
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.PAGINAS.AJUSTES.APPEARANCE' | translate }}</h2>
 
-    <p class="etiqueta" id="et-tema">{{ 'MOVIL.AJUSTES.TEMA' | translate }}</p>
+    <p class="etiqueta" id="et-tema">{{ 'MOVIL.PAGINAS.AJUSTES.THEME' | translate }}</p>
     <div class="segmentos" role="radiogroup" aria-labelledby="et-tema">
       @for (m of modos; track m.valor) {
         <button type="button" role="radio" class="segmento" [class.segmento--activo]="tema.modo() === m.valor"
@@ -13,7 +13,7 @@
       }
     </div>
 
-    <p class="etiqueta" id="et-color">{{ 'MOVIL.AJUSTES.COLOR_BARRA' | translate }}</p>
+    <p class="etiqueta" id="et-color">{{ 'MOVIL.PAGINAS.AJUSTES.TOP_BAR_COLOR' | translate }}</p>
     <div class="colores" role="radiogroup" aria-labelledby="et-color">
       @for (c of colores; track c) {
         <button type="button" role="radio" class="color" [style.background]="c"
@@ -23,7 +23,7 @@
         </button>
       }
       <label class="color color--libre" [style.background]="tema.colorBarra()">
-        <span class="pt-solo-lector">{{ 'MOVIL.AJUSTES.COLOR_BARRA' | translate }}</span>
+        <span class="pt-solo-lector">{{ 'MOVIL.PAGINAS.AJUSTES.TOP_BAR_COLOR' | translate }}</span>
         <input type="color" [value]="tema.colorBarra()" (input)="colorPersonalizado($event)">
         +
       </label>
@@ -34,7 +34,7 @@
   </section>
 
   <section class="pt-tarjeta grupo">
-    <h2 class="pt-tarjeta__titulo" id="et-idioma">{{ 'MOVIL.AJUSTES.IDIOMA' | translate }}</h2>
+    <h2 class="pt-tarjeta__titulo" id="et-idioma">{{ 'COMMON.LANGUAGE' | translate }}</h2>
     <div class="segmentos" role="radiogroup" aria-labelledby="et-idioma">
       @for (i of idiomas; track i.valor) {
         <button type="button" role="radio" class="segmento" [class.segmento--activo]="idioma.actual() === i.valor"
@@ -46,77 +46,77 @@
   </section>
 
   <section class="pt-tarjeta grupo">
-    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.NOTIFICACIONES.TITULO' | translate }}</h2>
+    <h2 class="pt-tarjeta__titulo">{{ 'COMMON.NOTIFICATIONS' | translate }}</h2>
     @if (!notificaciones.disponible) {
-      <p class="pt-tarjeta__sub">{{ 'MOVIL.NOTIFICACIONES.SOLO_APP' | translate }}</p>
+      <p class="pt-tarjeta__sub">{{ 'MOVIL.PAGINAS.AJUSTES.NOTIFICATIONS_WORK_IN_ANDROID_OR_I' | translate }}</p>
     } @else {
       <label class="interruptor">
-        <span>{{ 'MOVIL.NOTIFICACIONES.ACTIVAR' | translate }}<small>{{ 'MOVIL.NOTIFICACIONES.ACTIVAR_AYUDA' | translate }}</small></span>
+        <span>{{ 'MOVIL.PAGINAS.AJUSTES.EARLY_WARNINGS' | translate }}<small>{{ 'MOVIL.PAGINAS.AJUSTES.PHONE_ALERT_WHEN_AI_ANALYST_PUBLISHES' | translate }}</small></span>
         <input type="checkbox" role="switch" [checked]="notificaciones.preferencias().activas" (change)="activar($event)"
                [disabled]="notificaciones.estado() === 'trabajando'">
       </label>
       @if (notificaciones.preferencias().activas) {
-        <p class="etiqueta" id="et-sev">{{ 'MOVIL.NOTIFICACIONES.SEVERIDAD' | translate }}</p>
+        <p class="etiqueta" id="et-sev">{{ 'MOVIL.PAGINAS.AJUSTES.NOTIFY_ME_ABOUT' | translate }}</p>
         <div class="segmentos" role="radiogroup" aria-labelledby="et-sev">
           <button type="button" role="radio" class="segmento" [class.segmento--activo]="notificaciones.preferencias().severidadMinima === 'critica'"
                   [attr.aria-checked]="notificaciones.preferencias().severidadMinima === 'critica'" (click)="notificaciones.cambiar({ severidadMinima: 'critica' })">
-            {{ 'MOVIL.NOTIFICACIONES.SOLO_CRITICAS' | translate }}</button>
+            {{ 'MOVIL.PAGINAS.AJUSTES.CRITICAL_ONLY' | translate }}</button>
           <button type="button" role="radio" class="segmento" [class.segmento--activo]="notificaciones.preferencias().severidadMinima === 'atencion'"
                   [attr.aria-checked]="notificaciones.preferencias().severidadMinima === 'atencion'" (click)="notificaciones.cambiar({ severidadMinima: 'atencion' })">
-            {{ 'MOVIL.NOTIFICACIONES.ATENCION_Y_CRITICAS' | translate }}</button>
+            {{ 'MOVIL.PAGINAS.AJUSTES.WARNING_CRITICAL' | translate }}</button>
         </div>
-        <p class="etiqueta" id="et-alc">{{ 'MOVIL.NOTIFICACIONES.PUERTOS' | translate }}</p>
+        <p class="etiqueta" id="et-alc">{{ 'COMMON.PORTS' | translate }}</p>
         <div class="segmentos" role="radiogroup" aria-labelledby="et-alc">
           <button type="button" role="radio" class="segmento" [class.segmento--activo]="notificaciones.preferencias().alcance === 'TODOS'"
                   [attr.aria-checked]="notificaciones.preferencias().alcance === 'TODOS'" (click)="notificaciones.cambiar({ alcance: 'TODOS' })">
-            {{ 'MOVIL.NOTIFICACIONES.TODOS_PUERTOS' | translate }}</button>
+            {{ 'COMMON.ALL' | translate }}</button>
           <button type="button" role="radio" class="segmento" [class.segmento--activo]="notificaciones.preferencias().alcance === 'puerto'"
                   [attr.aria-checked]="notificaciones.preferencias().alcance === 'puerto'" [disabled]="puertos.seleccionado() === 'TODOS'"
                   (click)="notificaciones.cambiar({ alcance: 'puerto' })">
-            {{ 'MOVIL.NOTIFICACIONES.SOLO_PUERTO' | translate: { puerto: puertos.seleccionado() } }}</button>
+            {{ 'MOVIL.PAGINAS.AJUSTES.ONLY_PUERTO' | translate: { puerto: puertos.seleccionado() } }}</button>
         </div>
-        <button type="button" class="pt-boton pt-boton--borde" (click)="probar()">{{ 'MOVIL.NOTIFICACIONES.PROBAR' | translate }}</button>
+        <button type="button" class="pt-boton pt-boton--borde" (click)="probar()">{{ 'MOVIL.PAGINAS.AJUSTES.SEND_TEST_NOTIFICATION' | translate }}</button>
         @if (resultadoPrueba()) { <p class="nota">{{ resultadoPrueba() | translate }}</p> }
       }
       @if (notificaciones.problema()) { <p class="nota nota--error">{{ notificaciones.problema() | translate }}</p> }
-      <p class="nota">{{ 'MOVIL.NOTIFICACIONES.UNA_SESION' | translate }}</p>
+      <p class="nota">{{ 'MOVIL.PAGINAS.AJUSTES.YOUR_USER_HAS_SINGLE_SESSION_IF' | translate }}</p>
     }
   </section>
 
   <section class="pt-tarjeta grupo">
-    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.AJUSTES.SEGURIDAD' | translate }}</h2>
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.PAGINAS.AJUSTES.SECURITY' | translate }}</h2>
     @if (biometria.disponible()) {
       <label class="interruptor">
-        <span>{{ 'MOVIL.AJUSTES.BIOMETRIA' | translate }}<small>{{ 'MOVIL.AJUSTES.BIOMETRIA_AYUDA' | translate }}</small></span>
+        <span>{{ 'MOVIL.PAGINAS.AJUSTES.FINGERPRINT_OR_FACE_ID_SIGN_IN' | translate }}<small>{{ 'MOVIL.PAGINAS.AJUSTES.SIGN_IN_WITHOUT_TYPING_PASSWORD' | translate }}</small></span>
         <input type="checkbox" role="switch" [checked]="biometria.activa()" (change)="cambiarBiometria($event)">
       </label>
-      @if (infoBiometria()) { <p class="nota">{{ 'MOVIL.AJUSTES.BIOMETRIA_ACTIVAR_INFO' | translate }}</p> }
+      @if (infoBiometria()) { <p class="nota">{{ 'MOVIL.PAGINAS.AJUSTES.IT_ENABLED_NEXT_TIME_YOU_SIGN' | translate }}</p> }
     }
-    <p class="nota">{{ 'MOVIL.AJUSTES.SESION_SEGURA' | translate }}</p>
+    <p class="nota">{{ 'MOVIL.PAGINAS.AJUSTES.SESSION_STORED_ENCRYPTED_ON_PHONE_KEYCHAIN' | translate }}</p>
   </section>
 
   <section class="pt-tarjeta grupo">
-    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.AJUSTES.CUENTA' | translate }}</h2>
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.PAGINAS.AJUSTES.ACCOUNT' | translate }}</h2>
     <div class="cuenta">
       <span class="avatar">{{ sesion.iniciales() }}</span>
       <div class="cuenta__datos">
         <strong>{{ sesion.sesion()?.nombreUsuario }}</strong>
         <small>{{ sesion.sesion()?.correo }}</small>
-        <small>{{ 'MOVIL.AJUSTES.SESION' | translate }} · {{ (sesion.sesion()?.codigoSesion || '').slice(0, 8) }}</small>
+        <small>{{ 'MOVIL.PAGINAS.AJUSTES.ACTIVE_SESSION' | translate }} · {{ (sesion.sesion()?.codigoSesion || '').slice(0, 8) }}</small>
       </div>
     </div>
     <button type="button" class="pt-boton pt-boton--borde salir" (click)="sesion.cerrar('usuario')">
-      <pm-icono nombre="salir" [tam]="18"></pm-icono>{{ 'MOVIL.AJUSTES.CERRAR_SESION' | translate }}
+      <pm-icono nombre="salir" [tam]="18"></pm-icono>{{ 'COMMON.SIGN_OUT' | translate }}
     </button>
   </section>
 
   <section class="pt-tarjeta grupo">
-    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.AJUSTES.ACERCA' | translate }}</h2>
+    <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.PAGINAS.AJUSTES.ABOUT' | translate }}</h2>
     <dl class="datos">
-      <dt>{{ 'MOVIL.AJUSTES.VERSION' | translate }}</dt><dd>{{ version }} · {{ nativo.plataforma }}</dd>
-      <dt>{{ 'MOVIL.AJUSTES.DISPOSITIVO' | translate }}</dt>
-      <dd>{{ (dispositivo.esTableta ? 'MOVIL.AJUSTES.TABLETA' : 'MOVIL.AJUSTES.TELEFONO') | translate }}</dd>
-      <dt>{{ 'MOVIL.AJUSTES.SERVIDOR' | translate }}</dt><dd>{{ servidor }}</dd>
+      <dt>{{ 'COMMON.VERSION' | translate }}</dt><dd>{{ version }} · {{ nativo.plataforma }}</dd>
+      <dt>{{ 'MOVIL.PAGINAS.AJUSTES.DEVICE' | translate }}</dt>
+      <dd>{{ (dispositivo.esTableta ? 'MOVIL.PAGINAS.AJUSTES.TABLET_LANDSCAPE' : 'MOVIL.PAGINAS.AJUSTES.PHONE_PORTRAIT') | translate }}</dd>
+      <dt>{{ 'COMMON.SERVER' | translate }}</dt><dd>{{ servidor }}</dd>
     </dl>
   </section>
 </div>

@@ -144,7 +144,7 @@ export class TableroPage {
     /** «Tu tablero» o «Tablero por defecto». */
     readonly origenLayout = computed(() => {
         const o = this.widgets().length ? this.datos.tablero()?.layout : null;
-        return o === 'usuario' ? 'MOVIL.TABLERO.LAYOUT_USUARIO' : o === 'defecto' ? 'MOVIL.TABLERO.LAYOUT_DEFECTO' : '';
+        return o === 'usuario' ? 'MOVIL.PAGINAS.TABLERO.YOUR_DASHBOARD' : o === 'defecto' ? 'MOVIL.PAGINAS.TABLERO.DEFAULT_DASHBOARD' : '';
     });
 
     constructor() {

@@ -4,37 +4,37 @@
   <header>
     <h2>{{ k.titulo }}</h2>
     <button type="button" class="cerrar" (click)="cerrar.emit()"
-      [attr.aria-label]="'MOVIL.TABLERO.CERRAR' | translate">✕</button>
+      [attr.aria-label]="'COMMON.CLOSE' | translate">✕</button>
   </header>
   <p class="valor" [style.color]="color">{{ f(k.valor) }}<small>{{ k.unidad }}</small></p>
   <p class="estado">
-    <span class="punto" [style.background]="color"></span>{{ ('MOVIL.ESTADO.' + k.estado.toUpperCase()) | translate }}
-    @if (k.simulado) { · {{ 'MOVIL.TABLERO.SIMULADO' | translate }} }
+    <span class="punto" [style.background]="color"></span>{{ ('MOVIL.ENUM.KPI_STATUS.' + k.estado.toUpperCase()) | translate }}
+    @if (k.simulado) { · {{ 'COMMON.SIMULATED_2' | translate }} }
   </p>
   @if (k.subtitulo) { <p class="sub">{{ k.subtitulo | translate }}</p> }
   @if (linea) {
   <svg viewBox="0 0 320 120" preserveAspectRatio="none" class="grafica" role="img"
-    [attr.aria-label]="'MOVIL.TABLERO.ULTIMAS_24H' | translate">
+    [attr.aria-label]="'MOVIL.WIDGETS.DETALLE_KPI.LAST_24_HOURS' | translate">
     <path [attr.d]="area" [attr.fill]="color" fill-opacity=".14"></path>
     <path [attr.d]="linea" fill="none" [attr.stroke]="color" stroke-width="2.5" vector-effect="non-scaling-stroke">
     </path>
   </svg>
   <dl>
     <div>
-      <dt>{{ 'MOVIL.TABLERO.MINIMO' | translate }}</dt>
+      <dt>{{ 'MOVIL.WIDGETS.DETALLE_KPI.MINIMUM' | translate }}</dt>
       <dd>{{ f(min) }}</dd>
     </div>
     <div>
-      <dt>{{ 'MOVIL.TABLERO.MAXIMO' | translate }}</dt>
+      <dt>{{ 'COMMON.MAXIMUM' | translate }}</dt>
       <dd>{{ f(max) }}</dd>
     </div>
     <div>
-      <dt>{{ 'MOVIL.TABLERO.VARIACION' | translate }}</dt>
+      <dt>{{ 'MOVIL.WIDGETS.DETALLE_KPI.CHANGE' | translate }}</dt>
       <dd>{{ variacion === null ? '—' : variacion + ' %' }}</dd>
     </div>
   </dl>
-  <p class="nota">{{ 'MOVIL.TABLERO.ULTIMAS_24H' | translate }}</p>
+  <p class="nota">{{ 'MOVIL.WIDGETS.DETALLE_KPI.LAST_24_HOURS' | translate }}</p>
   } @else {
-  <p class="nota">{{ 'MOVIL.TABLERO.SIN_SERIE' | translate }}</p>
+  <p class="nota">{{ 'MOVIL.WIDGETS.DETALLE_KPI.THERE_NO_HISTORY_INDICATOR_YET' | translate }}</p>
   }
 </section>

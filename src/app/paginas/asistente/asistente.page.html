@@ -1,18 +1,18 @@
 <section class="cabeza pt-tarjeta">
-  <span class="sello" aria-hidden="true">{{ 'MOVIL.ASISTENTE.SELLO' | translate }}</span>
+  <span class="sello" aria-hidden="true">{{ 'COMMON.AI' | translate }}</span>
   <div class="cabeza__texto">
-    <h1 class="pt-tarjeta__titulo">{{ 'MOVIL.ASISTENTE.TITULO' | translate }}</h1>
+    <h1 class="pt-tarjeta__titulo">{{ 'MOVIL.PAGINAS.ASISTENTE.PORTTOS_ASSISTANT' | translate }}</h1>
     <p class="pt-tarjeta__sub">
-      {{ puertos.seleccionado() === 'TODOS' ? ('MOVIL.ENCABEZADO.TODOS' | translate) : puertos.seleccionado() }} · {{ 'MOVIL.ASISTENTE.ALCANCE' | translate }}
+      {{ puertos.seleccionado() === 'TODOS' ? ('MOVIL.ALL' | translate) : puertos.seleccionado() }} · {{ 'MOVIL.PAGINAS.ASISTENTE.PORT_PROCESS_TOPICS_ONLY' | translate }}
     </p>
   </div>
-  <button type="button" class="pt-boton pt-boton--borde nueva" (click)="asistente.nueva()" [disabled]="!asistente.turnos().length">{{ 'MOVIL.ASISTENTE.NUEVA' | translate }}</button>
+  <button type="button" class="pt-boton pt-boton--borde nueva" (click)="asistente.nueva()" [disabled]="!asistente.turnos().length">{{ 'COMMON.NEW_2' | translate }}</button>
 </section>
 
 <div class="conversacion" #conversacion aria-live="polite">
   @if (!asistente.turnos().length) {
     <section class="bienvenida">
-      <p>{{ 'MOVIL.ASISTENTE.BIENVENIDA' | translate }}</p>
+      <p>{{ 'MOVIL.PAGINAS.ASISTENTE.ASK_ABOUT_PORT_OPERATION_VESSELS_ANCHORAGE' | translate }}</p>
       @for (e of ejemplos; track e) {
         <button type="button" class="sugerencia" (click)="enviarEjemplo(e)">{{ e | translate }}</button>
       }
@@ -23,20 +23,20 @@
     <div class="pregunta">{{ t.pregunta }}</div>
 
     @if (t.pendiente) {
-      <div class="respuesta respuesta--pendiente" role="status"><span class="puntos"><i></i><i></i><i></i></span>{{ 'MOVIL.ASISTENTE.PENSANDO' | translate }}</div>
+      <div class="respuesta respuesta--pendiente" role="status"><span class="puntos"><i></i><i></i><i></i></span>{{ 'MOVIL.PAGINAS.ASISTENTE.CHECKING_DATA' | translate }}</div>
     } @else if (t.error) {
-      <div class="respuesta respuesta--error">{{ (t.error === 'SIN_CONEXION' ? 'MOVIL.TABLERO.ERROR_CONEXION' : 'MOVIL.ASISTENTE.ERROR') | translate }}</div>
+      <div class="respuesta respuesta--error">{{ (t.error === 'SIN_CONEXION' ? 'MOVIL.NO_CONNECTION_SERVER' : 'MOVIL.PAGINAS.ASISTENTE.ANSWER_COULD_NOT_BE_OBTAINED_TRY') | translate }}</div>
     } @else if (t.respuesta) {
       <div class="respuesta" [class.respuesta--fuera]="fuera(t)">
         @if (aviso(t); as av) { <span class="etiqueta">{{ av | translate }}</span> }
         <div class="texto" [innerHTML]="html(t)"></div>
 
         @if (t.respuesta.verificacion && !t.respuesta.verificacion.ok) {
-          <p class="advertencia">⚠ {{ 'MOVIL.ASISTENTE.CIFRAS' | translate }} {{ (t.respuesta.verificacion.sinRespaldo || []).join(', ') }}</p>
+          <p class="advertencia">⚠ {{ 'MOVIL.PAGINAS.ASISTENTE.FIGURES_DO_NOT_APPEAR_IN_DATA' | translate }} {{ (t.respuesta.verificacion.sinRespaldo || []).join(', ') }}</p>
         }
         @if (t.respuesta.fuentes.length) {
           <div class="fuentes">
-            <span>{{ 'MOVIL.ASISTENTE.FUENTES' | translate }}</span>
+            <span>{{ 'COMMON.SOURCES' | translate }}</span>
             @for (f of t.respuesta.fuentes; track $index) { <span class="fuente" [attr.title]="f.detalle || null">{{ etiqueta(f.herramienta) }}</span> }
           </div>
         }
@@ -50,11 +50,11 @@
         <div class="pie">
           @if (t.respuesta.id && !fuera(t)) {
             @if (t.voto === null) {
-              <span>{{ 'MOVIL.ALERTAS.TE_SIRVIO' | translate }}</span>
-              <button type="button" class="voto" (click)="asistente.votar($index, true)">{{ 'MOVIL.ALERTAS.UTIL' | translate }}</button>
-              <button type="button" class="voto" (click)="asistente.votar($index, false)">{{ 'MOVIL.ALERTAS.NO_ERA' | translate }}</button>
+              <span>{{ 'COMMON.WAS_IT_USEFUL' | translate }}</span>
+              <button type="button" class="voto" (click)="asistente.votar($index, true)">{{ 'COMMON.USEFUL' | translate }}</button>
+              <button type="button" class="voto" (click)="asistente.votar($index, false)">{{ 'MOVIL.PAGINAS.NOT_IT' | translate }}</button>
             } @else {
-              <span>{{ 'MOVIL.ASISTENTE.GRACIAS' | translate }}</span>
+              <span>{{ 'MOVIL.PAGINAS.ASISTENTE.THANKS_YOUR_FEEDBACK' | translate }}</span>
             }
           }
           <span class="hora">{{ t.hora }}</span>
@@ -66,9 +66,9 @@
 
 <form class="entrada" (ngSubmit)="enviar()">
   <label class="campo">
-    <span class="pt-solo-lector">{{ 'MOVIL.ASISTENTE.PREGUNTA' | translate }}</span>
+    <span class="pt-solo-lector">{{ 'COMMON.QUESTION' | translate }}</span>
     <input type="text" name="pregunta" maxlength="1000" autocomplete="off" [ngModel]="texto()" (ngModelChange)="texto.set($event)"
-           [placeholder]="'MOVIL.ASISTENTE.PLACEHOLDER' | translate" [disabled]="asistente.ocupado()">
+           [placeholder]="'MOVIL.PAGINAS.ASISTENTE.ASK_ABOUT_OPERATION' | translate" [disabled]="asistente.ocupado()">
   </label>
-  <button type="submit" class="pt-boton" [disabled]="asistente.ocupado() || !texto().trim()">{{ 'MOVIL.ASISTENTE.ENVIAR' | translate }}</button>
+  <button type="submit" class="pt-boton" [disabled]="asistente.ocupado() || !texto().trim()">{{ 'COMMON.SEND' | translate }}</button>
 </form>

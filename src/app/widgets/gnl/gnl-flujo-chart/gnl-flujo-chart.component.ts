@@ -135,7 +135,7 @@ export class GnlFlujoChartComponent implements AfterViewInit, OnDestroy {
             data: {
                 labels: [],
                 datasets: [{
-                    label: this.translate.instant('MOVIL.GNL.FLUJO'), data: [], borderColor: '#00d4ff', borderWidth: 2, pointRadius: 0,
+                    label: this.translate.instant('COMMON.FLOW'), data: [], borderColor: '#00d4ff', borderWidth: 2, pointRadius: 0,
                     pointHoverRadius: 5, pointHitRadius: 15, pointHoverBackgroundColor: '#ffffff', pointHoverBorderColor: '#00d4ff', pointHoverBorderWidth: 2,
                     fill: true, tension: 0.1,
                     backgroundColor: (context: any) => {

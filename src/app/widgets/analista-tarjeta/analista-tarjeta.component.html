@@ -3,7 +3,7 @@
     <span class="icono" aria-hidden="true"><pm-icono nombre="ia" [tam]="18"></pm-icono></span>
     <div class="titulos">
       <h2 class="pt-tarjeta__titulo">{{ titulo() }}</h2>
-      <p class="pt-tarjeta__sub">{{ 'MOVIL.WIDGETS.ANALISTA_SUB' | translate }}</p>
+      <p class="pt-tarjeta__sub">{{ 'MOVIL.WIDGETS.ANALISTA_TARJETA.EARLY_ALERTS_TAB' | translate }}</p>
     </div>
     @if (foco().total) { <span class="insignia" [class.insignia--roja]="hayCritica()">{{ foco().total }}</span> }
   </header>
@@ -14,14 +14,14 @@
       <span class="punto" [style.background]="color(a.severidad)" aria-hidden="true"></span>
       <div class="texto">
         <strong>{{ a.titulo }}</strong>
-        <small>{{ ('MOVIL.SEVERIDAD.' + (a.severidad || 'info').toUpperCase()) | translate }}@if (horizonte(a)) { · {{
+        <small>{{ ('MOVIL.ENUM.SEVERITY.' + (a.severidad || 'info').toUpperCase()) | translate }}@if (horizonte(a)) { · {{
           horizonte(a) }} }</small>
       </div>
     </li>
     }
   </ul>
   } @else {
-  <p class="vacio">{{ 'MOVIL.ALERTAS.SIN_ALERTAS' | translate }}</p>
+  <p class="vacio">{{ 'MOVIL.NO_ACTIVE_EARLY_WARNINGS_PORT' | translate }}</p>
   }
-  <a class="ver" routerLink="/app/alertas">{{ 'MOVIL.WIDGETS.VER_ALERTAS' | translate }}</a>
+  <a class="ver" routerLink="/app/alertas">{{ 'MOVIL.WIDGETS.ANALISTA_TARJETA.SEE_ALL_ALERTS' | translate }}</a>
 </section>

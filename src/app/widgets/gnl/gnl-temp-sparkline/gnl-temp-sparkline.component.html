@@ -14,7 +14,7 @@
         <span class="girando" role="status" aria-label="…"></span>
       } @else {
         <strong>{{ tempActual | number: '1.2-2' }} °C</strong>
-        <small>{{ 'MOVIL.GNL.LIMITE_OPERATIVO' | translate }}: {{ limite | number: '1.1-1' }} °C</small>
+        <small>{{ 'MOVIL.WIDGETS.GNL.GNL_TEMP_SPARKLINE.OPERATING_LIMIT' | translate }}: {{ limite | number: '1.1-1' }} °C</small>
       }
     </div>
     <div class="lienzo"><canvas #tempCanvas></canvas></div>

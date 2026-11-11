@@ -5,14 +5,14 @@
       <h2 class="pt-tarjeta__titulo">{{ w.titulo }}</h2>
       @if (w.subtitulo) { <p class="pt-tarjeta__sub gnl__sub">{{ w.subtitulo | translate }}</p> }
     </div>
-    <button type="button" class="ampliar" (click)="abrir()" [attr.aria-label]="'MOVIL.GNL.AMPLIAR' | translate"><pm-icono nombre="ampliar" [tam]="16"></pm-icono></button>
+    <button type="button" class="ampliar" (click)="abrir()" [attr.aria-label]="'COMMON.EXPAND' | translate"><pm-icono nombre="ampliar" [tam]="16"></pm-icono></button>
   </header>
   <div class="acciones">
     <span class="energia-pill" [class.cargando]="cargando"><pm-icono nombre="rayo" [tam]="12"></pm-icono>{{ energiaTotal | number: '1.2-2' }} MMBTU</span>
     @if (!cargando) { <span class="insignia">{{ brazo }}</span> }
   </div>
   <div class="cuerpo">
-    @if (cargando) { <div class="espera"><span class="girando" role="status" [attr.aria-label]="'MOVIL.GNL.CONECTANDO' | translate"></span></div> }
+    @if (cargando) { <div class="espera"><span class="girando" role="status" [attr.aria-label]="'COMMON.CONNECTING_SCADA' | translate"></span></div> }
     <div class="lienzo" [class.oculto]="cargando"><canvas #flowCanvas></canvas></div>
   </div>
 </section>
@@ -23,13 +23,13 @@
       <header class="gnl__cabeza">
         <pm-icono nombre="actividad" [tam]="18"></pm-icono>
         <div class="gnl__textos"><h2 class="pt-tarjeta__titulo">{{ w.titulo }}</h2></div>
-        <button type="button" class="ampliar" (click)="cerrar()" [attr.aria-label]="'MOVIL.GNL.CERRAR' | translate"><pm-icono nombre="cerrarX" [tam]="18"></pm-icono></button>
+        <button type="button" class="ampliar" (click)="cerrar()" [attr.aria-label]="'COMMON.CLOSE' | translate"><pm-icono nombre="cerrarX" [tam]="18"></pm-icono></button>
       </header>
 
       <div class="detalle-cabecera">
-        <h3 class="detalle-titulo">{{ 'MOVIL.GNL.HISTORIAL' | translate }}</h3>
+        <h3 class="detalle-titulo">{{ 'COMMON.HOURLY_CONSOLIDATED_HISTORY' | translate }}</h3>
         <div class="rango">
-          @if (historial()?.simulado) { <span class="detalle-simulado">{{ 'MOVIL.GNL.SIMULADO' | translate }}</span> }
+          @if (historial()?.simulado) { <span class="detalle-simulado">{{ 'COMMON.SIMULATED' | translate }}</span> }
           @for (h of rangos; track h) {
             <button type="button" [class.activo]="horas() === h" [disabled]="cargandoHistorial()" (click)="cambiarHoras(h)">{{ h }} h</button>
           }
@@ -38,10 +38,10 @@
 
       @if (vista(); as v) {
         <div class="detalle-resumen">
-          <span>{{ 'MOVIL.GNL.VOLUMEN' | translate }}: <strong>{{ v.resumen.volumen | number: '1.0-1' }} m³</strong></span>
-          <span>{{ 'MOVIL.GNL.ENERGIA' | translate }}: <strong>{{ v.resumen.energia | number: '1.0-1' }} MMBTU</strong></span>
-          @if (v.resumen.presion !== null) { <span>{{ 'MOVIL.GNL.PRESION_PROM' | translate }}: <strong>{{ v.resumen.presion | number: '1.0-1' }} psi</strong></span> }
-          <span>{{ 'MOVIL.GNL.ALARMAS' | translate }}: <strong>{{ v.resumen.alarmas | number: '1.0-0' }}</strong></span>
+          <span>{{ 'COMMON.VOLUME' | translate }}: <strong>{{ v.resumen.volumen | number: '1.0-1' }} m³</strong></span>
+          <span>{{ 'COMMON.ENERGY' | translate }}: <strong>{{ v.resumen.energia | number: '1.0-1' }} MMBTU</strong></span>
+          @if (v.resumen.presion !== null) { <span>{{ 'MOVIL.WIDGETS.GNL.GNL_FLUJO_CHART.AVG_PRESSURE' | translate }}: <strong>{{ v.resumen.presion | number: '1.0-1' }} psi</strong></span> }
+          <span>{{ 'MOVIL.WIDGETS.GNL.GNL_FLUJO_CHART.ALARMS' | translate }}: <strong>{{ v.resumen.alarmas | number: '1.0-0' }}</strong></span>
         </div>
       }
       @if (nota()) { <p class="detalle-ayuda">{{ nota() }}</p> }
@@ -49,10 +49,10 @@
       <div class="detalle-grafica" [class.oculto]="!(historial()?.filas && historial()?.labels?.length)"><canvas #histCanvas></canvas></div>
 
       @if (vista()?.filasBrazos?.length) {
-        <h3 class="detalle-titulo">{{ 'MOVIL.GNL.VOLUMEN_BRAZO' | translate }}</h3>
+        <h3 class="detalle-titulo">{{ 'COMMON.VOLUME_BY_ARM' | translate }}</h3>
         <div class="tabla">
           <table>
-            <thead><tr><th>{{ 'MOVIL.GNL.BRAZO' | translate }}</th><th>{{ 'MOVIL.GNL.VOLUMEN' | translate }}</th><th>{{ 'MOVIL.GNL.ENERGIA' | translate }}</th><th>{{ 'MOVIL.GNL.PARTICIPACION' | translate }}</th><th>{{ 'MOVIL.GNL.HORAS_FLUJO' | translate }}</th></tr></thead>
+            <thead><tr><th>{{ 'COMMON.ARM' | translate }}</th><th>{{ 'COMMON.VOLUME' | translate }}</th><th>{{ 'COMMON.ENERGY' | translate }}</th><th>{{ 'COMMON.SHARE' | translate }}</th><th>{{ 'COMMON.HOURS_WITH_FLOW' | translate }}</th></tr></thead>
             <tbody>
               @for (f of vista()!.filasBrazos; track f.brazo) {
                 <tr>

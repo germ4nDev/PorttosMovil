@@ -2,7 +2,7 @@
   <span class="icono" aria-hidden="true"><pm-icono nombre="mapa" [tam]="22"></pm-icono></span>
   <span class="texto">
     <strong>{{ widget.titulo }}</strong>
-    <small>{{ (disponible() ? 'MOVIL.WIDGETS.MAPA_AYUDA' : 'MOVIL.WIDGETS.MAPA_SIN_PESTANA') | translate }}</small>
+    <small>{{ (disponible() ? 'MOVIL.WIDGETS.MAPA_ACCESO.VESSELS_TRUCKS_ROAD_EVENTS_ON_MAP' : 'MOVIL.WIDGETS.MAPA_ACCESO.LOGISTICS_MAP_TAB_NOT_ENABLED_YOUR') | translate }}</small>
   </span>
-  @if (disponible()) { <span class="ir">{{ 'MOVIL.WIDGETS.ABRIR_MAPA' | translate }}</span> }
+  @if (disponible()) { <span class="ir">{{ 'MOVIL.WIDGETS.MAPA_ACCESO.OPEN' | translate }}</span> }
 </button>

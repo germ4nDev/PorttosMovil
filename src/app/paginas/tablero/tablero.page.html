@@ -5,7 +5,7 @@
   @if (marco.estado() === 'cargando') {
   <div class="marco__carga" role="status">
     <span class="girando"><pm-icono nombre="recargar" [tam]="22"></pm-icono></span>
-    {{ 'MOVIL.MARCO.CARGANDO' | translate }}
+    {{ 'MOVIL.PAGINAS.TABLERO.LOADING_CONTROL_TOWER' | translate }}
   </div>
   }
 </div>
@@ -13,8 +13,8 @@
 @if (marco.usar() && marco.motivo(); as motivo) {
 <!-- Respaldo de la tableta: vista nativa rotulada cuando la web no está disponible -->
 <p class="aviso marco__aviso" role="status">
-  <span>{{ 'MOVIL.MARCO.' + motivo | translate }}</span>
-  <button type="button" class="pt-boton pt-boton--borde" (click)="marco.reintentar()">{{ 'MOVIL.MARCO.REINTENTAR' | translate }}</button>
+  <span>{{ 'MOVIL.ENUM.FRAME_REASON.' + motivo | translate }}</span>
+  <button type="button" class="pt-boton pt-boton--borde" (click)="marco.reintentar()">{{ 'COMMON.RETRY' | translate }}</button>
 </p>
 }
 @if (pestanas.activaInfo(); as p) {
@@ -27,25 +27,25 @@
   <div class="cabeza__texto">
     <h1 class="pt-tarjeta__titulo">{{ p.nombrePestana || p.codigoPestana }}</h1>
     <p class="pt-tarjeta__sub">
-      {{ puertos.seleccionado() === 'TODOS' ? ('MOVIL.ENCABEZADO.TODOS' | translate) : puertos.seleccionado() }}
-      @if (hora()) { · {{ 'MOVIL.TABLERO.ACTUALIZADO' | translate: { hora: hora() } }} }
-      @if (datos.tablero()?.simulado && widgets().length) { · <span class="sim">{{ 'MOVIL.TABLERO.SIMULADO' | translate
+      {{ puertos.seleccionado() === 'TODOS' ? ('MOVIL.ALL' | translate) : puertos.seleccionado() }}
+      @if (hora()) { · {{ 'MOVIL.PAGINAS.UPD_HORA' | translate: { hora: hora() } }} }
+      @if (datos.tablero()?.simulado && widgets().length) { · <span class="sim">{{ 'COMMON.SIMULATED_2' | translate
         }}</span> }
       @if (origenLayout(); as o) { · <span class="origen">{{ o | translate }}</span> }
     </p>
   </div>
   @if (gnl.brazos().length > 1) {
   <!-- Filtro por brazo de GNL, como el selector del encabezado de la web (OT-005) -->
-  <pm-selector class="brazo" variante="pildora" [opciones]="opcionesBrazo('MOVIL.TABLERO.BRAZOS_TODOS' | translate)"
-    [valor]="gnl.brazo()" [titulo]="'MOVIL.TABLERO.BRAZO' | translate" [textoCerrar]="'MOVIL.MENU.CERRAR' | translate"
+  <pm-selector class="brazo" variante="pildora" [opciones]="opcionesBrazo('COMMON.ALL' | translate)"
+    [valor]="gnl.brazo()" [titulo]="'MOVIL.PAGINAS.TABLERO.LNG_ARM' | translate" [textoCerrar]="'MOVIL.CLOSE_MENU' | translate"
     (cambio)="gnl.seleccionarBrazo($event)"></pm-selector>
   }
-  <span class="estado" [class.estado--ok]="socket.conectado()" [attr.title]="'MOVIL.TABLERO.CONEXION' | translate">
+  <span class="estado" [class.estado--ok]="socket.conectado()" [attr.title]="'MOVIL.PAGINAS.TABLERO.REAL_TIME' | translate">
     <pm-icono [nombre]="socket.conectado() ? 'nube' : 'nubeTachada'" [tam]="14"></pm-icono>
   </span>
   @if (puertos.seleccionado() !== 'TODOS') {
   <button type="button" class="recargar" [class.girando]="datos.estado() === 'cargando'" (click)="recargar()"
-    [attr.aria-label]="'MOVIL.TABLERO.ACTUALIZAR' | translate">
+    [attr.aria-label]="'MOVIL.PAGINAS.REFRESH' | translate">
     <pm-icono nombre="recargar" [tam]="18"></pm-icono>
   </button>
   }
@@ -53,8 +53,8 @@
 
 @if (puertos.seleccionado() === 'TODOS') {
 <section class="pt-tarjeta elegir">
-  <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.TABLERO.ELIGE_PUERTO' | translate }}</h2>
-  <p class="pt-tarjeta__sub">{{ 'MOVIL.TABLERO.ELIGE_PUERTO_AYUDA' | translate }}</p>
+  <h2 class="pt-tarjeta__titulo">{{ 'MOVIL.PAGINAS.CHOOSE_PORT' | translate }}</h2>
+  <p class="pt-tarjeta__sub">{{ 'MOVIL.PAGINAS.TABLERO.WIDGETS_SHOW_ONE_PORTS_OPERATION_YOU' | translate }}</p>
   <div class="puertos" [class.puertos--tableta]="dispositivo.esTableta">
     @for (pt of puertosElegibles(); track pt.clave) {
     <button type="button" class="pt-boton pt-boton--borde" (click)="elegirPuerto(pt.clave)">{{ pt.clave }}</button>
@@ -64,11 +64,11 @@
 } @else {
 @if (datos.estado() === 'error') {
 <p class="aviso" role="status">
-  {{ (datos.error() === 'SIN_CONEXION' ? 'MOVIL.TABLERO.ERROR_CONEXION' : 'MOVIL.TABLERO.ERROR') | translate }}
-  @if (widgets().length) { {{ 'MOVIL.TABLERO.MOSTRANDO_COPIA' | translate }} }
+  {{ (datos.error() === 'SIN_CONEXION' ? 'MOVIL.NO_CONNECTION_SERVER' : 'MOVIL.PAGINAS.DASHBOARD_COULD_NOT_BE_LOADED') | translate }}
+  @if (widgets().length) { {{ 'MOVIL.PAGINAS.TABLERO.SHOWING_LAST_SAVED_DATA' | translate }} }
 </p>
 } @else if (datos.desdeCopia() && widgets().length) {
-<p class="aviso aviso--info" role="status">{{ 'MOVIL.TABLERO.MOSTRANDO_COPIA' | translate }}</p>
+<p class="aviso aviso--info" role="status">{{ 'MOVIL.PAGINAS.TABLERO.SHOWING_LAST_SAVED_DATA' | translate }}</p>
 }
 
 @if (widgets().length && rejilla(); as r) {
@@ -101,7 +101,7 @@
     @case ('vacio') {
     <section class="pt-tarjeta sin-datos">
       <h2 class="bloque__titulo">{{ w.titulo }}</h2>
-      <p>{{ (esSinVersionMovil(w) ? 'MOVIL.TABLERO.SIN_VERSION_MOVIL' : 'MOVIL.TABLERO.WIDGET_SIN_DATOS') | translate }}</p>
+      <p>{{ (esSinVersionMovil(w) ? 'MOVIL.PAGINAS.TABLERO.AVAILABLE_ON_WEB' : 'MOVIL.PAGINAS.TABLERO.NO_DATA') | translate }}</p>
     </section>
     }
     @case ('componente') { <div class="componente"><ng-container
@@ -114,8 +114,8 @@
 @if (widgets().length) {
 } @else if (sinLayout()) {
 <section class="pt-tarjeta sin-layout" role="status">
-  <h2 class="bloque__titulo">{{ 'MOVIL.TABLERO.SIN_LAYOUT' | translate }}</h2>
-  <p>{{ 'MOVIL.TABLERO.SIN_LAYOUT_AYUDA' | translate }}</p>
+  <h2 class="bloque__titulo">{{ 'MOVIL.PAGINAS.TABLERO.TAB_HAS_NO_WIDGETS_CONFIGURED' | translate }}</h2>
+  <p>{{ 'MOVIL.PAGINAS.TABLERO.SET_THEM_UP_ON_WEB_DASHBOARD' | translate }}</p>
 </section>
 } @else if (datos.estado() === 'cargando' || datos.estado() === 'inactivo') {
 <div class="kpis" [class.kpis--tableta]="dispositivo.esTableta" aria-busy="true">
@@ -127,7 +127,7 @@
 } @else if (datos.estado() === 'listo') {
 <section class="pt-tarjeta vacio">
   <pm-icono [nombre]="estilo().icono" [tam]="30"></pm-icono>
-  <p>{{ 'MOVIL.TABLERO.SIN_DATOS' | translate }}</p>
+  <p>{{ 'MOVIL.PAGINAS.TABLERO.TAB_HAS_NO_DATA_YET_SELECTED' | translate }}</p>
 </section>
 }
 }
@@ -135,9 +135,9 @@
 } @else {
 <section class="vacio pt-tarjeta">
   <pm-icono nombre="tablero" [tam]="32"></pm-icono>
-  <h1 class="pt-tarjeta__titulo">{{ 'MOVIL.TABLERO.SIN_PESTANAS' | translate }}</h1>
-  <p class="pt-tarjeta__sub">{{ 'MOVIL.TABLERO.SIN_PESTANAS_AYUDA' | translate }}</p>
-  <button type="button" class="pt-boton" (click)="pestanas.cargar()">{{ 'MOVIL.TABLERO.ACTUALIZAR' | translate
+  <h1 class="pt-tarjeta__titulo">{{ 'MOVIL.NO_TABS_ARE_CONFIGURED_YOUR_USER' | translate }}</h1>
+  <p class="pt-tarjeta__sub">{{ 'MOVIL.PAGINAS.TABLERO.SET_THEM_UP_ON_WEB_CONTROL' | translate }}</p>
+  <button type="button" class="pt-boton" (click)="pestanas.cargar()">{{ 'MOVIL.PAGINAS.REFRESH' | translate
     }}</button>
 </section>
 }

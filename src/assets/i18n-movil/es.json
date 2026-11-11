@@ -1,274 +1,237 @@
 {
-  "MOVIL": {
-    "NAV": {
-      "TABLERO": "Tablero",
-      "ALERTAS": "Alertas",
-      "ASISTENTE": "Asistente",
-      "AJUSTES": "Ajustes",
-      "PRINCIPAL": "Navegación principal",
-      "PESTANAS": "Pestañas del tablero"
-    },
-    "ENCABEZADO": {
-      "INICIO": "Ir al tablero",
-      "CAMBIAR_IDIOMA": "Cambiar a inglés",
-      "PERFIL": "Perfil y ajustes",
-      "TODOS": "TODOS"
-    },
-    "LOGIN": {
-      "PLATAFORMA": "Plataforma",
-      "MOSTRAR_CLAVE": "Mostrar la clave",
-      "OCULTAR_CLAVE": "Ocultar la clave",
-      "INGRESANDO": "Ingresando…",
-      "CON_HUELLA": "Ingresar con huella",
-      "CON_ROSTRO": "Ingresar con Face ID",
-      "MOTIVO_BIOMETRIA": "Ingresar a Porttos",
-      "MOTIVO_ACTIVAR": "Confirma para activar el ingreso rápido",
-      "BIOMETRIA_INVALIDA": "Tu clave cambió: ingresa con usuario y clave y vuelve a activar la huella o Face ID.",
-      "BIOMETRIA_NO_ACTIVADA": "No se activó el ingreso con biometría.",
-      "OFRECER_HUELLA": "¿Ingresar con tu huella la próxima vez?",
-      "OFRECER_ROSTRO": "¿Ingresar con Face ID la próxima vez?",
-      "OFRECER_TEXTO": "Tu usuario y clave quedan cifrados en este teléfono y solo se usan después de confirmar con tu biometría. Puedes desactivarlo en Ajustes.",
-      "ACTIVAR": "Activar",
-      "AHORA_NO": "Ahora no"
-    },
-    "TABLERO": {
-      "WIDGET_SIN_DATOS": "Sin datos",
-      "BRAZO": "Brazo de GNL",
-      "BRAZOS_TODOS": "Todos",
-      "SIN_PESTANAS": "No hay pestañas configuradas para tu usuario.",
-      "SIN_PESTANAS_AYUDA": "Configúralas en la web (Torre de Control) y vuelve a abrir la app.",
-      "PUERTO": "Puerto",
-      "CONEXION": "Tiempo real",
-      "CONECTADO": "Conectado",
-      "DESCONECTADO": "Sin conexión",
-      "ACTUALIZAR": "Actualizar",
-      "SIMULADO": "Simulado",
-      "MAS": "y {{n}} más en la web",
-      "CERRAR": "Cerrar",
-      "ULTIMAS_24H": "Últimas 24 horas",
-      "MINIMO": "Mínimo",
-      "MAXIMO": "Máximo",
-      "VARIACION": "Variación",
-      "SIN_SERIE": "Todavía no hay historia de este indicador.",
-      "ACTUALIZADO": "act. {{hora}}",
-      "ELIGE_PUERTO": "Elige un puerto",
-      "ELIGE_PUERTO_AYUDA": "Los widgets muestran la operación de un puerto. También puedes cambiarlo arriba en «Seleccione Puerto».",
-      "ERROR_CONEXION": "Sin conexión con el servidor.",
-      "ERROR": "No se pudo cargar el tablero.",
-      "MOSTRANDO_COPIA": "Se muestran los últimos datos guardados.",
-      "SIN_DATOS": "Esta pestaña todavía no tiene datos para el puerto elegido.",
-      "LAYOUT_USUARIO": "Tu tablero",
-      "LAYOUT_DEFECTO": "Tablero por defecto",
-      "SOLO_WEB": "{{n}} widget(s) de tu tablero solo se ven en la web",
-      "SOLO_WEB_AYUDA": "Todavía no tienen versión para el teléfono; ábrelos desde la Torre de Control en la web.",
-      "EN_VIVO": "En vivo",
-      "SIN_LAYOUT": "Esta pestaña no tiene widgets configurados",
-      "SIN_LAYOUT_AYUDA": "Configúrelos en el tablero de la web y aparecerán aquí.",
-      "SIN_VERSION_MOVIL": "Disponible en la web"
-    },
-    "PROXIMAMENTE": {
-      "ALERTAS": "Alertas tempranas del Analista IA",
-      "ASISTENTE": "Asistente de Porttos",
-      "TEXTO": "Esta sección llega en la fase 3 de la app móvil, con los mismos servicios de la web."
-    },
-    "AJUSTES": {
-      "TITULO": "Ajustes",
-      "APARIENCIA": "Apariencia",
-      "TEMA": "Tema",
-      "CLARO": "Claro",
-      "OSCURO": "Oscuro",
-      "SISTEMA": "Sistema",
-      "COLOR_BARRA": "Color de la barra superior",
-      "IDIOMA": "Idioma",
-      "ESPANOL": "Español",
-      "INGLES": "English",
-      "CUENTA": "Cuenta",
-      "SESION": "Sesión activa",
-      "CERRAR_SESION": "Cerrar sesión",
-      "ACERCA": "Acerca de",
-      "VERSION": "Versión",
-      "DISPOSITIVO": "Dispositivo",
-      "TELEFONO": "Teléfono · vertical",
-      "TABLETA": "Tableta · horizontal",
-      "SERVIDOR": "Servidor",
-      "SEGURIDAD": "Seguridad",
-      "BIOMETRIA": "Ingreso con huella o Face ID",
-      "BIOMETRIA_AYUDA": "Entrar sin escribir la clave",
-      "BIOMETRIA_ACTIVAR_INFO": "Se activa la próxima vez que ingreses con usuario y clave.",
-      "SESION_SEGURA": "La sesión se guarda cifrada en el teléfono (Keychain en iOS, Keystore en Android)."
-    },
-    "ESTADO": {
-      "OK": "Normal",
-      "ATENCION": "Atención",
-      "CRITICO": "Crítico",
-      "NEUTRO": "Sin umbral"
-    },
-    "ALERTAS": {
-      "TITULO": "Analista IA · alertas tempranas",
-      "VISTA_ALERTAS": "Alertas",
-      "VISTA_TENDENCIAS": "Tendencias",
-      "VISTA_TURNO": "Turno",
-      "MODO_SOMBRA": "El analista está en modo sombra: propone alertas para revisión y todavía no las publica.",
-      "EN": "en",
-      "CONFIANZA": "confianza",
-      "ACCION": "Qué hacer:",
-      "ESTADO_CONFIRMADO": "Marcada como útil",
-      "ESTADO_FALSO": "Marcada «no era»",
-      "ESTADO_DESCARTADO": "Descartada",
-      "TE_SIRVIO": "¿Te sirvió?",
-      "UTIL": "Útil",
-      "NO_ERA": "No era",
-      "SIN_ALERTAS": "Sin alertas tempranas vigentes para este puerto.",
-      "EFECTO_EMPEORA": "Empeora",
-      "EFECTO_MEJORA": "Mejora",
-      "SIN_TENDENCIAS": "No hay tendencias destacadas por ahora.",
-      "PASO": "Lo que pasó",
-      "VIENE": "Lo que viene",
-      "VIGILAR": "Vigilar",
-      "SIN_RESUMEN": "Todavía no hay un cierre de turno para este puerto."
-    },
-    "SEVERIDAD": {
-      "CRITICA": "Crítica",
-      "ATENCION": "Atención",
-      "INFO": "Info"
-    },
-    "ASISTENTE": {
-      "TITULO": "Asistente de Porttos",
-      "ALCANCE": "solo temas del proceso portuario",
-      "NUEVA": "Nueva",
-      "BIENVENIDA": "Pregunta por la operación del puerto: naves, fondeo, muelles, gate, carga, bodegas, alertas o tendencias. Por ejemplo:",
-      "EJEMPLO_1": "¿Cuántas naves hay en fondeo y cuánto llevan esperando?",
-      "EJEMPLO_2": "¿Qué buques llegan en las próximas 24 horas?",
-      "EJEMPLO_3": "¿Qué indicadores empeoraron esta semana?",
-      "PENSANDO": "Consultando los datos…",
-      "ERROR": "No se pudo obtener la respuesta. Intenta de nuevo.",
-      "CIFRAS": "Estas cifras no aparecen en los datos consultados; verifícalas en el tablero:",
-      "FUENTES": "Fuentes:",
-      "GRACIAS": "Gracias por tu opinión",
-      "PREGUNTA": "Pregunta",
-      "PLACEHOLDER": "Pregunta por la operación…",
-      "ENVIAR": "Enviar",
-      "ESTADO_RECHAZADA": "Fuera del alcance de Porttos",
-      "ESTADO_SIN_DATOS": "Sin datos suficientes",
-      "ESTADO_APAGADO": "Asistente apagado",
-      "ESTADO_OMITIDA_APAGADA": "Asistente apagado",
-      "ESTADO_TOPE_USUARIO": "Cupo diario agotado",
-      "ESTADO_OMITIDA_PRESUPUESTO": "Presupuesto del día agotado",
-      "ESTADO_CORTACIRCUITO": "Servicio en pausa",
-      "ESTADO_ERROR": "Error del servicio",
-      "ESTADO_INVALIDA": "Sin respuesta confiable",
-      "SELLO": "IA"
-    },
-    "NOTIFICACIONES": {
-      "TITULO": "Notificaciones",
-      "SOLO_APP": "Las notificaciones funcionan en la app de Android o iOS.",
-      "ACTIVAR": "Alertas tempranas",
-      "ACTIVAR_AYUDA": "Aviso en el teléfono cuando el Analista IA publica una alerta",
-      "SEVERIDAD": "Avisarme de",
-      "SOLO_CRITICAS": "Solo críticas",
-      "ATENCION_Y_CRITICAS": "Atención y críticas",
-      "PUERTOS": "Puertos",
-      "TODOS_PUERTOS": "Todos",
-      "SOLO_PUERTO": "Solo {{puerto}}",
-      "PROBAR": "Enviar notificación de prueba",
-      "ENVIANDO": "Enviando…",
-      "PRUEBA_OK": "Listo: debería llegarte en unos segundos.",
-      "UNA_SESION": "Tu usuario tiene una sola sesión: si entras en otro dispositivo, este deja de recibir avisos hasta que vuelvas a entrar aquí.",
-      "PERMISO_NEGADO": "El permiso de notificaciones está negado. Actívalo en los ajustes del teléfono.",
-      "SIN_TOKEN": "El teléfono no entregó el identificador de notificaciones. Intenta de nuevo.",
-      "SERVIDOR_APAGADO": "El dispositivo quedó registrado, pero el servidor todavía no envía notificaciones.",
-      "ERROR_REGISTRO": "No se pudo registrar el dispositivo en el servidor."
-    },
-    "MAPA": {
-      "TITULO": "Mapa logístico",
-      "CAPAS": "Capas y mapa base",
-      "CENTRAR": "Centrar en el puerto",
-      "NAVES": "Naves",
-      "CAMIONES": "Camiones",
-      "EVENTOS": "Eventos viales",
-      "CALLES": "Calles",
-      "TERRENO": "Terreno",
-      "SATELITE": "Satélite",
-      "ANALISTA": "Analista IA",
-      "VER_TODO": "Ver todo",
-      "FONDEADAS": "fondeadas",
-      "ATRACADAS": "atracadas",
-      "EN_MOVIMIENTO": "en movimiento",
-      "CIERRES": "cierres o accidentes",
-      "NAVE_ATRACADA": "Atracada",
-      "NAVE_FONDEADA": "Fondeada",
-      "NAVE_MOVIMIENTO": "En movimiento",
-      "NAVE_AVISADA": "Avisada",
-      "NAVE_ZARPADA": "Zarpada",
-      "NAVE_SIN_DATO": "Sin dato",
-      "ULTIMA_POSICION": "Última posición hace",
-      "SIN_SENAL_AIS": "Sin señal AIS hace {{hace}}: la fuente no reporta buques en este puerto",
-      "SIN_REGISTRO_AIS": "Sin señal AIS: la fuente no ha reportado buques en este puerto",
-      "CAMION": "Camión",
-      "GEOCERCAS": "Geocercas",
-      "ALERTAS_MAPA": "Alertas del mapa",
-      "SIN_ALERTAS_MAPA": "Sin alertas del mapa en este puerto",
-      "SIMULADO": "SIMULADO",
-      "ZOOM": "Zoom",
-      "ACERCAR": "Acercar",
-      "ALEJAR": "Alejar"
-    },
-    "MENU": {
-      "TITULO": "Menú",
-      "ABRIR": "Abrir el menú",
-      "CERRAR": "Cerrar el menú",
-      "BUSCAR_PUERTO": "Buscar puerto",
-      "SIN_PUERTOS": "Sin puertos con ese nombre",
-      "PESTANAS": "Torre de Control",
-      "SECCIONES": "Porttos",
-      "TEMA_CLARO": "Tema claro",
-      "TEMA_OSCURO": "Tema oscuro",
-      "VERSION": "Porttos móvil · {{version}}"
-    },
-    "WIDGETS": {
-      "ANALISTA_SUB": "Alertas tempranas de esta pestaña",
-      "VER_ALERTAS": "Ver todas las alertas",
-      "ABRIR_MAPA": "Abrir",
-      "MAPA_AYUDA": "Naves, camiones y eventos viales en el mapa",
-      "MAPA_SIN_PESTANA": "La pestaña Mapa Logístico no está activa para tu usuario"
-    },
-    "MARCO": {
-      "CARGANDO": "Cargando la torre de control…",
-      "SIN_CONEXION": "Sin conexión: se muestra la vista de respaldo de la app.",
-      "SIN_RESPUESTA": "La web no respondió: se muestra la vista de respaldo de la app.",
-      "ERROR": "No se pudo abrir la web: se muestra la vista de respaldo de la app.",
-      "SIN_ACCESO": "Tu usuario no tiene la torre de control web: se muestra la vista de la app.",
-      "REINTENTAR": "Reintentar"
-    },
-    "GNL": {
-      "AMPLIAR": "Ampliar",
-      "CERRAR": "Cerrar",
-      "CONECTANDO": "Conectando a SCADA...",
-      "HISTORIAL": "Historial consolidado por hora",
-      "SIMULADO": "SIMULADO",
-      "VOLUMEN": "Volumen",
-      "ENERGIA": "Energía",
-      "PRESION_PROM": "Presión prom.",
-      "ALARMAS": "Alarmas",
-      "VOLUMEN_BRAZO": "Volumen por brazo",
-      "BRAZO": "Brazo",
-      "PARTICIPACION": "Participación",
-      "HORAS_FLUJO": "Horas con flujo",
-      "FLUJO": "Flujo",
-      "TEMP_DUCTO": "Temp. Ducto",
-      "LIMITE_OPERATIVO": "Límite operativo",
-      "TEMPERATURA": "Temperatura",
-      "SUB": {
-        "TELEMETRIA_SCADA": "Telemetría SCADA",
-        "BOIL_OFF": "Gas evaporado / Boil-off",
-        "TELEMETRIA_ENTRADA": "Telemetría de entrada",
-        "SALIDA_RED": "Flujo de salida a red",
-        "LLENADO_TANQUES": "Porcentaje de llenado de tanques",
-        "ENERGIA_SEGUNDO": "Energía del último segundo",
-        "CALIDAD_MEZCLA": "Calidad de la mezcla GNL",
-        "DESDE_APERTURA": "Desde que se abrió el tablero",
-        "CONSOLIDADO": "Sistema consolidado"
-      }
+    "MOVIL": {
+        "ALL": "TODOS",
+        "CLOSE_MENU": "Cerrar el menú",
+        "COMPARTIDO": {
+            "MENU_LATERAL": {
+                "CONTROL_TOWER": "Torre de Control",
+                "DARK_THEME": "Tema oscuro",
+                "LIGHT_THEME": "Tema claro",
+                "PORTTOS": "Porttos",
+                "PORTTOS_MOBILE_VERSION": "Porttos móvil · {{version}}"
+            }
+        },
+        "CORE": {
+            "DEVICE_COULD_NOT_BE_REGISTERED_ON": "No se pudo registrar el dispositivo en el servidor.",
+            "DEVICE_WAS_REGISTERED_BUT_SERVER_NOT": "El dispositivo quedó registrado, pero el servidor todavía no envía notificaciones.",
+            "NOTIFICATION_PERMISSION_DENIED_TURN_IT_ON": "El permiso de notificaciones está negado. Actívalo en los ajustes del teléfono.",
+            "PHONE_DID_NOT_PROVIDE_NOTIFICATION_IDENTIFIER": "El teléfono no entregó el identificador de notificaciones. Intenta de nuevo."
+        },
+        "DASHBOARD_TABS": "Pestañas del tablero",
+        "ENUM": {
+            "ALERT_EFFECT": {
+                "EMPEORA": "Empeora",
+                "MEJORA": "Mejora"
+            },
+            "ALERT_STATUS": {
+                "CONFIRMADO": "Marcada como útil",
+                "DESCARTADO": "Descartada",
+                "FALSO": "Marcada «no era»"
+            },
+            "ASSISTANT_STATUS": {
+                "APAGADO": "Asistente apagado",
+                "CORTACIRCUITO": "Servicio en pausa",
+                "ERROR": "Error del servicio",
+                "INVALIDA": "Sin respuesta confiable",
+                "OMITIDA_APAGADA": "Asistente apagado",
+                "OMITIDA_PRESUPUESTO": "Presupuesto del día agotado",
+                "RECHAZADA": "Fuera del alcance de Porttos",
+                "SIN_DATOS": "Sin datos suficientes",
+                "TOPE_USUARIO": "Cupo diario agotado"
+            },
+            "COMING_SOON": {
+                "ALERTAS": "Alertas tempranas del Analista IA",
+                "ASISTENTE": "Asistente de Porttos"
+            },
+            "FRAME_REASON": {
+                "ERROR": "No se pudo abrir la web: se muestra la vista de respaldo de la app.",
+                "SIN_ACCESO": "Tu usuario no tiene la torre de control web: se muestra la vista de la app.",
+                "SIN_CONEXION": "Sin conexión: se muestra la vista de respaldo de la app.",
+                "SIN_RESPUESTA": "La web no respondió: se muestra la vista de respaldo de la app."
+            },
+            "KPI_STATUS": {
+                "ATENCION": "Atención",
+                "CRITICO": "Crítico",
+                "NEUTRO": "Sin umbral",
+                "OK": "Normal"
+            },
+            "SEVERITY": {
+                "ATENCION": "Atención",
+                "CRITICA": "Crítica",
+                "INFO": "Info"
+            },
+            "VESSEL_STATUS": {
+                "ATRACADA": "Atracada",
+                "AVISADA": "Avisada",
+                "FONDEADA": "Fondeada",
+                "MOVIMIENTO": "En movimiento",
+                "SIN_DATO": "Sin dato",
+                "ZARPADA": "Zarpada"
+            }
+        },
+        "IN": "en",
+        "NO_ACTIVE_EARLY_WARNINGS_PORT": "Sin alertas tempranas vigentes para este puerto.",
+        "NO_CONNECTION_SERVER": "Sin conexión con el servidor.",
+        "NO_TABS_ARE_CONFIGURED_YOUR_USER": "No hay pestañas configuradas para tu usuario.",
+        "NUCLEO": {
+            "CONSOLIDATED_SYSTEM": "Sistema consolidado",
+            "NO_AIS_SIGNAL_HACE_SOURCE_NOT": "Sin señal AIS hace {{hace}}: la fuente no reporta buques en este puerto",
+            "NO_AIS_SIGNAL_SOURCE_HAS_NOT": "Sin señal AIS: la fuente no ha reportado buques en este puerto",
+            "SCADA_TELEMETRY": "Telemetría SCADA"
+        },
+        "PAGINAS": {
+            "AJUSTES": {
+                "ABOUT": "Acerca de",
+                "ACCOUNT": "Cuenta",
+                "ACTIVE_SESSION": "Sesión activa",
+                "APPEARANCE": "Apariencia",
+                "CRITICAL_ONLY": "Solo críticas",
+                "DARK": "Oscuro",
+                "DEVICE": "Dispositivo",
+                "DONE_IT_SHOULD_ARRIVE_IN_FEW": "Listo: debería llegarte en unos segundos.",
+                "EARLY_WARNINGS": "Alertas tempranas",
+                "ENGLISH": "English",
+                "ESPANOL": "Español",
+                "FINGERPRINT_OR_FACE_ID_SIGN_IN": "Ingreso con huella o Face ID",
+                "IT_ENABLED_NEXT_TIME_YOU_SIGN": "Se activa la próxima vez que ingreses con usuario y clave.",
+                "LIGHT": "Claro",
+                "NOTIFICATIONS_WORK_IN_ANDROID_OR_I": "Las notificaciones funcionan en la app de Android o iOS.",
+                "NOTIFY_ME_ABOUT": "Avisarme de",
+                "ONLY_PUERTO": "Solo {{puerto}}",
+                "PHONE_ALERT_WHEN_AI_ANALYST_PUBLISHES": "Aviso en el teléfono cuando el Analista IA publica una alerta",
+                "PHONE_PORTRAIT": "Teléfono · vertical",
+                "SECURITY": "Seguridad",
+                "SEND_TEST_NOTIFICATION": "Enviar notificación de prueba",
+                "SESSION_STORED_ENCRYPTED_ON_PHONE_KEYCHAIN": "La sesión se guarda cifrada en el teléfono (Keychain en iOS, Keystore en Android).",
+                "SIGN_IN_WITHOUT_TYPING_PASSWORD": "Entrar sin escribir la clave",
+                "TABLET_LANDSCAPE": "Tableta · horizontal",
+                "THEME": "Tema",
+                "TOP_BAR_COLOR": "Color de la barra superior",
+                "WARNING_CRITICAL": "Atención y críticas",
+                "YOUR_USER_HAS_SINGLE_SESSION_IF": "Tu usuario tiene una sola sesión: si entras en otro dispositivo, este deja de recibir avisos hasta que vuelvas a entrar aquí."
+            },
+            "ALERTAS": {
+                "AI_ANALYST_EARLY_WARNINGS": "Analista IA · alertas tempranas",
+                "ANALYST_IN_SHADOW_MODE_IT_PROPOSES": "El analista está en modo sombra: propone alertas para revisión y todavía no las publica.",
+                "CONFIDENCE": "confianza",
+                "NO_NOTABLE_TRENDS_RIGHT_NOW": "No hay tendencias destacadas por ahora.",
+                "THERE_NO_SHIFT_SUMMARY_PORT_YET": "Todavía no hay un cierre de turno para este puerto.",
+                "WHAT_DO": "Qué hacer:"
+            },
+            "ARMAZON": {
+                "GO_DASHBOARD": "Ir al tablero",
+                "MAIN_NAVIGATION": "Navegación principal",
+                "OPEN_MENU": "Abrir el menú",
+                "PROFILE_SETTINGS": "Perfil y ajustes"
+            },
+            "ASISTENTE": {
+                "ANSWER_COULD_NOT_BE_OBTAINED_TRY": "No se pudo obtener la respuesta. Intenta de nuevo.",
+                "ASK_ABOUT_OPERATION": "Pregunta por la operación…",
+                "ASK_ABOUT_PORT_OPERATION_VESSELS_ANCHORAGE": "Pregunta por la operación del puerto: naves, fondeo, muelles, gate, carga, bodegas, alertas o tendencias. Por ejemplo:",
+                "CHECKING_DATA": "Consultando los datos…",
+                "FIGURES_DO_NOT_APPEAR_IN_DATA": "Estas cifras no aparecen en los datos consultados; verifícalas en el tablero:",
+                "HOW_MANY_VESSELS_ARE_AT_ANCHOR": "¿Cuántas naves hay en fondeo y cuánto llevan esperando?",
+                "PORTTOS_ASSISTANT": "Asistente de Porttos",
+                "PORT_PROCESS_TOPICS_ONLY": "solo temas del proceso portuario",
+                "THANKS_YOUR_FEEDBACK": "Gracias por tu opinión",
+                "WHICH_INDICATORS_GOT_WORSE_WEEK": "¿Qué indicadores empeoraron esta semana?",
+                "WHICH_SHIPS_ARRIVE_IN_NEXT_24": "¿Qué buques llegan en las próximas 24 horas?"
+            },
+            "CHOOSE_PORT": "Elige un puerto",
+            "DASHBOARD_COULD_NOT_BE_LOADED": "No se pudo cargar el tablero.",
+            "LOGIN": {
+                "BIOMETRIC_SIGN_IN_WAS_NOT_ENABLED": "No se activó el ingreso con biometría.",
+                "CONFIRM_ENABLE_QUICK_SIGN_IN": "Confirma para activar el ingreso rápido",
+                "ENABLE": "Activar",
+                "HIDE_PASSWORD": "Ocultar la clave",
+                "NOT_NOW": "Ahora no",
+                "SHOW_PASSWORD": "Mostrar la clave",
+                "SIGNING_IN": "Ingresando…",
+                "SIGN_IN_PORTTOS": "Ingresar a Porttos",
+                "SIGN_IN_WITH_FACE_ID": "Ingresar con Face ID",
+                "SIGN_IN_WITH_FACE_ID_NEXT": "¿Ingresar con Face ID la próxima vez?",
+                "SIGN_IN_WITH_FINGERPRINT": "Ingresar con huella",
+                "SIGN_IN_WITH_YOUR_FINGERPRINT_NEXT": "¿Ingresar con tu huella la próxima vez?",
+                "YOUR_PASSWORD_CHANGED_SIGN_IN_WITH": "Tu clave cambió: ingresa con usuario y clave y vuelve a activar la huella o Face ID.",
+                "YOUR_USERNAME_PASSWORD_ARE_ENCRYPTED_ON": "Tu usuario y clave quedan cifrados en este teléfono y solo se usan después de confirmar con tu biometría. Puedes desactivarlo en Ajustes."
+            },
+            "NOT_IT": "No era",
+            "PROXIMAMENTE": {
+                "SECTION_ARRIVES_IN_PHASE_3_MOBILE": "Esta sección llega en la fase 3 de la app móvil, con los mismos servicios de la web."
+            },
+            "REFRESH": "Actualizar",
+            "SWITCH_SPANISH": "Cambiar a inglés",
+            "TABLERO": {
+                "AVAILABLE_ON_WEB": "Disponible en la web",
+                "DEFAULT_DASHBOARD": "Tablero por defecto",
+                "LNG_ARM": "Brazo de GNL",
+                "LOADING_CONTROL_TOWER": "Cargando la torre de control…",
+                "NO_DATA": "Sin datos",
+                "REAL_TIME": "Tiempo real",
+                "SET_THEM_UP_ON_WEB_CONTROL": "Configúralas en la web (Torre de Control) y vuelve a abrir la app.",
+                "SET_THEM_UP_ON_WEB_DASHBOARD": "Configúrelos en el tablero de la web y aparecerán aquí.",
+                "SHOWING_LAST_SAVED_DATA": "Se muestran los últimos datos guardados.",
+                "TAB_HAS_NO_DATA_YET_SELECTED": "Esta pestaña todavía no tiene datos para el puerto elegido.",
+                "TAB_HAS_NO_WIDGETS_CONFIGURED": "Esta pestaña no tiene widgets configurados",
+                "WIDGETS_SHOW_ONE_PORTS_OPERATION_YOU": "Los widgets muestran la operación de un puerto. También puedes cambiarlo arriba en «Seleccione Puerto».",
+                "YOUR_DASHBOARD": "Tu tablero"
+            },
+            "UPD_HORA": "act. {{hora}}"
+        },
+        "SETTINGS": "Ajustes",
+        "WIDGETS": {
+            "ANALISTA_TARJETA": {
+                "EARLY_ALERTS_TAB": "Alertas tempranas de esta pestaña",
+                "SEE_ALL_ALERTS": "Ver todas las alertas"
+            },
+            "DETALLE_KPI": {
+                "CHANGE": "Variación",
+                "LAST_24_HOURS": "Últimas 24 horas",
+                "MINIMUM": "Mínimo",
+                "THERE_NO_HISTORY_INDICATOR_YET": "Todavía no hay historia de este indicador."
+            },
+            "GNL": {
+                "GNL_FLUJO_CHART": {
+                    "ALARMS": "Alarmas",
+                    "AVG_PRESSURE": "Presión prom."
+                },
+                "GNL_GAUGE": {
+                    "PIPELINE_TEMP": "Temp. Ducto"
+                },
+                "GNL_TEMP_SPARKLINE": {
+                    "OPERATING_LIMIT": "Límite operativo"
+                }
+            },
+            "LISTA_TARJETA": {
+                "N_MORE_ON_WEB": "y {{n}} más en la web"
+            },
+            "MAPA_ACCESO": {
+                "LOGISTICS_MAP_TAB_NOT_ENABLED_YOUR": "La pestaña Mapa Logístico no está activa para tu usuario",
+                "OPEN": "Abrir",
+                "VESSELS_TRUCKS_ROAD_EVENTS_ON_MAP": "Naves, camiones y eventos viales en el mapa"
+            },
+            "MAPA_LOGISTICO": {
+                "AI_ANALYST": "Analista IA",
+                "AT_ANCHOR": "fondeadas",
+                "BERTHED": "atracadas",
+                "CENTER_ON_PORT": "Centrar en el puerto",
+                "CLOSURES_OR_ACCIDENTS": "cierres o accidentes",
+                "LAST_POSITION": "Última posición hace",
+                "LAYERS_BASE_MAP": "Capas y mapa base",
+                "LOGISTICS_MAP": "Mapa logístico",
+                "MOVING": "en movimiento",
+                "NO_MAP_ALERTS_AT_PORT": "Sin alertas del mapa en este puerto",
+                "ROAD_EVENTS": "Eventos viales",
+                "SATELLITE": "Satélite",
+                "SEE_ALL": "Ver todo",
+                "STREETS": "Calles",
+                "TERRAIN": "Terreno",
+                "TRUCK": "Camión",
+                "VESSELS": "Naves",
+                "ZOOM": "Zoom",
+                "ZOOM_IN": "Acercar",
+                "ZOOM_OUT": "Alejar"
+            }
+        }
     }
-  }
 }

@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
     }
 
     get llaveBiometria(): string {
-        return this.biometria.tipo() === 'rostro' ? 'MOVIL.LOGIN.CON_ROSTRO' : 'MOVIL.LOGIN.CON_HUELLA';
+        return this.biometria.tipo() === 'rostro' ? 'MOVIL.PAGINAS.LOGIN.SIGN_IN_WITH_FACE_ID' : 'MOVIL.PAGINAS.LOGIN.SIGN_IN_WITH_FINGERPRINT';
     }
 
     invalido(campo: 'usuario' | 'clave'): boolean {
@@ -89,7 +89,7 @@ export class LoginPage implements OnInit {
     async conBiometria(): Promise<void> {
         if (this.enviando()) return;
         this.error.set('');
-        const c = await this.biometria.obtener(this.traductor.instant('MOVIL.LOGIN.MOTIVO_BIOMETRIA'));
+        const c = await this.biometria.obtener(this.traductor.instant('MOVIL.PAGINAS.LOGIN.SIGN_IN_PORTTOS'));
         if (!c) return;                                   // canceló: queda el ingreso normal
         this.enviando.set(true);
         try {
@@ -99,7 +99,7 @@ export class LoginPage implements OnInit {
             const msg = (e as Error).message || '';
             if (/credenciales|clave|contraseña|inactivo/i.test(msg)) {
                 await this.biometria.desactivar();
-                this.error.set(this.traductor.instant('MOVIL.LOGIN.BIOMETRIA_INVALIDA'));
+                this.error.set(this.traductor.instant('MOVIL.PAGINAS.LOGIN.YOUR_PASSWORD_CHANGED_SIGN_IN_WITH'));
             } else {
                 this.error.set(msg);
             }
@@ -112,8 +112,8 @@ export class LoginPage implements OnInit {
         const p = this.pendiente;
         this.pendiente = null;
         if (p) {
-            const ok = await this.biometria.activar(p.usuario, p.clave, this.traductor.instant('MOVIL.LOGIN.MOTIVO_ACTIVAR'));
-            if (!ok) this.aviso.set('MOVIL.LOGIN.BIOMETRIA_NO_ACTIVADA');
+            const ok = await this.biometria.activar(p.usuario, p.clave, this.traductor.instant('MOVIL.PAGINAS.LOGIN.CONFIRM_ENABLE_QUICK_SIGN_IN'));
+            if (!ok) this.aviso.set('MOVIL.PAGINAS.LOGIN.BIOMETRIC_SIGN_IN_WAS_NOT_ENABLED');
         }
         await this.entrar();
     }

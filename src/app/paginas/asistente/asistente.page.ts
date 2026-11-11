@@ -29,7 +29,7 @@ export class AsistentePage implements AfterViewChecked {
     private readonly traductor = inject(TranslateService);
 
     readonly texto = signal('');
-    readonly ejemplos = ['MOVIL.ASISTENTE.EJEMPLO_1', 'MOVIL.ASISTENTE.EJEMPLO_2', 'MOVIL.ASISTENTE.EJEMPLO_3'];
+    readonly ejemplos = ['MOVIL.PAGINAS.ASISTENTE.HOW_MANY_VESSELS_ARE_AT_ANCHOR', 'MOVIL.PAGINAS.ASISTENTE.WHICH_SHIPS_ARRIVE_IN_NEXT_24', 'MOVIL.PAGINAS.ASISTENTE.WHICH_INDICATORS_GOT_WORSE_WEEK'];
     readonly etiqueta = etiquetaHerramienta;
 
     @ViewChild('conversacion') private conversacion?: ElementRef<HTMLElement>;
@@ -41,7 +41,7 @@ export class AsistentePage implements AfterViewChecked {
 
     aviso(t: Turno): string | null {
         const e = t.respuesta?.estado;
-        return e && ESTADOS_CON_AVISO.includes(e) ? `MOVIL.ASISTENTE.ESTADO_${e}` : null;
+        return e && ESTADOS_CON_AVISO.includes(e) ? `MOVIL.ENUM.ASSISTANT_STATUS.${e}` : null;
     }
 
     fuera(t: Turno): boolean {

@@ -193,14 +193,14 @@ export class MapaLogisticoComponent implements AfterViewInit {
     let html = '';
     if (capa === 'geocercas') {
       html = `<strong>${escapar(p['nombre'])}</strong>` + (p['tipo'] ? `<small>${escapar(p['tipo'])}</small>` : '')
-        + `<small>${escapar(t('MOVIL.MAPA.NAVES'))}: ${escapar(p['naves'] ?? 0)} · ${escapar(t('MOVIL.MAPA.CAMIONES'))}: ${escapar(p['camiones'] ?? 0)}</small>`;
+        + `<small>${escapar(t('MOVIL.WIDGETS.MAPA_LOGISTICO.VESSELS'))}: ${escapar(p['naves'] ?? 0)} · ${escapar(t('COMMON.TRUCKS'))}: ${escapar(p['camiones'] ?? 0)}</small>`;
     } else if (capa === 'naves') {
-      html = `<strong>${escapar(p['nombre'])}</strong><span class="ficha-estado" style="background:${COLOR_NAVE[p['estado'] as keyof typeof COLOR_NAVE] || COLOR_NAVE.sin_dato}">${escapar(t('MOVIL.MAPA.NAVE_' + String(p['estado']).toUpperCase()))}</span>`
+      html = `<strong>${escapar(p['nombre'])}</strong><span class="ficha-estado" style="background:${COLOR_NAVE[p['estado'] as keyof typeof COLOR_NAVE] || COLOR_NAVE.sin_dato}">${escapar(t('MOVIL.ENUM.VESSEL_STATUS.' + String(p['estado']).toUpperCase()))}</span>`
         + (p['velocidad'] !== null && p['velocidad'] !== undefined ? `<small>${escapar(p['velocidad'])} kn · ${escapar(p['rumbo'] ?? '—')}°</small>` : '')
         + (p['instalacion'] ? `<small>${escapar(p['instalacion'])}${p['agencia'] ? ' · ' + escapar(p['agencia']) : ''}</small>` : '')
-        + (p['minutos'] !== null && p['minutos'] !== undefined ? `<small>${escapar(t('MOVIL.MAPA.ULTIMA_POSICION'))} ${escapar(haceTexto(Number(p['minutos'])))}</small>` : '');
+        + (p['minutos'] !== null && p['minutos'] !== undefined ? `<small>${escapar(t('MOVIL.WIDGETS.MAPA_LOGISTICO.LAST_POSITION'))} ${escapar(haceTexto(Number(p['minutos'])))}</small>` : '');
     } else if (capa === 'camiones') {
-      html = `<strong>${escapar(p['placa'] || t('MOVIL.MAPA.CAMION'))}</strong><small>${escapar(String(p['estado']).replace(/_/g, ' '))}</small>`
+      html = `<strong>${escapar(p['placa'] || t('MOVIL.WIDGETS.MAPA_LOGISTICO.TRUCK'))}</strong><small>${escapar(String(p['estado']).replace(/_/g, ' '))}</small>`
         + (p['velocidad'] !== null && p['velocidad'] !== undefined ? `<small>${escapar(p['velocidad'])} km/h</small>` : '');
     } else {
       html = `<strong>${escapar(p['descripcion'] || p['tipo'])}</strong><small>${escapar([p['corredor'], p['sector']].filter(Boolean).join(' · '))}</small>`

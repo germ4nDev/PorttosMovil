@@ -42,9 +42,9 @@ export interface SenalAis { estado: 'en_vivo' | 'sin_senal' | 'sin_registro'; ul
  */
 export function avisoSenalAis(s: SenalAis | null | undefined): { clave: string; hace: string } | null {
     if (!s || s.estado === 'en_vivo') return null;
-    if (s.estado === 'sin_registro' || !s.ultima) return { clave: 'MOVIL.MAPA.SIN_REGISTRO_AIS', hace: '' };
+    if (s.estado === 'sin_registro' || !s.ultima) return { clave: 'MOVIL.NUCLEO.NO_AIS_SIGNAL_SOURCE_HAS_NOT', hace: '' };
     const h = s.horasSinSenal ?? 0;
-    return { clave: 'MOVIL.MAPA.SIN_SENAL_AIS', hace: h >= 48 ? `${Math.floor(h / 24)} d` : haceTexto(h * 60) };
+    return { clave: 'MOVIL.NUCLEO.NO_AIS_SIGNAL_HACE_SOURCE_NOT', hace: h >= 48 ? `${Math.floor(h / 24)} d` : haceTexto(h * 60) };
 }
 
 /** Colores por estado de la nave (los de la convención del mapa de la web). */
