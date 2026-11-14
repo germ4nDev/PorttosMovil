@@ -3,7 +3,7 @@
     Proveedores de Porttos móvil: rutas, HTTP con el interceptor de sesión y ngx-translate
     con el cargador que mezcla los JSON de la web y los del móvil.
 */
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -21,6 +21,7 @@ function arrancar(tema: TemaService, idioma: IdiomaService, dispositivo: Disposi
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideZoneChangeDetection(), // Angular 21+: sin esto la app quedaría zoneless (OT-035)
         provideRouter(rutas, withComponentInputBinding()),
         provideHttpClient(withInterceptors([sesionInterceptor])),
         importProvidersFrom(
@@ -29,6 +30,6 @@ export const appConfig: ApplicationConfig = {
                 loader: { provide: TranslateLoader, useFactory: crearCargador, deps: [HttpClient] }
             })
         ),
-        { provide: APP_INITIALIZER, useFactory: arrancar, deps: [TemaService, IdiomaService, DispositivoService, SesionService], multi: true }
+        provideAppInitializer(() => arrancar(inject(TemaService), inject(IdiomaService), inject(DispositivoService), inject(SesionService))())
     ]
 };

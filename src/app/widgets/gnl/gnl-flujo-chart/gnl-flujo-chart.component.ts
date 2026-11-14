@@ -62,7 +62,7 @@ export class GnlFlujoChartComponent implements AfterViewInit, OnDestroy {
     readonly nota = signal<string | null>(null);
     readonly cargandoHistorial = signal(false);
     private lienzoHistorial: HTMLCanvasElement | null = null;
-    private chartHistorial: Chart | null = null;
+    private chartHistorial: Chart<'bar', number[], string> | null = null; // tipado: TypeScript 6 no acepta el Chart genérico (OT-035)
 
     constructor() {
         effect(() => {

@@ -3,7 +3,8 @@
     Marco de la web (OT-014 fase 2, CC-110; regla 17: la tableta = la web; OT-017: también el teléfono). Lógica pura, sin Angular ni DOM.
     La página Tablero carga `<web>/embebido` en un marco y conversa con él por postMessage. Es el mismo contrato
     de la web (PlataformaIA/src/app/plataforma/embebido/nucleo/embebido.ts):
-      web → app  { fuente: 'porttos-web', v: 1, tipo: 'listo' | 'estado' | 'cerrar-sesion' | 'error', ... }
+      web → app  { fuente: 'porttos-web', v: 1, tipo: 'listo' | 'estado' | 'cerrar-sesion' | 'error' | 'tema', ... }
+                 ('tema', CC-184: navbar, tarjeta, texto, borde, oscuro: los colores de la web para el menú lateral de la app)
       app → web  { fuente: 'porttos-app', v: 2, tipo: 'sesion', token, codigoSesion, codigoAplicacion, codigoSuite, puerto?, pestana?,
                    canal: 'tableta' | 'telefono' }   (v 2, OT-017: con 'telefono' la web arma su rejilla de 4 columnas)
     La sesión es la misma de la app (sesión única): nunca va en la URL. Solo se le habla al origen de la web configurada.
@@ -25,7 +26,34 @@ export type MensajeWeb =
     | { tipo: 'listo' }
     | { tipo: 'estado'; puerto: string | null; pestana: string | null }
     | { tipo: 'cerrar-sesion'; motivo: string }
-    | { tipo: 'error'; mensaje: string };
+    | { tipo: 'error'; mensaje: string }
+    | ({ tipo: 'tema' } & TemaWeb);
+
+/** Colores del tema de la web (CC-184): la app los usa en su menú lateral para que todo quede bajo el mismo esquema. */
+export interface TemaWeb {
+    navbar: string | null;
+    tarjeta: string | null;
+    texto: string | null;
+    borde: string | null;
+    oscuro: boolean;
+}
+
+/** Solo colores CSS simples (#hex, rgb/rgba, hsl/hsla); lo demás → null (no se inyecta nada raro en los estilos). */
+export function colorCss(v: unknown): string | null {
+    const c = String(v ?? '').trim();
+    if (!c || c.length > 60) return null;
+    return /^#[0-9a-f]{3,8}$/i.test(c) || /^(rgb|rgba|hsl|hsla)\([0-9.,%\s/]+\)$/i.test(c) ? c : null;
+}
+
+/** Variables CSS que la app fija con el tema de la web (las lee el menú lateral, con su respaldo propio). */
+export function variablesTemaWeb(t: TemaWeb): Record<string, string | null> {
+    return {
+        '--web-navbar-color': t.navbar,
+        '--card-background': t.tarjeta,
+        '--text-color': t.texto,
+        '--border-color': t.borde,
+    };
+}
 
 export interface EstadoMarco {
     puerto: string | null;
@@ -73,6 +101,10 @@ export function leerMensajeWeb(data: unknown, origen: unknown, origenWeb: string
         case 'estado': return { tipo: 'estado', puerto: corto(m['puerto'], 80), pestana: corto(m['pestana'], 80) };
         case 'cerrar-sesion': return { tipo: 'cerrar-sesion', motivo: corto(m['motivo'], 40) || 'usuario' };
         case 'error': return { tipo: 'error', mensaje: corto(m['mensaje'], 300) || '' };
+        case 'tema': return {
+            tipo: 'tema', navbar: colorCss(m['navbar']), tarjeta: colorCss(m['tarjeta']), texto: colorCss(m['texto']),
+            borde: colorCss(m['borde']), oscuro: m['oscuro'] === true,
+        };
         default: return null;
     }
 }

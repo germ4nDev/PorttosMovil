@@ -4,7 +4,7 @@
     para el puerto elegido. Las alertas se califican con «Útil» / «No era» (CONFIRMADO / FALSO) y se actualizan
     solas cuando el analista publica (socket 'ia-hallazgo').
 */
-import { Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Hallazgo, colorSeveridad, esSimulada, horizonteTexto, yaCalificada } from '@nucleo';
 import { IconoComponent } from '../../compartido/icono/icono.component';
@@ -15,6 +15,7 @@ import { DispositivoService } from '../../core/dispositivo.service';
 type Vista = 'alertas' | 'tendencias' | 'turno';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Eager, // Angular 22: OnPush es el valor por defecto; se conserva el comportamiento (OT-035)
     selector: 'pm-alertas',
     standalone: true,
     imports: [TranslateModule, IconoComponent],

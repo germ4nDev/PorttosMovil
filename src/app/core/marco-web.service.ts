@@ -13,6 +13,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
+    variablesTemaWeb,
     ESPERA_MARCO_MS, EstadoMarco, canalDeDispositivo, leerMensajeWeb, mensajeSesionParaWeb, motivoCierreDeWeb, origenDeUrl, urlMarcoWeb,
     usarMarcoWeb
 } from '@nucleo';
@@ -93,6 +94,12 @@ export class MarcoWebService {
             const motivo = motivoCierreDeWeb(m.motivo);
             if (motivo) void this.sesion.cerrar(motivo);
             else this.respaldo('SIN_ACCESO');
+        } else if (m.tipo === 'tema') {
+            // CC-184: el menú lateral usa los colores de la web que se ve (mismo esquema); sin la web, los de la app
+            const raiz = document.documentElement.style;
+            for (const [variable, valor] of Object.entries(variablesTemaWeb(m))) {
+                if (valor) raiz.setProperty(variable, valor); else raiz.removeProperty(variable);
+            }
         } else {
             this.respaldo('ERROR');
         }

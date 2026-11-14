@@ -9,3 +9,4 @@ ios/App/Pods/
 ios/App/build/
 *.log
 .DS_Store
+src/assets-web/

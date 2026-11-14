@@ -2,7 +2,7 @@
     Author: German Valencia
     Ajustes: tema (claro / oscuro / sistema), color de la barra superior, idioma, sesión y datos del equipo.
 */
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { COLORES_BARRA, ModoTema } from '@nucleo';
 import { IconoComponent } from '../../compartido/icono/icono.component';
@@ -17,6 +17,7 @@ import { BiometriaService } from '../../core/biometria.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Eager, // Angular 22: OnPush es el valor por defecto; se conserva el comportamiento (OT-035)
     selector: 'pm-ajustes',
     standalone: true,
     imports: [TranslateModule, IconoComponent],

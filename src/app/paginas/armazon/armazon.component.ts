@@ -7,7 +7,7 @@
     Tableta con la web en el marco (OT-014, CC-110): sin encabezado ni pestañas propios (son los de la web) y un ☰ flotante abajo a la izquierda. El menú se abre con ☰ o deslizando desde el borde izquierdo y se cierra
     tocando fuera, deslizando, con Escape o con «atrás» de Android.
 */
-import { Component, OnDestroy, OnInit, computed, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, computed, effect, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { estiloPestana, fechaEncabezado, horaEncabezado, textoSobre } from '@nucleo';
@@ -26,6 +26,7 @@ import { MenuLateralComponent } from '../../compartido/menu-lateral/menu-lateral
 import { SelectorComponent } from '../../compartido/selector/selector.component';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Eager, // Angular 22: OnPush es el valor por defecto; se conserva el comportamiento (OT-035)
     selector: 'pm-armazon',
     standalone: true,
     imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, IconoComponent, MenuLateralComponent, SelectorComponent],

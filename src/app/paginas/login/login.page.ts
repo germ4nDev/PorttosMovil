@@ -5,7 +5,7 @@
     Fase 4: ingreso con huella o Face ID. Se ofrece una vez después de entrar con usuario y clave; si está activo,
     al abrir el ingreso se pide la biometría directamente (salvo que la sesión se haya cerrado con un aviso).
 */
-import { Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -15,6 +15,7 @@ import { IdiomaService } from '../../core/idioma.service';
 import { BiometriaService } from '../../core/biometria.service';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Eager, // Angular 22: OnPush es el valor por defecto; se conserva el comportamiento (OT-035)
     selector: 'pm-login',
     standalone: true,
     imports: [ReactiveFormsModule, TranslateModule, IconoComponent],

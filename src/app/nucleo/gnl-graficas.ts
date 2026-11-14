@@ -2,7 +2,7 @@
     Author: German Valencia
     núcleo (nucleo/) · Gráficas de GNL iguales a la web (OT-005, fase B2, 2026-10-25)
     Pedido del usuario: «el histórico, el tacómetro y la gráfica de temperatura deben ser iguales en la app en todo sentido».
-    Lógica copiada de los componentes de la web (PlataformaIA/src/app/porttos/widgets/panel-gnl/), pura y con prueba de paridad
+    Lógica copiada de los componentes de la web (PlataformaIA/src/app/apps/porttos/widgets/panel-gnl/), pura y con prueba de paridad
     (movil-core lee el .ts de la web y compara umbrales, colores y tamaños):
       gnl-gauge-widget            colorGaugeGnl, geometriaGaugeGnl
       gnl-flujo-chart             ventana en vivo de 60 puntos cada 2 s, autoZoom 5 %, armarHistorialGnl (vista ampliada)

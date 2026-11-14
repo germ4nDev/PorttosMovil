@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { COLOR_ESTADO, KpiMovil, formatoValor, trazoArea, trazoLinea, variacionSerie } from '@nucleo';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager, // Angular 22: OnPush es el valor por defecto; se conserva el comportamiento (OT-035)
   selector: 'pm-kpi-tarjeta',
   standalone: true,
   imports: [TranslateModule],

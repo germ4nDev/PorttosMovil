@@ -4,11 +4,10 @@
     Usa el puerto y la pestaña elegidos; muestra fuentes, aviso de cifras sin respaldo, sugerencias y voto.
     Las respuestas se pintan con el núcleo (nucleo/).markdownSeguro (escapa todo el HTML).
 */
-import { AfterViewChecked, Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, AfterViewChecked, Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { etiquetaHerramienta, markdownSeguro } from '@nucleo';
-import { IconoComponent } from '../../compartido/icono/icono.component';
 import { AsistenteService, Turno } from '../../core/asistente.service';
 import { PuertoService } from '../../core/puerto.service';
 import { PestanasService } from '../../core/pestanas.service';
@@ -16,9 +15,10 @@ import { PestanasService } from '../../core/pestanas.service';
 const ESTADOS_CON_AVISO = ['RECHAZADA', 'SIN_DATOS', 'APAGADO', 'OMITIDA_APAGADA', 'TOPE_USUARIO', 'OMITIDA_PRESUPUESTO', 'CORTACIRCUITO', 'ERROR', 'INVALIDA'];
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Eager, // Angular 22: OnPush es el valor por defecto; se conserva el comportamiento (OT-035)
     selector: 'pm-asistente',
     standalone: true,
-    imports: [FormsModule, TranslateModule, IconoComponent],
+    imports: [FormsModule, TranslateModule],
     templateUrl: './asistente.page.html',
     styleUrl: './asistente.page.scss'
 })

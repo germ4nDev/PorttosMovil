@@ -19,7 +19,7 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": {
               "base": "www",
@@ -40,27 +40,27 @@
               },
               {
                 "glob": "*.json",
-                "input": "../PlataformaIA/src/assets/i18n",
+                "input": "src/assets-web/i18n",
                 "output": "assets/i18n"
               },
               {
                 "glob": "porttos-*.png",
-                "input": "../PlataformaIA/src/assets/images/porttos",
+                "input": "src/assets-web/images/porttos",
                 "output": "assets/images/porttos"
               },
               {
                 "glob": "*.png",
-                "input": "../PlataformaIA/src/assets/flags",
+                "input": "src/assets-web/flags",
                 "output": "assets/flags"
               },
               {
                 "glob": "**/*",
-                "input": "../PlataformaIA/src/assets/images/slider",
+                "input": "src/assets-web/images/slider",
                 "output": "assets/images/slider"
               },
               {
                 "glob": "**/*",
-                "input": "../PlataformaIA/src/assets/fonts/poppins",
+                "input": "src/assets-web/fonts/poppins",
                 "output": "assets/fonts/poppins"
               }
             ],
@@ -115,7 +115,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "porttos-movil:build:production"
