@@ -17,6 +17,11 @@ export interface PropEvento { id: string; tipo: string; descripcion: string | nu
 
 export interface PropGeocerca { id: string; nombre: string; tipo: string | null; color: string; estadoKpi: string | null; camiones: number; naves: number; }
 
+/** CC-242 · Punto de control (geocerca de una infraestructura con métricas): estado del motor y métricas en texto JSON. */
+export type EstadoPuntoControl = 'NORMAL' | 'ATENCION' | 'CRITICO' | 'SIN_DATO';
+export interface PropPuntoControl { id: string; nombre: string; tipo: string | null; estado: EstadoPuntoControl; simulado: boolean; metricas: string; }
+export interface MetricaPuntoControl { nombre: string; valor: number | null; unidad: string | null; estado: EstadoPuntoControl; fecha_dato: string | null; simulado: boolean; }
+
 export interface MapaMovil {
     puerto: string;
     nombrePuerto?: string;
@@ -28,6 +33,8 @@ export interface MapaMovil {
     eventos: Coleccion<PropEvento>;
     /** Geocercas de los faros del puerto (polígonos con su color y conteos, OT-007); ausente en versiones viejas del API */
     geocercas?: { type: 'FeatureCollection'; features: { type: 'Feature'; geometry: { type: 'Polygon' | 'MultiPolygon'; coordinates: unknown }; properties: PropGeocerca }[] };
+    /** CC-242 · Puntos de control con su estado; ausente en versiones viejas del API */
+    puntosControl?: { type: 'FeatureCollection'; features: { type: 'Feature'; geometry: { type: 'Polygon' | 'MultiPolygon'; coordinates: unknown }; properties: PropPuntoControl }[] };
     conteos: { naves: number; fondeadas: number; atracadas: number; enMovimiento: number; camiones: number; eventos: number; eventosGraves: number };
     fallidas?: string[];
     /** Señal AIS de la caja del puerto (utils/senal-ais.js del API, OT-007); null sin puerto o en versiones viejas del API */
@@ -58,6 +65,27 @@ export const COLOR_NAVE: Record<EstadoNave, string> = {
 };
 
 export const COLOR_CAMION = '#7C5CFF';
+/** CC-242 · Mismos colores del mapa de la web (COLORES_MAPA.puntoControl) */
+export const COLOR_PUNTO_CONTROL: Record<EstadoPuntoControl, string> = { NORMAL: '#16a34a', ATENCION: '#f59e0b', CRITICO: '#dc2626', SIN_DATO: '#94a3b8' };
+/** Llave del texto de cada estado (las mismas de la web) */
+export const LLAVE_ESTADO_PUNTO: Record<EstadoPuntoControl, string> = {
+    NORMAL: 'COMMON.NORMAL', ATENCION: 'COMMON.CONTROL_ATTENTION', CRITICO: 'COMMON.CONTROL_CRITICAL', SIN_DATO: 'COMMON.CONTROL_NO_DATA'
+};
+
+/** Color de relleno de la geocerca por estado (expresión de MapLibre). */
+export function expresionColorPuntoControl(): unknown[] {
+    return ['match', ['get', 'estado'], 'NORMAL', COLOR_PUNTO_CONTROL.NORMAL, 'ATENCION', COLOR_PUNTO_CONTROL.ATENCION, 'CRITICO', COLOR_PUNTO_CONTROL.CRITICO, COLOR_PUNTO_CONTROL.SIN_DATO];
+}
+
+/** Métricas de la ficha desde el texto JSON de la capa; ilegible = ninguna. */
+export function metricasPuntoControl(texto: string | null | undefined): MetricaPuntoControl[] {
+    try {
+        const lista = JSON.parse(texto || '[]');
+        return Array.isArray(lista) ? lista : [];
+    } catch {
+        return [];
+    }
+}
 export const COLOR_EVENTO = { grave: '#FF5370', leve: '#FFB64D' } as const;
 
 /** URL del estilo de MapTiler (mismos mapas que la web: streets-v2, topo-v2 y hybrid, con su versión oscura). */
@@ -88,4 +116,43 @@ export function limitesValidos(l: MapaMovil['limites']): boolean {
     if (!l) return false;
     const [[o, s], [e, n]] = l;
     return [o, s, e, n].every(Number.isFinite) && o < e && s < n;
+}
+
+// ==========================================================
+// CC-243 (OT-037 paso 2): capas del mapa por usuario y por rol
+// ==========================================================
+/** Capas de la vista nativa (respaldo sin conexión). */
+export type CapaNativa = 'puntosControl' | 'geocercas' | 'naves' | 'camiones' | 'eventos';
+
+/** Código de cada capa nativa en el catálogo único (TCL_CapasMapa, 055; el mismo id de la web en mapa-capas.ts). */
+export const CAPA_CATALOGO: Record<CapaNativa, string> = {
+  puntosControl: 'puntos-control',
+  geocercas: 'geocercas-kpi',
+  naves: 'naves',
+  camiones: 'terrestre',
+  eventos: 'accidentes'
+};
+
+export const CAPAS_NATIVAS = Object.keys(CAPA_CATALOGO) as CapaNativa[];
+
+/** Respuesta de GET /api/capas-mapa/mias?canal=telefono (solo lo que usa la vista nativa). */
+export interface CapasMapaMias { capas: Array<{ codigo: string; visible: boolean }>; vista: string | null; }
+
+/**
+ * Qué capas nativas ve el usuario (por su rol, en el canal teléfono) y cuáles salen encendidas. Sin respuesta (null: sin red o sin la
+ * 055) se ven todas encendidas, como antes.
+ */
+export function capasNativas(mias: CapasMapaMias | null): { permitidas: CapaNativa[]; visibles: Record<CapaNativa, boolean> } {
+  if (!mias) return { permitidas: [...CAPAS_NATIVAS], visibles: Object.fromEntries(CAPAS_NATIVAS.map((c) => [c, true])) as Record<CapaNativa, boolean> };
+  const suyas = new Map(mias.capas.map((c) => [c.codigo, c.visible]));
+  const permitidas = CAPAS_NATIVAS.filter((c) => suyas.has(CAPA_CATALOGO[c]));
+  const visibles = Object.fromEntries(CAPAS_NATIVAS.map((c) => [c, !!suyas.get(CAPA_CATALOGO[c])])) as Record<CapaNativa, boolean>;
+  return { permitidas, visibles };
+}
+
+/** Preferencia a guardar desde la vista nativa: solo las capas nativas que ve; las demás del canal se quedan como estaban. */
+export function estadoNativoParaGuardar(mias: CapasMapaMias, visibles: Record<CapaNativa, boolean>): Record<string, boolean> {
+  const estado: Record<string, boolean> = Object.fromEntries(mias.capas.map((c) => [c.codigo, c.visible]));
+  for (const c of CAPAS_NATIVAS) if (CAPA_CATALOGO[c] in estado) estado[CAPA_CATALOGO[c]] = !!visibles[c];
+  return estado;
 }

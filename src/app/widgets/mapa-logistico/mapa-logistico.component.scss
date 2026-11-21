@@ -483,3 +483,12 @@
     */
   filter: invert(1) opacity(0.85) !important;
 }
+/* CC-242 · Punto de color de cada métrica en la ficha del punto de control */
+:host ::ng-deep .pm-ficha .pm-ficha-punto {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  border-radius: 50%;
+  vertical-align: middle;
+}

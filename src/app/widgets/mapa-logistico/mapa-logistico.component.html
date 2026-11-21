@@ -33,18 +33,31 @@
     }
     @if (menuCapas()) {
     <div class="menu" role="group" [attr.aria-label]="'MOVIL.WIDGETS.MAPA_LOGISTICO.LAYERS_BASE_MAP' | translate">
+      @if (permitidas().has('puntosControl')) {
+      <label><input type="checkbox" [checked]="capas().puntosControl" (change)="alternarCapa('puntosControl')"><span class="punto"
+          [style.background]="colorPuntoControl.CRITICO"></span>{{ 'COMMON.CONTROL_POINTS' | translate }}<b>{{
+          datos.mapa()?.puntosControl?.features?.length ?? 0 }}</b></label>
+      }
+      @if (permitidas().has('geocercas')) {
       <label><input type="checkbox" [checked]="capas().geocercas" (change)="alternarCapa('geocercas')"><span class="punto"
           style="background:#00E5FF"></span>{{ 'COMMON.GEOFENCES' | translate }}<b>{{
           datos.mapa()?.geocercas?.features?.length ?? 0 }}</b></label>
+      }
+      @if (permitidas().has('naves')) {
       <label><input type="checkbox" [checked]="capas().naves" (change)="alternarCapa('naves')"><span class="punto"
           [style.background]="colorNave.movimiento"></span>{{ 'MOVIL.WIDGETS.MAPA_LOGISTICO.VESSELS' | translate }}<b>{{
           datos.mapa()?.conteos?.naves ?? 0 }}</b></label>
+      }
+      @if (permitidas().has('camiones')) {
       <label><input type="checkbox" [checked]="capas().camiones" (change)="alternarCapa('camiones')"><span class="punto"
           [style.background]="colorCamion"></span>{{ 'COMMON.TRUCKS' | translate }}<b>{{
           datos.mapa()?.conteos?.camiones ?? 0 }}</b></label>
+      }
+      @if (permitidas().has('eventos')) {
       <label><input type="checkbox" [checked]="capas().eventos" (change)="alternarCapa('eventos')"><span class="punto"
           [style.background]="colorEvento.grave"></span>{{ 'MOVIL.WIDGETS.MAPA_LOGISTICO.ROAD_EVENTS' | translate }}<b>{{
           datos.mapa()?.conteos?.eventos ?? 0 }}</b></label>
+      }
       <div class="bases">
         <button type="button" [class.activo]="base() === 'calles'" (click)="base.set('calles')">{{ 'MOVIL.WIDGETS.MAPA_LOGISTICO.STREETS' |
           translate }}</button>

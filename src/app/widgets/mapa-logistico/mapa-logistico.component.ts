@@ -4,7 +4,9 @@
     —geocercas de los faros, naves por estado, camiones y eventos viales—. Tocar un punto muestra su ficha. Arriba a la
     izquierda, las capas, centrar y las alertas del mapa (campana con las sin leer; tocar una vuela a ella y late);
     arriba a la derecha, el botón IA flotante y debajo el zoom + / −. Sin logo de MapTiler; la atribución «i» se queda
-    (la exige OpenStreetMap). OT-007, 2026-10-29.
+    (la exige OpenStreetMap). OT-007, 2026-10-29. CC-242: capa de puntos de control debajo de todo (relleno por estado, como la web);
+    su ficha lista cada métrica con su valor y su estado. CC-243: solo las capas que permite el rol del usuario en el canal teléfono,
+    encendidas según su preferencia (la misma de la web embebida en el teléfono); un cambio se guarda en su preferencia.
 */
 import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, NgZone, ViewChild, computed, effect, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -12,8 +14,9 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import maplibregl, { GeoJSONSource, Map as MapaML, MapGeoJSONFeature, Popup } from 'maplibre-gl';
 import {
-  AlertaMapa, COLOR_ALERTA_MAPA, COLOR_CAMION, COLOR_EVENTO, COLOR_NAVE, EstiloBase, Hallazgo, MapaMovil, avisoSenalAis,
-  colorSeveridad, estiloMapa, expresionColorNave, haceTexto, horizonteTexto, limitesValidos, tieneCoordenadas
+  AlertaMapa, CapaNativa, COLOR_ALERTA_MAPA, capasNativas, estadoNativoParaGuardar, COLOR_CAMION, COLOR_EVENTO, COLOR_NAVE, COLOR_PUNTO_CONTROL, EstadoPuntoControl, EstiloBase, Hallazgo,
+  LLAVE_ESTADO_PUNTO, MapaMovil, avisoSenalAis, colorSeveridad, estiloMapa, expresionColorNave, expresionColorPuntoControl, haceTexto,
+  horizonteTexto, limitesValidos, metricasPuntoControl, tieneCoordenadas
 } from '@nucleo';
 import { environment } from '../../../environments/environment';
 import { IconoComponent } from '../../compartido/icono/icono.component';
@@ -24,9 +27,9 @@ import { AnalistaService } from '../../core/analista.service';
 import { AlertasMapaService } from '../../core/alertas-mapa.service';
 import { DispositivoService } from '../../core/dispositivo.service';
 
-type Capa = 'geocercas' | 'naves' | 'camiones' | 'eventos';
+type Capa = CapaNativa;
 /** Capas que se tocan para ver su ficha (las geocercas también: nombre y conteos, como el radar de la web) */
-const CAPAS_CON_FICHA: Capa[] = ['geocercas', 'naves', 'camiones', 'eventos'];
+const CAPAS_CON_FICHA: Capa[] = ['puntosControl', 'geocercas', 'naves', 'camiones', 'eventos'];
 const PULSO_MS = 10000;
 
 const vacio = { type: 'FeatureCollection', features: [] } as const;
@@ -52,7 +55,9 @@ export class MapaLogisticoComponent implements AfterViewInit {
 
   @ViewChild('lienzo', { static: true }) private lienzo!: ElementRef<HTMLDivElement>;
 
-  readonly capas = signal<Record<Capa, boolean>>({ geocercas: true, naves: true, camiones: true, eventos: true });
+  readonly capas = signal<Record<Capa, boolean>>({ puntosControl: true, geocercas: true, naves: true, camiones: true, eventos: true });
+  /** Capas que permite el rol (CC-243); sin respuesta del API, todas */
+  readonly permitidas = computed(() => new Set(capasNativas(this.datos.capasMias()).permitidas));
   readonly base = signal<EstiloBase>('calles');
   readonly panelIA = signal(false);
   readonly menuCapas = signal(false);
@@ -63,6 +68,7 @@ export class MapaLogisticoComponent implements AfterViewInit {
   readonly senalAis = computed(() => avisoSenalAis(this.datos.mapa()?.senalAis));
   readonly colorNave = COLOR_NAVE;
   readonly colorCamion = COLOR_CAMION;
+  readonly colorPuntoControl = COLOR_PUNTO_CONTROL;
   readonly colorEvento = COLOR_EVENTO;
   readonly color = colorSeveridad;
   readonly horizonte = horizonteTexto;
@@ -82,6 +88,9 @@ export class MapaLogisticoComponent implements AfterViewInit {
     effect(() => this.pintar(this.datos.mapa()));
     effect(() => this.aplicarEstilo(this.base(), this.tema.efectivo() === 'oscuro'));
     effect(() => this.visibilidad(this.capas()));
+    // CC-243: al llegar las capas del usuario, el menú y el mapa toman su preferencia (las no permitidas quedan apagadas)
+    void this.datos.cargarCapas();
+    effect(() => this.capas.set(capasNativas(this.datos.capasMias()).visibles), { allowSignalWrites: true });
     destruir.onDestroy(() => {
       this.datos.detener();
       this.alertasMapa.detener();
@@ -122,11 +131,27 @@ export class MapaLogisticoComponent implements AfterViewInit {
   private agregarCapas(): void {
     const m = this.mapa;
     if (!m || m.getSource('naves')) return;
-    // Geocercas debajo de todo: relleno y borde con el color de cada faro (los de la web: 0.3 de relleno, borde de 2 px)
+    // CC-242 · Puntos de control debajo de todo (como la web, CC-236): relleno por estado y borde de 3 px que asoma bajo las geocercas
+    m.addSource('puntos-control', { type: 'geojson', data: vacio as never });
+    m.addLayer({
+      id: 'capa-puntosControl', type: 'fill', source: 'puntos-control',
+      paint: { 'fill-color': expresionColorPuntoControl() as never, 'fill-opacity': ['case', ['==', ['get', 'estado'], 'SIN_DATO'], 0.2, 0.35] as never }
+    });
+    m.addLayer({
+      id: 'capa-puntosControl-borde', type: 'line', source: 'puntos-control', filter: ['!', ['get', 'simulado']] as never,
+      paint: { 'line-color': expresionColorPuntoControl() as never, 'line-width': 3 }
+    });
+    // Punteado si el estado sale de datos simulados (MapLibre no admite line-dasharray por dato: capa aparte, como la web)
+    m.addLayer({
+      id: 'capa-puntosControl-simulado', type: 'line', source: 'puntos-control', filter: ['get', 'simulado'] as never,
+      paint: { 'line-color': expresionColorPuntoControl() as never, 'line-width': 3, 'line-dasharray': [2, 1] }
+    });
+    // Geocercas: relleno y borde con el color de cada faro (los de la web: 0.3 de relleno, borde de 2 px)
     m.addSource('geocercas', { type: 'geojson', data: vacio as never });
     m.addLayer({
       id: 'capa-geocercas', type: 'fill', source: 'geocercas',
-      paint: { 'fill-color': ['coalesce', ['get', 'color'], '#94A3B8'] as never, 'fill-opacity': 0.3 }
+      // Regla 29 (CC-286): la misma zona la pintan los puntos de control; relleno suave para no sumar opacidad
+      paint: { 'fill-color': ['coalesce', ['get', 'color'], '#94A3B8'] as never, 'fill-opacity': 0.12 }
     });
     m.addLayer({
       id: 'capa-geocercas-borde', type: 'line', source: 'geocercas',
@@ -162,6 +187,7 @@ export class MapaLogisticoComponent implements AfterViewInit {
     (mapa.getSource('camiones') as GeoJSONSource).setData((m?.camiones || vacio) as never);
     (mapa.getSource('eventos') as GeoJSONSource).setData((m?.eventos || vacio) as never);
     (mapa.getSource('geocercas') as GeoJSONSource).setData((m?.geocercas || vacio) as never);
+    (mapa.getSource('puntos-control') as GeoJSONSource).setData((m?.puntosControl || vacio) as never);
     if (m && m.puerto !== this.encuadrado && limitesValidos(m.limites)) {
       this.encuadrado = m.puerto;
       mapa.fitBounds(m.limites!, { padding: 24, duration: 600 });
@@ -180,10 +206,14 @@ export class MapaLogisticoComponent implements AfterViewInit {
     if (!m || !m.getLayer('capa-naves')) return;
     (Object.keys(c) as Capa[]).forEach((k) => m.setLayoutProperty(`capa-${k}`, 'visibility', c[k] ? 'visible' : 'none'));
     m.setLayoutProperty('capa-geocercas-borde', 'visibility', c.geocercas ? 'visible' : 'none');
+    for (const id of ['capa-puntosControl-borde', 'capa-puntosControl-simulado']) m.setLayoutProperty(id, 'visibility', c.puntosControl ? 'visible' : 'none');
   }
 
   alternarCapa(c: Capa): void {
-    this.capas.set({ ...this.capas(), [c]: !this.capas()[c] });
+    const nuevas = { ...this.capas(), [c]: !this.capas()[c] };
+    this.capas.set(nuevas);
+    const mias = this.datos.capasMias();
+    if (mias) void this.datos.guardarCapas(estadoNativoParaGuardar(mias, nuevas));
   }
 
   private mostrarFicha(capa: Capa, f: MapGeoJSONFeature | undefined, lngLat: maplibregl.LngLat): void {
@@ -191,7 +221,22 @@ export class MapaLogisticoComponent implements AfterViewInit {
     const p = f.properties as Record<string, unknown>;
     const t = (k: string) => this.traductor.instant(k);
     let html = '';
-    if (capa === 'geocercas') {
+    // CC-249: abre solo la ficha del objeto de encima: naves y camiones → eventos viales → geocercas (como la web)
+    const encimaDe: Partial<Record<Capa, string[]>> = { geocercas: ['capa-naves', 'capa-camiones', 'capa-eventos'], eventos: ['capa-naves', 'capa-camiones'] };
+    const capasEncima = (encimaDe[capa] || []).filter((c) => this.mapa!.getLayer(c));
+    if (capasEncima.length && this.mapa.queryRenderedFeatures(this.mapa.project(lngLat), { layers: capasEncima }).length) return;
+    if (capa === 'puntosControl') {
+      // El punto de control cede la ficha al elemento que tenga encima (como la web, CC-236)
+      const encima = this.mapa.queryRenderedFeatures(this.mapa.project(lngLat), { layers: ['capa-geocercas', 'capa-naves', 'capa-camiones', 'capa-eventos'] });
+      if (encima.length) return;
+      const estado = (p['estado'] as EstadoPuntoControl) || 'SIN_DATO';
+      const pastilla = (e: EstadoPuntoControl) => `<span class="ficha-estado" style="background:${COLOR_PUNTO_CONTROL[e] || COLOR_PUNTO_CONTROL.SIN_DATO}">${escapar(t(LLAVE_ESTADO_PUNTO[e] || LLAVE_ESTADO_PUNTO.SIN_DATO))}</span>`;
+      const filas = metricasPuntoControl(p['metricas'] as string).map((x) => {
+        const valor = x.valor === null || x.valor === undefined ? '—' : `${escapar(Math.round(Number(x.valor) * 100) / 100)} ${escapar(x.unidad || '')}`;
+        return `<small><i class="pm-ficha-punto" style="background:${COLOR_PUNTO_CONTROL[x.estado] || COLOR_PUNTO_CONTROL.SIN_DATO}"></i>${escapar(x.nombre)}: ${valor}${x.simulado ? ` · ${escapar(t('COMMON.SIMULATED_2'))}` : ''}</small>`;
+      }).join('');
+      html = `<strong>${escapar(p['nombre'])}</strong>${pastilla(estado)}` + (p['tipo'] ? `<small>${escapar(String(p['tipo']).replace(/_/g, ' '))}</small>` : '') + filas;
+    } else if (capa === 'geocercas') {
       html = `<strong>${escapar(p['nombre'])}</strong>` + (p['tipo'] ? `<small>${escapar(p['tipo'])}</small>` : '')
         + `<small>${escapar(t('MOVIL.WIDGETS.MAPA_LOGISTICO.VESSELS'))}: ${escapar(p['naves'] ?? 0)} · ${escapar(t('COMMON.TRUCKS'))}: ${escapar(p['camiones'] ?? 0)}</small>`;
     } else if (capa === 'naves') {
